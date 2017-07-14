@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {updateUserDetails, addUserRequest, deleteUserRequest} from "../actions/userActions";
-import {getName, getGender, getAge, getMaxes, getId} from "../reducers/userInfo/index";
-import withTemplate from "../components/PageTemplate";
+import {updateUserDetails, addUserRequest, deleteUserRequest} from "../actions";
+import {getName, getGender, getAge, getMaxes, getId} from "../reducer/index";
+import withTemplate from "../../../components/PageTemplate";
 
 
 class UserInfo extends Component {

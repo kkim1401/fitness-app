@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import {getName} from "../reducers/userInfo/index";
+import {getName} from "../modules/users/reducer/index";
 
 const mapStateToProps = state => ({name: getName(state)});
 

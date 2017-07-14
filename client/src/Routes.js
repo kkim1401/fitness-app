@@ -3,11 +3,11 @@ import {Provider} from "react-redux";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "./components/Home";
 import configureStore from "./store/configureStore";
-import UserInfo from "./containers/UserInfo";
-import Plan from "./components/Plan";
-import ExerciseList from "./containers/ExerciseListContainer";
-import ExerciseDetails from "./containers/ExerciseDetails";
-import Profile from "./containers/Profile";
+import UserInfo from "./modules/users/components/UserInfo";
+import Plan from "./modules/workouts/components/Plan";
+import ExerciseList from "./modules/exercises/components/ExerciseListContainer";
+import ExerciseDetails from "./modules/exercises/components/ExerciseDetails";
+import Profile from "./modules/users/components/Profile";
 
 export const Routes = ({store}) => (
     <Provider store={configureStore()}>

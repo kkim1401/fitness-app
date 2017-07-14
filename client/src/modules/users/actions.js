@@ -1,4 +1,4 @@
-import {get, post, remove} from "../util/apiCaller";
+import {get, post, remove} from "../../util/apiCaller";
 
 export const
     ADD_USER = "ADD_USER",

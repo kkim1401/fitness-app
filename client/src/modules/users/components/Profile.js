@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getName, getGender, getAge, getMaxes} from "../reducers/userInfo/index";
-import withTemplate from "../components/PageTemplate";
+import {getName, getGender, getAge, getMaxes} from "../reducer/index";
+import withTemplate from "../../../components/PageTemplate";
 
 const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     <div>

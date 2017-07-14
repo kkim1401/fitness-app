@@ -1,7 +1,7 @@
 import React from 'react';
 import Page from "./Page";
 import {connect} from "react-redux";
-import {getId} from "../reducers/userInfo/index";
+import {getId} from "../modules/users/reducer/index";
 
 const NavBar = ({id}) => (
     <nav>

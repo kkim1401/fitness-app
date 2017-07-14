@@ -1,6 +1,6 @@
 import {combineReducers} from "redux";
-import userInfo from "./userInfo/index";
-import exercises from "./exerciseReducer";
+import userInfo from "./modules/users/reducer/index";
+import exercises from "./modules/exercises/reducer";
 
 const workoutApp = combineReducers({userInfo, exercises});
 

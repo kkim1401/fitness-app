@@ -1,4 +1,4 @@
-import {ADD_USER, DELETE_USER} from "../../actions/userActions";
+import {ADD_USER, DELETE_USER} from "../../modules/Users/actions";
 
 const initialState = {
     squat: 0,

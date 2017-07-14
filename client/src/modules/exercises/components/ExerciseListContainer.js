@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import ExerciseList from "../components/ExerciseList";
-import ExerciseCreateWidget from "../components/ExerciseCreateWidget";
-import {addExerciseRequest, fetchExercises} from "../actions/exerciseActions";
-import {getExercises} from "../reducers/exerciseReducer";
-import withTemplate from "../components/PageTemplate";
+import ExerciseList from "./ExerciseList";
+import ExerciseCreateWidget from "./ExerciseCreateWidget";
+import {addExerciseRequest, fetchExercises} from "../actions";
+import {getExercises} from "../reducer";
+import withTemplate from "../../../components/PageTemplate";
 import {withRouter} from "react-router";
 
 class ExerciseListContainer extends Component {

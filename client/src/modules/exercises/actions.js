@@ -1,22 +1,18 @@
-import {get, post, remove} from "../util/apiCaller";
-
-export const
-    ADD_EXERCISE = "ADD_EXERCISE",
-    ADD_EXERCISES = "ADD_EXERCISES",
-    DELETE_EXERCISE = "DELETE_EXERCISE";
+import {get, post, remove} from "../../util/apiCaller";
+import * as e from "./actionTypes";
 
 const addExercise = exercise => ({
-    type: ADD_EXERCISE,
+    type: e.ADD,
     exercise
 });
 
 const addExercises = exercises => ({
-    type: ADD_EXERCISES,
+    type: e.ADD_LIST,
     exercises
 });
 
 const deleteExercise = id => ({
-    type: DELETE_EXERCISE,
+    type: e.DELETE,
     id
 });
 
