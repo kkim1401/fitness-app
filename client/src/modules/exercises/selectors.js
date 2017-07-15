@@ -1,5 +1,10 @@
-import { NAME } from "./constants";
+import {createSelector} from "reselect";
 
 export const getExercises = state => state.exercises;
-export const getExercise = (state, props) => state.exercises.filter(exercise => exercise._id === props.match.params.id)[0];
+export const getExerciseId = (state, props) => props.match.params.id;
+export const getUserId = (state, props) => props.match.params.user;
 
+export const getExercise = createSelector(
+    [getExercises, getExerciseId],
+    (exercises, id) => ({exercise: exercises.filter(exercise => exercise._id === id)[0]})
+);

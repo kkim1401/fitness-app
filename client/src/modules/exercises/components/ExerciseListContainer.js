@@ -3,9 +3,10 @@ import {connect} from "react-redux";
 import ExerciseList from "./ExerciseList";
 import ExerciseCreateWidget from "./ExerciseCreateWidget";
 import {addExerciseRequest, fetchExercises} from "../actions";
-import {getExercises} from "../reducer";
-import withTemplate from "../../../components/PageTemplate";
+import {getExercises, getUserId} from "../selectors";
+import core from "../../core/components";
 import {withRouter} from "react-router";
+import {createStructuredSelector} from "reselect";
 
 class ExerciseListContainer extends Component {
     constructor(props) {
@@ -31,10 +32,10 @@ class ExerciseListContainer extends Component {
     }
 }
 
-const mapStateToProps = (state, {match}) => ({
-    exercises: getExercises(state),
-    user: match.params.user
+const mapStateToProps = createStructuredSelector({
+    exercises: getExercises,
+    user: getUserId
 });
 
-export default withRouter(connect(mapStateToProps)(withTemplate(ExerciseListContainer)));
+export default withRouter(connect(mapStateToProps)(core.withTemplate(ExerciseListContainer)));
 

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {updateUserDetails, addUserRequest, deleteUserRequest} from "../actions";
-import {getName, getGender, getAge, getMaxes, getId} from "../reducer/index";
-import withTemplate from "../../../components/PageTemplate";
+import {updateUserDetails, addUserRequest} from "../actions";
+import * as selectors from "../selectors";
+import core from "../../core/components";
+import {createStructuredSelector} from "reselect";
 
 
 class UserInfo extends Component {
@@ -61,12 +62,12 @@ class UserInfo extends Component {
     )}
 }
 
-const mapStateToProps = state => ({
-    name: getName(state),
-    gender: getGender(state),
-    age: getAge(state),
-    maxes: getMaxes(state),
-    id: getId(state)
+const mapStateToProps = createStructuredSelector({
+    name: selectors.getName,
+    gender: selectors.getGender,
+    age: selectors.getAge,
+    maxes: selectors.getMaxes,
+    id: selectors.getUserId
 });
 
-export default connect(mapStateToProps)(withTemplate(UserInfo));
+export default connect(mapStateToProps)(core.withTemplate(UserInfo));

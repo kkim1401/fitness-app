@@ -1,3 +1,3 @@
-/**
- * Created by Kevin_Kim on 7/14/17.
- */
+export const
+    ADD = "users/ADD",
+    DELETE = "users/DELETE";

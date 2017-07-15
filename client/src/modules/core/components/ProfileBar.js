@@ -1,8 +1,11 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
-import {getName} from "../modules/users/reducer/index";
+import users from "../../users";
+import {createStructuredSelector} from "reselect";
 
-const mapStateToProps = state => ({name: getName(state)});
+const mapStateToProps = createStructuredSelector({
+    name: users.selectors.getName
+});
 
 export default connect(mapStateToProps)(({name}) => <div><Link to="/profile">{name}</Link></div>);

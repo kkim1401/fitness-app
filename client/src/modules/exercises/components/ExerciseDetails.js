@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { deleteExerciseRequest } from "../actions";
-import { getExercise } from "../selectors";
-import { withRouter } from "react-router";
-import { createStructuredSelector } from "reselect";
-import withTemplate from "../../../components/PageTemplate";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {deleteExerciseRequest} from "../actions";
+import {getExercise} from "../selectors";
+import {withRouter} from "react-router";
+import {createStructuredSelector} from "reselect";
+import core from "../../core/components";
 
 const ExerciseDetails = ({exercise, deleteExercise}) => {
     const {name, description} = exercise;
@@ -17,10 +17,6 @@ const ExerciseDetails = ({exercise, deleteExercise}) => {
     )
 };
 
-const mapStateToProps = createStructuredSelector({
-    exercise: getExercise
-});
-
 const mapDispatchToProps = (dispatch, {match, history}) => ({
     deleteExercise() {
         dispatch(deleteExerciseRequest(match.params.id));
@@ -29,7 +25,7 @@ const mapDispatchToProps = (dispatch, {match, history}) => ({
 });
 
 export default withRouter(connect(
-    mapStateToProps,
+    getExercise,
     mapDispatchToProps
-)(withTemplate(ExerciseDetails)));
+)(core.withTemplate(ExerciseDetails)));
 

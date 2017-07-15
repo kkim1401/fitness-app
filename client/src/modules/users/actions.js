@@ -1,16 +1,13 @@
 import {get, post, remove} from "../../util/apiCaller";
-
-export const
-    ADD_USER = "ADD_USER",
-    DELETE_USER = "DELETE_USER";
+import * as u from "./actionTypes";
 
 export const addUser = user => ({
-    type: ADD_USER,
+    type: u.ADD,
     user
 });
 
 const deleteUser = user => ({
-    type: DELETE_USER,
+    type: u.DELETE,
     user
 });
 

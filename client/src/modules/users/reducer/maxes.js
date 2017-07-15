@@ -1,4 +1,4 @@
-import {ADD_USER, DELETE_USER} from "../../modules/Users/actions";
+import * as u from "../actionTypes";
 
 const initialState = {
     squat: 0,
@@ -8,9 +8,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        case ADD_USER:
+        case u.ADD:
             return {...state, ...action.user.maxes};
-        case DELETE_USER:
+        case u.DELETE:
             return initialState;
         default:
             return state;

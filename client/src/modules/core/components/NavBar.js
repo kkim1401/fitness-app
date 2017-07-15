@@ -1,7 +1,8 @@
 import React from 'react';
 import Page from "./Page";
 import {connect} from "react-redux";
-import {getId} from "../modules/users/reducer/index";
+import users from "../../users";
+import {createStructuredSelector} from "reselect";
 
 const NavBar = ({id}) => (
     <nav>
@@ -12,8 +13,8 @@ const NavBar = ({id}) => (
     </nav>
 );
 
-const mapStateToProps = state => ({
-    id: getId(state)
+const mapStateToProps = createStructuredSelector({
+    id: users.selectors.getUserId
 });
 
 export default connect(mapStateToProps)(NavBar)

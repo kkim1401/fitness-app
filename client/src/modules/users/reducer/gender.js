@@ -1,11 +1,11 @@
-import {ADD_USER, DELETE_USER} from "../../modules/Users/actions";
+import * as u from "../actionTypes";
 
 export default (state = "", action) => {
     switch (action.type) {
-        case ADD_USER: {
+        case u.ADD: {
             return action.user.gender;
         }
-        case DELETE_USER: {
+        case u.DELETE: {
             return "";
         }
         default: {

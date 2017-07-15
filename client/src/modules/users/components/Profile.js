@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {getName, getGender, getAge, getMaxes} from "../reducer/index";
-import withTemplate from "../../../components/PageTemplate";
+import {createStructuredSelector} from "reselect";
+import * as selectors from "../selectors";
+import core from "../../core/components";
 
 const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     <div>
@@ -20,12 +21,14 @@ const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     </div>
 );
 
-const mapStateToProps = state => ({
-    name: getName(state),
-    gender: getGender(state),
-    age: getAge(state),
-    maxes: getMaxes(state)
+const mapStateToProps = createStructuredSelector({
+    name: selectors.getName,
+    gender: selectors.getGender,
+    age: selectors.getAge,
+    maxes: selectors.getMaxes
 });
 
-export default connect(mapStateToProps)(withTemplate(Profile));
+console.log(core);
+
+export default connect(mapStateToProps)(core.withTemplate(Profile));
 

@@ -1,8 +1,11 @@
 import {combineReducers} from "redux";
-import userInfo from "./modules/users/reducer/index";
-import exercises from "./modules/exercises/reducer";
+import users from "./modules/users";
+import exercises from "./modules/exercises";
 
-const workoutApp = combineReducers({userInfo, exercises});
+const workoutApp = combineReducers({
+    [users.constants.NAME]: users.reducer,
+    [exercises.constants.NAME]: exercises.reducer
+});
 
 export default workoutApp;
 
