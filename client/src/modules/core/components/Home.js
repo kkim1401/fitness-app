@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import withTemplate from "./PageTemplate";
+import withTemplate from "../../users/components/PageTemplate";
 
 const Home = () => (
     <div>

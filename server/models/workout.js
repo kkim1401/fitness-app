@@ -14,7 +14,7 @@ const workoutSchema = new Schema({
             exerciseList: [{
                 exercise: {type: Schema.ObjectId, ref: "Exercise"},
                 order: Number,
-                set: Number,
+                setNumber: Number,
                 reps: Number,
                 weight: Number
             }]

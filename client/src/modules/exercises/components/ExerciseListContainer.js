@@ -4,7 +4,7 @@ import ExerciseList from "./ExerciseList";
 import ExerciseCreateWidget from "./ExerciseCreateWidget";
 import {addExerciseRequest, fetchExercises} from "../actions";
 import {getExercises, getUserId} from "../selectors";
-import core from "../../core/components";
+import u from "../../users";
 import {withRouter} from "react-router";
 import {createStructuredSelector} from "reselect";
 
@@ -37,5 +37,5 @@ const mapStateToProps = createStructuredSelector({
     user: getUserId
 });
 
-export default withRouter(connect(mapStateToProps)(core.withTemplate(ExerciseListContainer)));
+export default withRouter(connect(mapStateToProps)(u.components.withTemplate(ExerciseListContainer)));
 

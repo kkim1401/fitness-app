@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import NavBar from "../../core/components/NavBar";
+import NavBar from "../../users/components/NavBar";
 
 const Plan = ({squat, bench, deadlift}) => (
     <section>

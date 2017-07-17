@@ -4,7 +4,7 @@ import {deleteExerciseRequest} from "../actions";
 import {getExercise} from "../selectors";
 import {withRouter} from "react-router";
 import {createStructuredSelector} from "reselect";
-import core from "../../core/components";
+import u from "../../users";
 
 const ExerciseDetails = ({exercise, deleteExercise}) => {
     const {name, description} = exercise;
@@ -27,5 +27,5 @@ const mapDispatchToProps = (dispatch, {match, history}) => ({
 export default withRouter(connect(
     getExercise,
     mapDispatchToProps
-)(core.withTemplate(ExerciseDetails)));
+)(u.components.withTemplate(ExerciseDetails)));
 

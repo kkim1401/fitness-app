@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
 import * as selectors from "../selectors";
-import core from "../../core/components";
+import withTemplate from "./PageTemplate";
 
 const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     <div>
@@ -28,7 +28,5 @@ const mapStateToProps = createStructuredSelector({
     maxes: selectors.getMaxes
 });
 
-console.log(core);
-
-export default connect(mapStateToProps)(core.withTemplate(Profile));
+export default connect(mapStateToProps)(withTemplate(Profile));
 

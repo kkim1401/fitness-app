@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {updateUserDetails, addUserRequest} from "../actions";
 import * as selectors from "../selectors";
-import core from "../../core/components";
+import withTemplate from "./PageTemplate";
 import {createStructuredSelector} from "reselect";
 
 
@@ -70,4 +70,4 @@ const mapStateToProps = createStructuredSelector({
     id: selectors.getUserId
 });
 
-export default connect(mapStateToProps)(core.withTemplate(UserInfo));
+export default connect(mapStateToProps)(withTemplate(UserInfo));
