@@ -3,10 +3,6 @@ import NavBar from "./NavBar";
 import ProfileBar from "./ProfileBar";
 
 const withTemplate = InnerComponent => class extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div>

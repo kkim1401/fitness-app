@@ -1,9 +1,8 @@
-import React, {Component} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {deleteExerciseRequest} from "../actions";
 import {getExercise} from "../selectors";
 import {withRouter} from "react-router";
-import {createStructuredSelector} from "reselect";
 import u from "../../users";
 
 const ExerciseDetails = ({exercise, deleteExercise}) => {
