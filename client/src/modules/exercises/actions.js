@@ -1,17 +1,17 @@
 import {get, post, remove} from "../../util/apiCaller";
 import * as e from "./actionTypes";
 
-const addExercise = exercise => ({
+export const addExercise = exercise => ({
     type: e.ADD,
     exercise
 });
 
-const addExercises = exercises => ({
+export const addExercises = exercises => ({
     type: e.ADD_LIST,
     exercises
 });
 
-const deleteExercise = id => ({
+export const deleteExercise = id => ({
     type: e.DELETE,
     id
 });
