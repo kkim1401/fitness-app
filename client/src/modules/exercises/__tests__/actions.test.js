@@ -5,12 +5,12 @@ import thunk from "redux-thunk";
 import {NAME as exerciseNAME} from "../constants";
 import moxios from "moxios";
 
-const exercise = {name: "squat", description: "leg exercise", _id: 123};
-const exercises = [exercise, {name: "bench", description: "chest exercise", _id: 222}];
-const id = exercise._id;
-const user = 456;
+const exercise = {name: "squat", description: "leg exercise", _id: 123},
+    exercises = [exercise, {name: "bench", description: "chest exercise", _id: 222}],
+    id = exercise._id,
+    user = 456;
 
-describe("actions", () => {
+describe("exercises actions", () => {
     it("should return the action to add an exercise", () => {
         const expected = {type: types.ADD, exercise};
 
@@ -30,7 +30,7 @@ describe("actions", () => {
     });
 });
 
-describe("async actions", () => {
+describe("exercises async actions", () => {
     const middlewares = [thunk];
     const mockStore = configureMockStore(middlewares);
 
