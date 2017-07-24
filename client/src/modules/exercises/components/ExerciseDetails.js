@@ -5,7 +5,7 @@ import {getExercise} from "../selectors";
 import {withRouter} from "react-router";
 import u from "../../users";
 
-const ExerciseDetails = ({exercise, deleteExercise}) => {
+export const ExerciseDetails = ({exercise, deleteExercise}) => {
     const {name, description} = exercise;
     return (
         <div>
