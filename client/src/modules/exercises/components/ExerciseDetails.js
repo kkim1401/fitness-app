@@ -16,7 +16,7 @@ export const ExerciseDetails = ({exercise, deleteExercise}) => {
     )
 };
 
-const mapDispatchToProps = (dispatch, {match, history}) => ({
+export const mapDispatchToProps = (dispatch, {match, history}) => ({
     deleteExercise() {
         dispatch(deleteExerciseRequest(match.params.id));
         history.push("/exercises");

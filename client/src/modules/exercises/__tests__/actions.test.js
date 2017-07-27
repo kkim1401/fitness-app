@@ -2,37 +2,42 @@ import * as actions from "../actions";
 import * as types from "../actionTypes";
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
-import {NAME as exerciseNAME} from "../constants";
 import moxios from "moxios";
-
-const exercise = {name: "squat", description: "leg exercise", _id: 123},
-    exercises = [exercise, {name: "bench", description: "chest exercise", _id: 222}],
-    id = exercise._id,
-    user = 456;
+import {MOCK_EXERCISE1, MOCK_EXERCISE2, MOCK_EXERCISE3, NAME as exercisesNAME} from "../constants";
 
 describe("exercises actions", () => {
     it("should return the action to add an exercise", () => {
-        const expected = {type: types.ADD, exercise};
-
-        expect(actions.addExercise(exercise)).toEqual(expected);
+        expect(actions.addExercise(MOCK_EXERCISE1))
+            .toEqual({type: types.ADD, exercise: MOCK_EXERCISE1});
     });
 
     it("should return the action to add a list of exercises", () => {
-        const expected = {type: types.ADD_LIST, exercises};
-
-        expect(actions.addExercises(exercises)).toEqual(expected);
+        expect(actions.addExercises([MOCK_EXERCISE1, MOCK_EXERCISE2]))
+            .toEqual({type: types.ADD_LIST, exercises: [MOCK_EXERCISE1, MOCK_EXERCISE2]});
     });
 
     it("should return the action to delete an exercise", () => {
-        const expected = {type: types.DELETE, id};
-
-        expect(actions.deleteExercise(id)).toEqual(expected);
+        expect(actions.deleteExercise(MOCK_EXERCISE1._id))
+            .toEqual({type: types.DELETE, id: MOCK_EXERCISE1._id});
     });
 });
 
 describe("exercises async actions", () => {
     const middlewares = [thunk];
     const mockStore = configureMockStore(middlewares);
+    const user = 456;
+
+    function assertActions(endpoint, response, action, actionParam, expected) {
+        moxios.stubRequest(`/api/${endpoint}`, {
+            status: 200,
+            response
+        });
+
+        const store = mockStore({exercisesNAME: []});
+        return store.dispatch(action(...actionParam)).then(() => {
+            expect(store.getActions()).toEqual([expected]);
+        });
+    }
 
     beforeEach(() => {
         moxios.install();
@@ -43,58 +48,43 @@ describe("exercises async actions", () => {
     });
 
     it("should fetch list of exercises and dispatch action with type ADD_LIST", () => {
-        const expectedAction = {type: types.ADD_LIST, exercises};
-
-       moxios.stubRequest(`/api/${user}/exercises`, {
-            status: 200,
-            response: exercises
-        });
-
-        const store = mockStore({exerciseNAME: []});
-        return store.dispatch(actions.fetchExercises(user)).then(() => {
-            expect(store.getActions()).toEqual([expectedAction]);
-        });
+        assertActions(
+            `${user}/exercises`,
+            [MOCK_EXERCISE1, MOCK_EXERCISE3],
+            actions.fetchExercises,
+            [user],
+            {type: types.ADD_LIST, exercises: [MOCK_EXERCISE1, MOCK_EXERCISE3]}
+        );
     });
 
     it("should fetch an exercise and dispatch action with type ADD", () => {
-        const expectedAction = {type: types.ADD, exercise};
-
-        moxios.stubRequest(`/api/exercises/${id}`, {
-            status: 200,
-            response: exercise
-        });
-
-        const store = mockStore({exerciseNAME: []});
-        return store.dispatch(actions.fetchExercise(id)).then(() => {
-            expect(store.getActions()).toEqual([expectedAction]);
-        });
+        assertActions(
+            `exercises/${MOCK_EXERCISE1._id}`,
+            MOCK_EXERCISE1,
+            actions.fetchExercise,
+            [MOCK_EXERCISE1._id],
+            {type: types.ADD, exercise: MOCK_EXERCISE1}
+        );
     });
 
-    it("should request for an exercise and dispatch action with type ADD", () => {
-        const expectedAction = {type: types.ADD, exercise};
+    it("should post an exercise and dispatch action with type ADD", () => {
+        assertActions(
+            `${user}/exercises`,
+            MOCK_EXERCISE1,
+            actions.addExerciseRequest,
+            [MOCK_EXERCISE1, user],
+            {type: types.ADD, exercise: MOCK_EXERCISE1}
 
-        moxios.stubRequest(`/api/${user}/exercises`, {
-            status: 200,
-            response: exercise
-        });
-
-        const store = mockStore({exerciseNAME: []});
-        return store.dispatch(actions.addExerciseRequest(exercise, user)).then(() => {
-            expect(store.getActions()).toEqual([expectedAction]);
-        });
+        );
     });
 
     it("should request for deletion of an exercise and dispatch action with type DELETE", () => {
-        const expectedAction = {type: types.DELETE, id};
-
-        moxios.stubRequest(`/api/exercises/${id}`, {
-            status: 200,
-            response: exercise
-        });
-
-        const store = mockStore({exerciseNAME: []});
-        return store.dispatch(actions.deleteExerciseRequest(id)).then(() => {
-            expect(store.getActions()).toEqual([expectedAction]);
-        });
+        assertActions(
+            `exercises/${MOCK_EXERCISE1._id}`,
+            MOCK_EXERCISE1,
+            actions.deleteExerciseRequest,
+            [MOCK_EXERCISE1._id],
+            {type: types.DELETE, id: MOCK_EXERCISE1._id}
+        );
     });
 });
