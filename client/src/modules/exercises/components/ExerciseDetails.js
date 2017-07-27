@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {deleteExerciseRequest} from "../actions";
-import {getExercise} from "../selectors";
+import {getExercise as mapStateToProps} from "../selectors";
 import {withRouter} from "react-router";
 import u from "../../users";
 
@@ -23,8 +23,10 @@ const mapDispatchToProps = (dispatch, {match, history}) => ({
     }
 });
 
+export {mapStateToProps};
+
 export default withRouter(connect(
-    getExercise,
+    mapStateToProps,
     mapDispatchToProps
 )(u.components.withTemplate(ExerciseDetails)));
 

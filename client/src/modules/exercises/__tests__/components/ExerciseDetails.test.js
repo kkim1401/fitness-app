@@ -8,19 +8,12 @@ describe("ExerciseDetails component", () => {
     it("renders correctly", () => {
         const wrapper = shallow(<ExerciseDetails exercise={exercise}/>);
 
-        expect(wrapper.type()).toEqual("div");
         expect(wrapper.find("h1").text()).toBe(exercise.name);
         expect(wrapper.find("p").text()).toBe(exercise.description);
         expect(wrapper.find("button").type()).toBe("button");
     });
-
-    it("has correct props", () => {
-        const deleteExercise = jest.fn(),
-            wrapper = shallow(<ExerciseDetails exercise={exercise} deleteExercise={deleteExercise}/>);
-
-        expect(wrapper.instance().props.exercise).toEqual(exercise);
-        expect(wrapper.instance().props.deleteExercise).toEqual(deleteExercise);
-    });
 });
 
-describe("ExerciseDetails connected component", () => {});
+describe("ExerciseDetails connected component", () => {
+    it("")
+});

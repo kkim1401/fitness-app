@@ -15,8 +15,4 @@ describe("Exercise component", () => {
         expect(Link.prop("to")).toEqual(`/exercises/${exercise._id}`);
         expect(Link.prop("children")).toEqual(exercise.name);
     });
-
-    it("has correct props", () => {
-        expect(wrapper.instance().props.exercise).toEqual(props.exercise);
-    });
 });

@@ -12,13 +12,6 @@ describe("ExerciseCreateWidget component", () => {
         expect(wrapper.find("button").type()).toBe("button");
     });
 
-    it("has correct props", () => {
-        const addExercise = jest.fn(),
-            wrapper = shallow(<ExerciseCreateWidget addExercise={addExercise}/>);
-
-        expect(wrapper.instance().props.addExercise).toEqual(addExercise);
-    });
-
     it("passes input values to addExercise if they are available", () => {
         const addExercise = jest.fn(),
             wrapper = mount(<ExerciseCreateWidget addExercise={addExercise}/>);
