@@ -33,7 +33,7 @@ describe("exercises async actions", () => {
             response
         });
 
-        const store = mockStore({exercisesNAME: []});
+        const store = mockStore({[exercisesNAME]: []});
         return store.dispatch(action(...actionParam)).then(() => {
             expect(store.getActions()).toEqual([expected]);
         });

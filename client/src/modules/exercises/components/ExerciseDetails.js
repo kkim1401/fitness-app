@@ -18,8 +18,8 @@ export const ExerciseDetails = ({exercise, deleteExercise}) => {
 
 export const mapDispatchToProps = (dispatch, {match, history}) => ({
     deleteExercise() {
-        dispatch(deleteExerciseRequest(match.params.id));
-        history.push("/exercises");
+        history.push("/");
+        return dispatch(deleteExerciseRequest(match.params.id));
     }
 });
 
