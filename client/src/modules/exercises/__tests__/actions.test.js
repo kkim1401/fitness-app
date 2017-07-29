@@ -1,7 +1,6 @@
 import * as actions from "../actions";
 import * as types from "../actionTypes";
-import configureMockStore from 'redux-mock-store';
-import thunk from "redux-thunk";
+import {createMockStore} from "../../../util/testHelper";
 import moxios from "moxios";
 import {MOCK_EXERCISE1, MOCK_EXERCISE2, MOCK_EXERCISE3, NAME as exercisesNAME} from "../constants";
 
@@ -23,8 +22,6 @@ describe("exercises actions", () => {
 });
 
 describe("exercises async actions", () => {
-    const middlewares = [thunk];
-    const mockStore = configureMockStore(middlewares);
     const user = 456;
 
     function assertActions(endpoint, response, action, actionParam, expected) {
@@ -33,7 +30,7 @@ describe("exercises async actions", () => {
             response
         });
 
-        const store = mockStore({[exercisesNAME]: []});
+        const store = createMockStore({[exercisesNAME]: []});
         return store.dispatch(action(...actionParam)).then(() => {
             expect(store.getActions()).toEqual([expected]);
         });

@@ -1,8 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {shallowWithStore} from "enzyme-redux";
-import configureMockStore from 'redux-mock-store';
-import thunk from "redux-thunk";
+import {shallowWithStore, createMockStore} from "../../../../util/testHelper";
 import {connect} from "react-redux";
 import moxios from "moxios";
 import {ExerciseDetails, mapStateToProps, mapDispatchToProps} from "../../components/ExerciseDetails";
@@ -16,7 +14,7 @@ describe("ExerciseDetails component", () => {
 
         expect(wrapper.find("h1").text()).toBe(MOCK_EXERCISE1.name);
         expect(wrapper.find("p").text()).toBe(MOCK_EXERCISE1.description);
-        expect(wrapper.find("button").type()).toBe("button");
+        expect(wrapper.find("button")).toHaveLength(1);
     });
 });
 
@@ -25,8 +23,9 @@ describe("ExerciseDetails container", () => {
         expect(
             mapStateToProps(
                 {[exercisesNAME]: [MOCK_EXERCISE1, MOCK_EXERCISE2]},
-                {match: {params: {id: MOCK_EXERCISE1._id}}}))
-            .toEqual({exercise: MOCK_EXERCISE1});
+                {match: {params: {id: MOCK_EXERCISE1._id}}}
+            )
+        ).toEqual({exercise: MOCK_EXERCISE1});
     });
 
     it("dispatch in deleteExercise from mapDispatchToProps works", async () => {
@@ -36,9 +35,7 @@ describe("ExerciseDetails container", () => {
             response: MOCK_EXERCISE1
         });
 
-        const middlewares = [thunk],
-            mockStore = configureMockStore(middlewares),
-            store = mockStore({[exercisesNAME]: [MOCK_EXERCISE1]}),
+        const store = createMockStore({[exercisesNAME]: [MOCK_EXERCISE1, MOCK_EXERCISE2]}),
             ExerciseDetailsContainer = connect(undefined, mapDispatchToProps)(ExerciseDetails),
             pushMock = jest.fn(),
             component = shallowWithStore(

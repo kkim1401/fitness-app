@@ -6,7 +6,7 @@ describe("ExerciseCreateWidget component", () => {
     it("renders correctly", () => {
         const wrapper = shallow(<ExerciseCreateWidget/>);
 
-        expect(wrapper.find("input").length).toBe(2);
+        expect(wrapper.find("input")).toHaveLength(2);
         expect(wrapper.find("input").first().prop("placeholder")).toBe("name");
         expect(wrapper.find("input").last().prop("placeholder")).toBe("description");
         expect(wrapper.find("button").type()).toBe("button");
