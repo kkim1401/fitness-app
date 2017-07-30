@@ -35,7 +35,7 @@ describe("ExerciseDetails container", () => {
             response: MOCK_EXERCISE1
         });
 
-        const store = createMockStore({[exercisesNAME]: [MOCK_EXERCISE1, MOCK_EXERCISE2]}),
+        const store = createMockStore(),
             ExerciseDetailsContainer = connect(undefined, mapDispatchToProps)(ExerciseDetails),
             pushMock = jest.fn(),
             component = shallowWithStore(

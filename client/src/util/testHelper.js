@@ -1,3 +1,5 @@
+/* Testing containers may require access to mock-store. */
+
 import React from "react";
 import {mount, shallow} from "enzyme";
 import configureMockStore from 'redux-mock-store';
@@ -17,7 +19,7 @@ export const mountWithStore = (node, store) => {
     return mount(node, {context});
 };
 
-export const createMockStore = initialState => {
+export const createMockStore = (initialState = {}) => {
     const middlewares = [thunk],
         mockStore = configureMockStore(middlewares);
 

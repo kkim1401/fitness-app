@@ -30,7 +30,7 @@ describe("exercises async actions", () => {
             response
         });
 
-        const store = createMockStore({[exercisesNAME]: []});
+        const store = createMockStore();
         return store.dispatch(action(...actionParam)).then(() => {
             expect(store.getActions()).toEqual([expected]);
         });
@@ -71,7 +71,6 @@ describe("exercises async actions", () => {
             actions.addExerciseRequest,
             [MOCK_EXERCISE1, user],
             {type: types.ADD, exercise: MOCK_EXERCISE1}
-
         );
     });
 

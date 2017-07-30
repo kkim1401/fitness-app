@@ -10,6 +10,7 @@ describe("ExerciseCreateWidget component", () => {
         expect(wrapper.find("input").first().prop("placeholder")).toBe("name");
         expect(wrapper.find("input").last().prop("placeholder")).toBe("description");
         expect(wrapper.find("button").type()).toBe("button");
+        expect(typeof wrapper.find("button").props().onClick).toEqual("function");
     });
 
     it("passes input values to addExercise if they are available", () => {
