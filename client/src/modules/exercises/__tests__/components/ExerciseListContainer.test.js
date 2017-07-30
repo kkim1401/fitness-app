@@ -61,9 +61,8 @@ describe("ExerciseListContainer", () => {
             let action;
 
             const {store, context, childContextTypes} =
-                setUpAsyncWrapperWithRouter(`${user}/exercises`, [MOCK_EXERCISE1, MOCK_EXERCISE3]);
-
-            const spy = jest.spyOn(ExerciseListHOC.prototype, "componentDidMount"),
+                setUpAsyncWrapperWithRouter(`${user}/exercises`, [MOCK_EXERCISE1, MOCK_EXERCISE3]),
+                spy = jest.spyOn(ExerciseListHOC.prototype, "componentDidMount"),
                 props = {
                     exercises,
                     user,
@@ -83,9 +82,8 @@ describe("ExerciseListContainer", () => {
         it("handleClick dispatches action with type ADD", () => {
             let action;
 
-            const {store, context, childContextTypes} = setUpAsyncWrapperWithRouter(`${user}/exercises`, MOCK_EXERCISE2);
-
-            const props = {
+            const {store, context, childContextTypes} = setUpAsyncWrapperWithRouter(`${user}/exercises`, MOCK_EXERCISE2),
+                props = {
                 user,
                 dispatch(arg) {
                     action = arg
