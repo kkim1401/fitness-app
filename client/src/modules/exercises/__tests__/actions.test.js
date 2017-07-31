@@ -1,6 +1,6 @@
 import * as actions from "../actions";
 import * as types from "../actionTypes";
-import {createMockStore} from "../../../util/testHelper";
+import {assertActions} from "../../../util/testHelper";
 import moxios from "moxios";
 import {MOCK_EXERCISE1, MOCK_EXERCISE2, MOCK_EXERCISE3, NAME as exercisesNAME} from "../constants";
 
@@ -24,18 +24,7 @@ describe("exercises actions", () => {
 describe("exercises async actions", () => {
     const user = 456;
 
-    function assertActions(endpoint, response, action, actionParam, expected) {
-        moxios.stubRequest(`/api/${endpoint}`, {
-            status: 200,
-            response
-        });
-
-        const store = createMockStore();
-        return store.dispatch(action(...actionParam)).then(() => {
-            expect(store.getActions()).toEqual([expected]);
-        });
-    }
-
+    //assertActions uses moxios.
     beforeEach(() => {
         moxios.install();
     });

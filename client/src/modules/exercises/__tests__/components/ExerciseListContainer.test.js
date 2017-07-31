@@ -96,7 +96,6 @@ describe("ExerciseListContainer", () => {
             return store.dispatch(action).then(() => {
                 expect(store.getActions()).toEqual([{type: types.ADD, exercise: MOCK_EXERCISE2}]);
             });
-
         });
     });
 });

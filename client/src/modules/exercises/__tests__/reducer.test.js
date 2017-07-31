@@ -7,14 +7,14 @@ describe("exercises reducer", () => {
         expect(reducer(undefined, {})).toEqual([]);
     });
 
-    it("should return state with added exercise when performing ADD", () => {
+    it("should return state with added exercise after performing ADD", () => {
         expect(reducer(undefined, {type: types.ADD, exercise: MOCK_EXERCISE1}))
             .toEqual([MOCK_EXERCISE1]);
         expect(reducer([MOCK_EXERCISE1], {type: types.ADD, exercise: MOCK_EXERCISE2}))
             .toEqual([MOCK_EXERCISE1, MOCK_EXERCISE2]);
     });
 
-    it("should return a new list of exercises for state when performing ADD_LIST", () => {
+    it("should return a new list of exercises for state after performing ADD_LIST", () => {
         expect(reducer(undefined, {type: types.ADD_LIST, exercises: [MOCK_EXERCISE1]}))
             .toEqual([MOCK_EXERCISE1]);
         expect(reducer([MOCK_EXERCISE2], {type: types.ADD_LIST, exercises: [MOCK_EXERCISE1, MOCK_EXERCISE3]}))

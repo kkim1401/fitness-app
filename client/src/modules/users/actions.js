@@ -6,9 +6,8 @@ export const addUser = user => ({
     user
 });
 
-const deleteUser = user => ({
-    type: u.DELETE,
-    user
+const deleteUser = () => ({
+    type: u.DELETE
 });
 
 export const fetchUser = id =>
@@ -26,5 +25,5 @@ export const addUserRequest = user =>
 
 export const deleteUserRequest = id =>
     dispatch => remove(`users/${id}`)
-        .then(({data}) => dispatch(deleteUser(data)));
+        .then(() => dispatch(deleteUser()));
 

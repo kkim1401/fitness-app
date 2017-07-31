@@ -4,6 +4,7 @@ import React from "react";
 import {mount, shallow} from "enzyme";
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
+import moxios from "moxios";
 
 export const shallowWithStore = (node, store) => {
     const context = {
@@ -26,3 +27,14 @@ export const createMockStore = (initialState = {}) => {
     return mockStore(initialState);
 };
 
+export function assertActions(endpoint, response, action, actionParam, expected) {
+    moxios.stubRequest(`/api/${endpoint}`, {
+        status: 200,
+        response
+    });
+
+    const store = createMockStore();
+    return store.dispatch(action(...actionParam)).then(() => {
+        expect(store.getActions()).toEqual([expected]);
+    });
+}
