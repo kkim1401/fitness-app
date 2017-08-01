@@ -27,7 +27,7 @@ export const createMockStore = (initialState = {}) => {
     return mockStore(initialState);
 };
 
-export function assertActions(endpoint, response, action, actionParam, expected) {
+export function assertActions(endpoint, response = null, action, actionParam, expected) {
     moxios.stubRequest(`/api/${endpoint}`, {
         status: 200,
         response

@@ -6,7 +6,7 @@ export const addUser = user => ({
     user
 });
 
-const deleteUser = () => ({
+export const deleteUser = () => ({
     type: u.DELETE
 });
 
@@ -20,8 +20,7 @@ export const updateUserDetails = (id, user) =>
 
 export const addUserRequest = user =>
     dispatch => post(`users`, user)
-        .then(({data}) => dispatch(addUser(data)))
-        .then(console.log("success!"));
+        .then(({data}) => dispatch(addUser(data)));
 
 export const deleteUserRequest = id =>
     dispatch => remove(`users/${id}`)
