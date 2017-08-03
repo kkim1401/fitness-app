@@ -4,7 +4,7 @@ import {createStructuredSelector} from "reselect";
 import * as selectors from "../selectors";
 import withTemplate from "./PageTemplate";
 
-const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
+export const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     <div>
         <ul>
             <li>Name: {name}</li>
@@ -21,7 +21,7 @@ const Profile = ({name, gender, age, maxes: {squat, bench, deadlift}}) => (
     </div>
 );
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
     name: selectors.getName,
     gender: selectors.getGender,
     age: selectors.getAge,
