@@ -37,7 +37,8 @@ describe("Profile component", () => {
     });
 
     it("mapStateToProps should return correct props", () => {
-        expect(mapStateToProps(
+        expect(
+            mapStateToProps(
             {
                 [usersNAME]: {
                     name: "Zoe",
