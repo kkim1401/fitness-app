@@ -38,3 +38,14 @@ export function assertActions(endpoint, response = null, action, actionParam, ex
         expect(store.getActions()).toEqual([expected]);
     });
 }
+
+export function assertInputs(wrapper, index, title, type, name, defaultValue) {
+    const input = wrapper.find("input").at(index),
+        props = input.props();
+
+    expect(props.type).toBe(type);
+    expect(props.name).toBe(name);
+    expect(props.defaultValue).toBe(defaultValue);
+    expect(input.parent().type()).toBe("label");
+    expect(input.parent().childAt(0).text()).toBe(title);
+}

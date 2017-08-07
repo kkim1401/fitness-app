@@ -1,25 +1,18 @@
 import React, {Component} from "react";
+import {Week} from "./Week";
 import {connect} from "react-redux";
 
-class WorkoutCreateForm extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    render() {
-        return (
-            <div>
-                <h2>New Workout</h2>
-                <form>
-                    <h3>General Info</h3>
-                    <label>
-                        Name: <input type="text" name="name"/>
-                    </label>
-                    <label>
-                        Description: <input type="text" name="description"/>
-                    </label>
-                </form>
-            </div>
-        );
-    }
-}
+export const WorkoutCreationForm = () => (
+    <div>
+        <h2>Workout Submission</h2>
+        <form>
+            <label>
+                Name: <input type="text" name="name" defaultValue="name"/>
+            </label>
+            <label>
+                Description: <textarea name="description"/>
+            </label>
+            <Week/>
+        </form>
+    </div>
+);
