@@ -21,7 +21,8 @@ describe("WorkoutCreationForm component", () => {
     });
 
     it("form's first input should be for name", () => {
-        assertInputs(wrapper, 0, "Name: ", "text", "name", "name");
+        assertInputs(wrapper, 0, "Name: ", "text", "name");
+        expect(wrapper.find("input").at(0).props().defaultValue).toBe("name");
     });
 
     it("form should have textarea for description", () => {
@@ -31,10 +32,25 @@ describe("WorkoutCreationForm component", () => {
         expect(props.name).toBe("description");
         expect(textarea.parent().type()).toBe("label");
         expect(textarea.parent().childAt(0).text()).toBe("Description: ");
-
     });
 
     it("form should have Week component", () => {
         expect(wrapper.find(Week).exists()).toBe(true);
+    });
+
+    it("should have button to add more Week components", () => {
+        const buttonWrapper = wrapper.find(".add"),
+            weekNumber = wrapper.find(Week).length;
+
+        expect(buttonWrapper.exists()).toBe(true);
+        expect(typeof buttonWrapper.props().onClick).toBe("function");
+
+        buttonWrapper.simulate("click");
+        expect(wrapper.find(Week)).toHaveLength(weekNumber+1);
+    });
+
+    it("should have button to submit form", () => {
+        expect(wrapper.find("button[name='submit']").exists()).toBe(true);
+        expect(typeof wrapper.find("button[name='submit']").props().onSubmit).toBe("function");
     });
 });

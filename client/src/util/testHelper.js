@@ -45,7 +45,6 @@ export function assertInputs(wrapper, index, title, type, name, defaultValue) {
 
     expect(props.type).toBe(type);
     expect(props.name).toBe(name);
-    expect(props.defaultValue).toBe(defaultValue);
     expect(input.parent().type()).toBe("label");
     expect(input.parent().childAt(0).text()).toBe(title);
 }
