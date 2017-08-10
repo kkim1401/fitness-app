@@ -1,5 +1,5 @@
 import React from "react";
-import {shallow} from "enzyme";
+import {shallow, mount} from "enzyme";
 import {assertInputs} from "../../../../util/testHelper";
 import {WorkoutCreationForm} from "../../components/WorkoutCreationForm";
 import {Week} from "../../components/Week";
@@ -32,21 +32,6 @@ describe("WorkoutCreationForm component", () => {
         expect(props.name).toBe("description");
         expect(textarea.parent().type()).toBe("label");
         expect(textarea.parent().childAt(0).text()).toBe("Description: ");
-    });
-
-    it("form should have Week component", () => {
-        expect(wrapper.find(Week).exists()).toBe(true);
-    });
-
-    it("should have button to add more Week components", () => {
-        const buttonWrapper = wrapper.find(".add"),
-            weekNumber = wrapper.find(Week).length;
-
-        expect(buttonWrapper.exists()).toBe(true);
-        expect(typeof buttonWrapper.props().onClick).toBe("function");
-
-        buttonWrapper.simulate("click");
-        expect(wrapper.find(Week)).toHaveLength(weekNumber+1);
     });
 
     it("should have button to submit form", () => {

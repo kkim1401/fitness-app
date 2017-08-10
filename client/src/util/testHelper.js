@@ -39,7 +39,7 @@ export function assertActions(endpoint, response = null, action, actionParam, ex
     });
 }
 
-export function assertInputs(wrapper, index, title, type, name, defaultValue) {
+export function assertInputs(wrapper, index, title, type, name) {
     const input = wrapper.find("input").at(index),
         props = input.props();
 
