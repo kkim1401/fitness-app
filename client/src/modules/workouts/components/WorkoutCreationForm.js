@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 
 export const WorkoutCreationForm = () => {
     function submitForm() {
-
+        
     }
 
     return(
