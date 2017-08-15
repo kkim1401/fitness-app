@@ -1,16 +1,16 @@
 import React, {Component} from "react";
 import withAdd from "./AddHOC";
-import ExerciseInstance from "./ExerciseInstance";
+import ExerciseInstances from "./ExerciseInstance";
 
 export const Day = props => {
     return (
-        <div>
+        <section className="day">
             <label>
-                Day: <input type="number" name="day" readOnly value={props.number}/>
+                Day: <input type="number" name="day" readOnly value={props.number} ref={props.inputRef}/>
             </label>
-            <h4>Exercises</h4>
-        </div>
+            <ExerciseInstances/>
+        </section>
     );
 };
 
-export default withAdd(Day, ExerciseInstance);
+export default withAdd(Day);

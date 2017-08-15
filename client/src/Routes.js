@@ -6,10 +6,12 @@ import configureStore from "./store/configureStore";
 import users from "./modules/users";
 import Plan from "./modules/workouts/components/Plan";
 import exercises from "./modules/exercises";
+import workouts from "./modules/workouts";
 
 const {Home} = core;
 const {UserInfo, Profile} = users.components;
 const {ExerciseListContainer, ExerciseDetails} = exercises.components;
+const {WorkoutCreationForm} = workouts.components;
 
 export const Routes = ({store}) => (
     <Provider store={configureStore()}>
@@ -22,6 +24,7 @@ export const Routes = ({store}) => (
                 <Route exact path="/:user/exercises" component={ExerciseListContainer}/>
                 <Route path="/exercises/:id" component={ExerciseDetails}/>
                 <Route path="/profile" component={Profile}/>
+                <Route path="/form" component={WorkoutCreationForm}/>
             </Switch>
         </Router>
     </Provider>

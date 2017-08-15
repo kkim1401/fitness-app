@@ -14,12 +14,13 @@ describe("NavBar component", () => {
         }
 
         expect(wrapper.type()).toEqual("nav");
-        expect(pageWrapper).toHaveLength(4);
+        expect(pageWrapper).toHaveLength(5);
 
         assertPages(0, "/", "Home");
         assertPages(1, "/userInfo", "UserInfo");
         assertPages(2, "/plan", "Plan");
         assertPages(3, "/exercises", "Exercises");
+        assertPages(4, "/form", "Workout Creation Form");
 
         //if id props is passed
         wrapper = shallow(<NavBar id={123}/>);

@@ -2,6 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import {assertInputs} from "../../../../util/testHelper";
 import {Day} from "../../components/Day";
+import ExerciseInstances from "../../components/ExerciseInstance";
 
 describe("Day component", () => {
     const props = {number: 1},
@@ -17,8 +18,7 @@ describe("Day component", () => {
         expect(wrapper.find("input").props().value).toBe(1);
     });
 
-    it("has title for exercises", () => {
-        expect(wrapper.find("h4").exists()).toBe(true);
-        expect(wrapper.find("h4").text()).toBe("Exercises");
+    it("has component for ExerciseInstances", () => {
+        expect(wrapper.find(ExerciseInstances).exists()).toBe(true);
     });
 });

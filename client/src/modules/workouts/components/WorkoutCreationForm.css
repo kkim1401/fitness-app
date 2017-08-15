@@ -1,0 +1,41 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.main {
+    width: 500px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input[type="number"] {
+    width: 50px;
+}
+
+.general-info {
+    border: 0;
+    margin: 0 0 50px 0;
+    padding: 0;
+}
+
+.general-info label {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.week, .exercise-instance, .day {
+    border: 1px solid black;
+}
+
+.exercise-instance {
+    display: inline-block;
+}
+
+.add {
+
+}

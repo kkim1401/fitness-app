@@ -1,8 +1,10 @@
 import React from "react";
 import {shallow, mount} from "enzyme";
-import {assertInputs} from "../../../../util/testHelper";
-import {WorkoutCreationForm} from "../../components/WorkoutCreationForm";
-import {Week} from "../../components/Week";
+import {Provider} from "react-redux";
+import {assertInputs, createMockStore} from "../../../../util/testHelper";
+import WorkoutCreationForm from "../../components/WorkoutCreationForm";
+import Weeks from "../../components/Week";
+import e from "../../../exercises";
 
 describe("WorkoutCreationForm component", () => {
     const wrapper = shallow(<WorkoutCreationForm/>);
@@ -13,6 +15,7 @@ describe("WorkoutCreationForm component", () => {
 
     it("should have a form", () => {
         expect(wrapper.find("form")).toHaveLength(1);
+        expect(typeof wrapper.find("form").props().onSubmit).toBe("function");
     });
 
     it("form should have a title that's not empty", () => {
@@ -36,6 +39,16 @@ describe("WorkoutCreationForm component", () => {
 
     it("should have button to submit form", () => {
         expect(wrapper.find("button[name='submit']").exists()).toBe(true);
-        expect(typeof wrapper.find("button[name='submit']").props().onSubmit).toBe("function");
+    });
+
+    it("should have Weeks component", () => {
+        expect(wrapper.find(Weeks).exists()).toBe(true);
+        expect(typeof wrapper.find(Weeks).props().inputRef).toBe("function");
+    });
+
+    it("should have three Add buttons from HOC when form is initialized", () => {
+        const store = createMockStore({[e.constants.NAME]: [e.constants.MOCK_EXERCISE1]}),
+            wrapper = mount(<Provider store={store}><WorkoutCreationForm/></Provider>);
+        expect(wrapper.find(".add")).toHaveLength(3);
     });
 });

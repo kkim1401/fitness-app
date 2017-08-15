@@ -12,6 +12,7 @@
     "node-uuid": "^1.4.8",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-display-name": "^0.2.3",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
