@@ -10,7 +10,7 @@ export const NavBar = ({id}) => (
         <Page link="/userInfo">UserInfo</Page>
         <Page link="/plan">Plan</Page>
         <Page link={id ? `/${id}/exercises` : `/exercises`}>Exercises</Page>
-        <Page link="/form">Workout Creation Form</Page>
+        <Page link="/form">WorkoutCreationForm</Page>
     </nav>
 );
 

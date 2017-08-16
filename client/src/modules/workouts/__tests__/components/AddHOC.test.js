@@ -5,7 +5,8 @@ import withAdd from "../../components/AddHOC";
 describe("withADD HOC", () => {
     const Mock = () => <div>Mock</div>,
         testProps = {
-            test: true
+            test: true,
+            className: "mock"
         },
         MockWithAdd = withAdd(Mock),
         wrapper = shallow(<MockWithAdd {...testProps}/>);
@@ -35,4 +36,8 @@ describe("withADD HOC", () => {
         expect(wrapper.state().count).toBe(2);
         expect(wrapper.find("Mock").at(1).props().number).toBe(2);
     });
+
+    it("withAdd adds className props", () => {
+        expect(wrapper.props().className).toBe("mock");
+    })
 });

@@ -4,12 +4,12 @@ import ExerciseInstances from "./ExerciseInstance";
 
 export const Day = props => {
     return (
-        <section className="day">
+        <div className="day">
             <label>
-                Day: <input type="number" name="day" readOnly value={props.number} ref={props.inputRef}/>
+                Day: <input type="number" name="day" readOnly value={props.number}/>
             </label>
-            <ExerciseInstances/>
-        </section>
+            <ExerciseInstances className="exercise-instances"/>
+        </div>
     );
 };
 

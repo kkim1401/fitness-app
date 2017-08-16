@@ -51,4 +51,8 @@ describe("WorkoutCreationForm component", () => {
             wrapper = mount(<Provider store={store}><WorkoutCreationForm/></Provider>);
         expect(wrapper.find(".add")).toHaveLength(3);
     });
+
+    it("has className 'main'", () => {
+        expect(wrapper.props().className).toBe("main");
+    });
 });

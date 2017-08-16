@@ -5,7 +5,7 @@
 }
 
 .main {
-    width: 500px;
+    width: auto;
 }
 
 label {
@@ -17,9 +17,13 @@ input[type="number"] {
     width: 50px;
 }
 
+button {
+    display: block;
+}
+
 .general-info {
     border: 0;
-    margin: 0 0 50px 0;
+    margin: 0 0 20px 0;
     padding: 0;
 }
 
@@ -28,14 +32,27 @@ input[type="number"] {
     margin-right: 15px;
 }
 
-.week, .exercise-instance, .day {
+.exercise-instances, .days {
     border: 1px solid black;
 }
 
-.exercise-instance {
+.week {
+    padding-top: 10px;
+}
+
+.exercise-instance, .day {
     display: inline-block;
 }
 
-.add {
+.day {
+    width: 25%;
+}
 
+.exercise-instance {
+    margin-right: 1px;
+    width: 33%;
+}
+
+.exercise-instance:last-child {
+    margin-right: 0;
 }

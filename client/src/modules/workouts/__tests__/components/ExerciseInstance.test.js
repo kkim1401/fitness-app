@@ -43,6 +43,10 @@ describe("ExerciseInstance component", () => {
 
     it("has input for weight to use", () => {
         assertInputs(wrapper, 3, "Weight: ", "number", "weight");
+    });
+
+    it("has className 'exercise-instance'", () => {
+        expect(wrapper.props().className).toBe("exercise-instance");
     })
 });
 

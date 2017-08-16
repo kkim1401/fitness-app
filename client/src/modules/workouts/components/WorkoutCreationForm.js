@@ -24,7 +24,7 @@ const WorkoutCreationForm = () => {
                         Description: <textarea name="description"/>
                     </label>
                 </fieldset>
-                <Weeks inputRef = {el => formElementsMap.set(el, el.value)}/>
+                <Weeks className="weeks" inputRef = {el => formElementsMap.set(el, el.value)}/>
                 <button name="submit">Submit</button>
             </form>
         </div>

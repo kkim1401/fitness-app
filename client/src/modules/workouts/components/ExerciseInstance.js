@@ -7,15 +7,14 @@ import withAdd from "./AddHOC";
 const {getExercises} = e.selectors;
 
 export const ExerciseInstance = ({number, exercises}) => (
-    <section className="exercise-instance">
-        <p>Exercises</p>
+    <div className="exercise-instance">
         <label>
             Order: <input type="number" name="order" readOnly value={number}/>
         </label>
         <label>
-            <select>
+            Exercise: <select>
                 {exercises.map((exercise, index) => <option key={index}>{exercise.name}</option>)}
-            </select>
+                </select>
         </label>
         <label>
             Number of sets: <input type="number" name="sets"/>
@@ -26,7 +25,7 @@ export const ExerciseInstance = ({number, exercises}) => (
         <label>
             Weight: <input type="number" name="weight"/>
         </label>
-    </section>
+    </div>
 );
 
 export const mapStateToProps = createStructuredSelector({

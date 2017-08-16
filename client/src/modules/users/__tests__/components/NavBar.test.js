@@ -20,7 +20,7 @@ describe("NavBar component", () => {
         assertPages(1, "/userInfo", "UserInfo");
         assertPages(2, "/plan", "Plan");
         assertPages(3, "/exercises", "Exercises");
-        assertPages(4, "/form", "Workout Creation Form");
+        assertPages(4, "/form", "WorkoutCreationForm");
 
         //if id props is passed
         wrapper = shallow(<NavBar id={123}/>);

@@ -21,11 +21,11 @@ const withAdd = InnerComponent => class extends Component {
         const innerComponents = [...Array(this.state.count).keys()];
 
         return (
-            <div>
+            <section className={this.props.className}>
                 {innerComponents.map((item, index) =>
                     <InnerComponent key={index} number={index+1} {...this.props}/>)}
                 <button className="add" onClick={this.add}>{`Add ${getDisplayName(InnerComponent)}`}</button>
-            </div>
+            </section>
         )
     }
 };
