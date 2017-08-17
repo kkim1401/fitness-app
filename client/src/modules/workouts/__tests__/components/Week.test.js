@@ -21,8 +21,4 @@ describe("Week component", () => {
     it("should have Days component", () => {
         expect(wrapper.find(Days).exists()).toBe(true);
     });
-
-    it("has className 'week'", () => {
-        expect(wrapper.props().className).toBe("week");
-    })
 });

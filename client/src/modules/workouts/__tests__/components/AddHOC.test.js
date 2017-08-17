@@ -39,5 +39,13 @@ describe("withADD HOC", () => {
 
     it("withAdd adds className props", () => {
         expect(wrapper.props().className).toBe("mock");
-    })
+    });
+
+    it("each inner component has a delete button to delete itself", () => {
+        const deleteWrapper = wrapper.find(".delete"),
+            MockNumber = wrapper.find("Mock").length;
+
+        expect(deleteWrapper).toHaveLength(2);
+        expect(typeof deleteWrapper.at(0).props().onClick).toBe("function");
+    });
 });

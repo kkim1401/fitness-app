@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import withAdd from "./AddHOC";
 import ExerciseInstances from "./ExerciseInstance";
 
-export const Day = props => {
+export const Day = ({number, inputRef}) => {
     return (
-        <div className="day">
+        <div>
             <label>
-                Day: <input type="number" name="day" readOnly value={props.number}/>
+                Day: <input type="number" name="day" ref={inputRef} readOnly value={number}/>
             </label>
-            <ExerciseInstances className="exercise-instances"/>
+            <ExerciseInstances className="exercise-instances" inputRef={inputRef}/>
         </div>
     );
 };

@@ -2,13 +2,13 @@ import React, {Component} from "react";
 import Days from "./Day";
 import withAdd from "./AddHOC";
 
-export const Week = props => {
+export const Week = ({number, inputRef}) => {
     return (
-        <div className="week">
+        <div>
             <label>
-                Week: <input type="number" name="week" value={props.number} readOnly/>
+                Week: <input type="number" name="week" value={number} ref={inputRef} readOnly/>
             </label>
-            <Days className="days"/>
+            <Days className="days" inputRef={inputRef}/>
         </div>
     )
 };

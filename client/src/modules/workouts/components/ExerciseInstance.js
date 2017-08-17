@@ -6,24 +6,24 @@ import withAdd from "./AddHOC";
 
 const {getExercises} = e.selectors;
 
-export const ExerciseInstance = ({number, exercises}) => (
-    <div className="exercise-instance">
+export const ExerciseInstance = ({number, exercises, inputRef}) => (
+    <div>
         <label>
-            Order: <input type="number" name="order" readOnly value={number}/>
+            Order: <input type="number" name="order" readOnly value={number} ref={inputRef}/>
         </label>
         <label>
-            Exercise: <select>
+            Exercise: <select ref={inputRef} name="exercises">
                 {exercises.map((exercise, index) => <option key={index}>{exercise.name}</option>)}
                 </select>
         </label>
         <label>
-            Number of sets: <input type="number" name="sets"/>
+            Number of sets: <input type="number" name="sets" ref={inputRef}/>
         </label>
         <label>
-            Number of reps: <input type="number" name="reps"/>
+            Number of reps: <input type="number" name="reps" ref={inputRef}/>
         </label>
         <label>
-            Weight: <input type="number" name="weight"/>
+            Weight: <input type="number" name="weight" ref={inputRef}/>
         </label>
     </div>
 );

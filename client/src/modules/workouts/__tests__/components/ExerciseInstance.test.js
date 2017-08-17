@@ -29,6 +29,7 @@ describe("ExerciseInstance component", () => {
 
         expect(selectWrapper.exists()).toBe(true);
         expect(selectWrapper.parent().type()).toBe("label");
+        expect(selectWrapper.props().name).toBe("exercises");
         expect(selectWrapper.find("option").at(0).text()).toBe(props.exercises[0].name);
         expect(selectWrapper.find("option").at(1).text()).toBe(props.exercises[1].name);
     });
@@ -44,10 +45,6 @@ describe("ExerciseInstance component", () => {
     it("has input for weight to use", () => {
         assertInputs(wrapper, 3, "Weight: ", "number", "weight");
     });
-
-    it("has className 'exercise-instance'", () => {
-        expect(wrapper.props().className).toBe("exercise-instance");
-    })
 });
 
 describe("ExerciseInstance container", () => {

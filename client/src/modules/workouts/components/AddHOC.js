@@ -7,12 +7,19 @@ const withAdd = InnerComponent => class extends Component {
         this.state = {
             count: 1
         };
-        this.add = this.add.bind(this);
+        this.addInstance = this.addInstance.bind(this);
+        this.deleteInstance = this.deleteInstance.bind(this);
     }
 
-    add() {
+    addInstance() {
         this.setState((prevState) => ({
             count: prevState.count + 1
+        }));
+    }
+
+    deleteInstance() {
+        this.setState((prevState) => ({
+            count: prevState.count - 1
         }));
     }
 
@@ -20,11 +27,16 @@ const withAdd = InnerComponent => class extends Component {
         //Creates an array of increasing numbers, starting from 0, up until count-1.
         const innerComponents = [...Array(this.state.count).keys()];
 
+        //Adding type="button" to buttons since possible bug(?) in React sets default type of all buttons as "submit".
         return (
             <section className={this.props.className}>
-                {innerComponents.map((item, index) =>
-                    <InnerComponent key={index} number={index+1} {...this.props}/>)}
-                <button className="add" onClick={this.add}>{`Add ${getDisplayName(InnerComponent)}`}</button>
+                {innerComponents.map((item, index) => (
+                    <div key={index}>
+                        <InnerComponent number={index+1} {...this.props}/>
+                        <button className="delete" type="button" onClick={this.deleteInstance}>Delete</button>
+                    </div>
+                    ))}
+                <button className="add" type="button" onClick={this.addInstance}>{`Add ${getDisplayName(InnerComponent)}`}</button>
             </section>
         )
     }
