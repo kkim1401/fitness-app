@@ -1,0 +1,63 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+.main {
+    width: auto;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input[type="number"] {
+    width: 50px;
+}
+
+button {
+    display: block;
+}
+
+.delete {
+    margin-bottom: 10px;
+}
+
+.general-info {
+    border: 0;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+.general-info label {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.exercise-instances, .days {
+    border: 1px solid black;
+}
+
+.weeks > div {
+    padding-top: 10px;
+}
+
+.exercise-instances > div, .days > div {
+    display: inline-block;
+}
+
+.days > div {
+    width: 25%;
+}
+
+.exercise-instances > div {
+    margin-right: 1px;
+    width: 33%;
+}
+
+.exercise-instances > div:last-child {
+    margin-right: 0;
+}
+

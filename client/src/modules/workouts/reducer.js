@@ -1,8 +1,5 @@
-const workouts = (state={}, action) => {
-    if (action.type = "FETCH_WORKOUT") {
-        return {...state, }
-    }
-    else {
+export const initialState = {};
 
-    }
-};
+const workouts = (state = initialState, action) => state;
+
+export default workouts;

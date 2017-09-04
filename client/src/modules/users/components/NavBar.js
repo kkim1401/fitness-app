@@ -4,16 +4,17 @@ import {connect} from "react-redux";
 import * as selectors from "../selectors";
 import {createStructuredSelector} from "reselect";
 
-const NavBar = ({id}) => (
+export const NavBar = ({id}) => (
     <nav>
         <Page link="/">Home</Page>
         <Page link="/userInfo">UserInfo</Page>
         <Page link="/plan">Plan</Page>
-        <Page link={id ? `/${id}/exercises` : `exercises`}>Exercises</Page>
+        <Page link={id ? `/${id}/exercises` : `/exercises`}>Exercises</Page>
+        <Page link="/form">WorkoutCreationForm</Page>
     </nav>
 );
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
     id: selectors.getUserId
 });
 

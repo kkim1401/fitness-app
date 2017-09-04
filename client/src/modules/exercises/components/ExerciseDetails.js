@@ -1,12 +1,11 @@
-import React, {Component} from "react";
+import React from "react";
 import {connect} from "react-redux";
 import {deleteExerciseRequest} from "../actions";
-import {getExercise} from "../selectors";
+import {getExercise as mapStateToProps} from "../selectors";
 import {withRouter} from "react-router";
-import {createStructuredSelector} from "reselect";
 import u from "../../users";
 
-const ExerciseDetails = ({exercise, deleteExercise}) => {
+export const ExerciseDetails = ({exercise, deleteExercise}) => {
     const {name, description} = exercise;
     return (
         <div>
@@ -17,15 +16,17 @@ const ExerciseDetails = ({exercise, deleteExercise}) => {
     )
 };
 
-const mapDispatchToProps = (dispatch, {match, history}) => ({
+export const mapDispatchToProps = (dispatch, {match, history}) => ({
     deleteExercise() {
-        dispatch(deleteExerciseRequest(match.params.id));
-        history.push("/exercises");
+        history.push("/");
+        return dispatch(deleteExerciseRequest(match.params.id));
     }
 });
 
+export {mapStateToProps};
+
 export default withRouter(connect(
-    getExercise,
+    mapStateToProps,
     mapDispatchToProps
 )(u.components.withTemplate(ExerciseDetails)));
 

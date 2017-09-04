@@ -8,7 +8,7 @@ import u from "../../users";
 import {withRouter} from "react-router";
 import {createStructuredSelector} from "reselect";
 
-class ExerciseListContainer extends Component {
+export class ExerciseListContainer extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -32,7 +32,7 @@ class ExerciseListContainer extends Component {
     }
 }
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
     exercises: getExercises,
     user: getUserId
 });

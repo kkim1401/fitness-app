@@ -6,7 +6,7 @@ import withTemplate from "./PageTemplate";
 import {createStructuredSelector} from "reselect";
 
 
-class UserInfo extends Component {
+export class UserInfo extends Component {
     constructor(props) {
         super(props);
         this.submitInfo = this.submitInfo.bind(this);
@@ -62,7 +62,7 @@ class UserInfo extends Component {
     )}
 }
 
-const mapStateToProps = createStructuredSelector({
+export const mapStateToProps = createStructuredSelector({
     name: selectors.getName,
     gender: selectors.getGender,
     age: selectors.getAge,
