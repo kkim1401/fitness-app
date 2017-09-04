@@ -37,3 +37,15 @@ describe("workouts async actions", () => {
         );
     });
 });
+
+describe("workouts AddHOC actions", () => {
+    it("should return action to create component and random id", () => {
+        const action = actions.createComponent();
+
+        expect(typeof action.id).toBe("string");
+        delete action.id;
+
+        expect(action).toEqual({type: types.CREATE_COMPONENT});
+
+    });
+});
