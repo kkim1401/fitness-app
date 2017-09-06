@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
+import {Field} from "redux-form";
 import e from "../../exercises";
 import withAdd from "./AddHOC";
 

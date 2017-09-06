@@ -1,24 +1,24 @@
 import React from "react";
 import {shallow} from "enzyme";
-import {assertInputs} from "../../../../util/testHelper";
+import {assertFields, assertFieldArrays} from "../../../../util/testHelper";
 import {Day} from "../../components/Day";
-import ExerciseInstances from "../../components/ExerciseInstance";
 
-describe("Day component", () => {
-    const props = {number: 1},
+describe("renderDays components", () => {
+    const props = {
+        node: "weeks[0].days[0]",
+        index: 0
+    },
         wrapper = shallow(<Day {...props}/>);
 
-    it("renders properly", () => {
+    it("should render properly", () => {
         expect(wrapper.exists()).toBe(true);
     });
 
-    it("has an input for number of day", () => {
-        assertInputs(wrapper, 0, "Day: ", "number", "day");
-        expect(wrapper.find("input").props().readOnly).toBe(true);
-        expect(wrapper.find("input").props().value).toBe(1);
+    it("should have a Field for rendering Days components", () => {
+        assertFields(wrapper, 0, "weeks[0].days[0]", "input", "Day #1", "number");
     });
 
-    it("has component for ExerciseInstances", () => {
-        expect(wrapper.find(ExerciseInstances).exists()).toBe(true);
+    it("should have a FieldArray for rendering Days components", () => {
+        assertFieldArrays(wrapper, 0, "weeks[0].days[0].exerciseInstances")
     });
 });

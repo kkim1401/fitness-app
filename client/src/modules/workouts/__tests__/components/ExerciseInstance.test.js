@@ -3,6 +3,7 @@ import {shallow} from "enzyme";
 import {ExerciseInstance, mapStateToProps} from "../../components/ExerciseInstance";
 import {assertInputs} from "../../../../util/testHelper";
 import e from "../../../exercises";
+import {Field} from "redux-form";
 
 const {MOCK_EXERCISE1, MOCK_EXERCISE2, NAME: exercisesNAME} = e.constants;
 
@@ -18,10 +19,14 @@ describe("ExerciseInstance component", () => {
         expect(wrapper.exists()).toBe(true);
     });
 
-    it("has input for order", () => {
-        assertInputs(wrapper, 0, "Order: ", "number", "order");
-        expect(wrapper.find("input[name='order']").props().readOnly).toBe(true);
-        expect(wrapper.find("input[name='order']").props().value).toBe(props.number);
+    it("has Field for order", () => {
+        /*const order = wrapper.find(Field).at(0),
+            props = order.props();
+
+        expect(props.name).toMatch(/.order$/);
+        expect(props.type).toBe("number");
+        expect(props.component).toBe("input");
+        */
     });
 
     it("has select tag and options for list of exercises to pick from", () => {
@@ -35,15 +40,12 @@ describe("ExerciseInstance component", () => {
     });
 
     it("has input for number of sets", () => {
-        assertInputs(wrapper, 1, "Number of sets: ", "number", "sets");
     });
 
     it("has input for number of reps", () => {
-        assertInputs(wrapper, 2, "Number of reps: ", "number", "reps");
     });
 
     it("has input for weight to use", () => {
-        assertInputs(wrapper, 3, "Weight: ", "number", "weight");
     });
 });
 

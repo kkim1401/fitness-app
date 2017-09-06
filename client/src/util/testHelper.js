@@ -1,7 +1,6 @@
-/* Testing containers may require access to mock-store. */
-
 import React from "react";
 import {mount, shallow} from "enzyme";
+import {Field} from "redux-form";
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
 import moxios from "moxios";
@@ -17,7 +16,7 @@ export const mountWithStore = (node, store) => {
     const context = {
         store
     };
-    return mount(node, {context});
+    return mount(node, context);
 };
 
 export const createMockStore = (initialState = {}) => {
@@ -48,3 +47,31 @@ export function assertInputs(wrapper, index, title, type, name) {
     expect(input.parent().type()).toBe("label");
     expect(input.parent().childAt(0).text()).toBe(title);
 }
+
+export function assertFields(wrapper, index, name, component, label, type, diveComponent = false) {
+    const nameField = diveComponent ? wrapper.find(diveComponent).at(index).dive() : wrapper.find(Field).at(index),
+        props = nameField.props();
+
+    expect(props.name).toBe(name);
+    expect(props.component).toBe(component);
+    expect(props.label).toBe(label);
+    expect(type && props.type).toBe(type);
+}
+
+export function assertFieldArrays(wrapper, index, name) {
+    const FieldArray = wrapper.find("FieldArray").at(index),
+        props = FieldArray.props();
+
+    expect(FieldArray.exists()).toBe(true);
+    expect(props.name).toBe(name);
+    expect(typeof props.component).toBe("function");
+}
+
+export function assertAddButtons(wrapper, text) {
+    const button = wrapper.find("button").at(0);
+
+    expect(button.exists()).toBe(true);
+    expect(typeof button.props().onClick).toBe("function");
+    expect(button.text()).toBe(text);
+}
+

@@ -1,16 +1,14 @@
 import React, {Component} from "react";
-import withAdd from "./AddHOC";
-import ExerciseInstances from "./ExerciseInstance";
+import {Field, FieldArray} from "redux-form";
+import renderExerciseInstances from "./ExerciseInstance";
+import renderComponents from "./RenderHOC";
 
-export const Day = ({number, inputRef}) => {
-    return (
-        <div>
-            <label>
-                Day: <input type="number" name="day" ref={inputRef} readOnly value={number}/>
-            </label>
-            <ExerciseInstances className="exercise-instances" inputRef={inputRef}/>
-        </div>
-    );
-};
+export const Day = ({node, index}) => (
+    <div>
+        <Field name={node} type="number" component="input" label={`Day #${index+1}`}/>
+        <FieldArray name={`${node}.exerciseInstances`} component={renderExerciseInstances}/>
+    </div>
+);
 
-export default withAdd(Day);
+
+export default renderComponents(Day, "Add Day", "Delete Day");
