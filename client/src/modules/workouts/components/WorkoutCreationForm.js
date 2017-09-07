@@ -2,6 +2,7 @@ import React, {Component} from "react";
 //import "./WorkoutCreationForm.css";
 import renderWeeks from "./Week";
 import {reduxForm, Field, FieldArray} from "redux-form";
+import renderField from "./CustomFormElement";
 
 class WorkoutCreationForm extends Component {
     constructor(props) {
@@ -18,8 +19,8 @@ class WorkoutCreationForm extends Component {
             <form onSubmit={this.submitForm}>
                 <h2>Workout Creation Form</h2>
                 <fieldset className="general-info">
-                    <Field name="name" component="input" type="text" label="Name"/>
-                    <Field name="description" component="textarea" label="Description"/>
+                    <Field name="name" elem="input" component={renderField} type="text" label="Name"/>
+                    <Field name="description" elem="textarea" component={renderField} label="Description"/>
                 </fieldset>
                 <FieldArray name="weeks" component={renderWeeks}/>
                 <button name="submit">Submit</button>

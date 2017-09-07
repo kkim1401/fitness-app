@@ -48,12 +48,13 @@ export function assertInputs(wrapper, index, title, type, name) {
     expect(input.parent().childAt(0).text()).toBe(title);
 }
 
-export function assertFields(wrapper, index, name, component, label, type = false, diveComponent = false) {
+export function assertFields(wrapper, index, name, elem, label, type = false, diveComponent = false) {
     const nameField = diveComponent ? wrapper.find(diveComponent).at(index).dive() : wrapper.find(Field).at(index),
         props = nameField.props();
 
     expect(props.name).toBe(name);
-    expect(props.component).toBe(component);
+    expect(typeof props.component).toBe("function");
+    expect(props.elem).toBe(elem);
     expect(props.label).toBe(label);
     expect(type && props.type).toBe(type);
 }

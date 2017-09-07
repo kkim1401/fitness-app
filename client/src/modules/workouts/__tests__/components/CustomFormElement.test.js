@@ -5,6 +5,7 @@ import renderField from "../../components/CustomFormElement";
 describe("CustomFormElement returned component", () => {
     let props = {
             input: {},
+            elem: "input",
             label: "MockLabel",
             type: "number",
             meta: {
@@ -12,10 +13,8 @@ describe("CustomFormElement returned component", () => {
                 error: ""
             }
         },
-        CustomInput = renderField("input"),
-        CustomSelect = renderField("select"),
-        inputWrapper = mount(<CustomInput {...props}/>),
-        selectWrapper = mount(<CustomSelect {...props}/>);
+        CustomInput = renderField,
+        inputWrapper = mount(<CustomInput {...props}/>);
 
 
     it("renders properly", () => {
@@ -35,22 +34,17 @@ describe("CustomFormElement returned component", () => {
     });
 
     it("should have select instead of input for selectWrapper", () => {
+        const selectWrapper = mount(<CustomInput {...props} elem="select"/>);
         expect(selectWrapper.find("select").exists()).toBe(true);
         expect(selectWrapper.find("select").props().type).toBe(undefined);
         expect(selectWrapper.find("input").exists()).toBe(false);
     });
 
     it("should not have error shown until both touched is true and error prop is a non-empty string", () => {
-        props.meta.touched = true;
-        inputWrapper = mount(<CustomInput {...props}/>);
-
+        inputWrapper = mount(<CustomInput {...props} meta={{touched: true, error: ""}}/>);
         expect(inputWrapper.find("span").exists()).toBe(false);
 
-        props.meta.error = "Something is not right";
-        inputWrapper = mount(<CustomInput {...props}/>);
-
-        expect(inputWrapper.find("span").text()).toBe(props.meta.error);
+        inputWrapper = mount(<CustomInput {...props} meta={{touched: true, error: "Something went wrong"}}/>);
+        expect(inputWrapper.find("span").text()).toBe("Something went wrong");
     });
-
-
 });

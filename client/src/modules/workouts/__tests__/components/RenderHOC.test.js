@@ -3,6 +3,8 @@ import {assertAddButtons, assertFields} from "../../../../util/testHelper";
 import {Field} from "redux-form";
 import {shallow} from "enzyme";
 import renderComponents from "../../components/RenderHOC";
+import renderField from "../../components/CustomFormElement";
+
 
 describe("renderComponents HOC", () => {
     const props = {
@@ -13,7 +15,7 @@ describe("renderComponents HOC", () => {
             }
         }
     }, Mock = ({node, index}) =>
-            <Field name={node} type="number" component="input" label={`Mock #${index+1}`}/>,
+            <Field name={node} type="number" component={renderField} elem="input" label={`Mock #${index+1}`}/>,
         Mocks = renderComponents(Mock, "Add Mock", "Delete Mock"),
         wrapper = shallow(<Mocks {...props}/>);
 
