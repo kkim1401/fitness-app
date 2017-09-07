@@ -14,11 +14,11 @@ describe("renderDays components", () => {
         expect(wrapper.exists()).toBe(true);
     });
 
-    it("should have a Field for rendering Days components", () => {
+    it("should have a Field for rendering a Day input", () => {
         assertFields(wrapper, 0, "weeks[0].days[0]", "input", "Day #1", "number");
     });
 
-    it("should have a FieldArray for rendering Days components", () => {
+    it("should have a FieldArray for rendering ExerciseInstance components", () => {
         assertFieldArrays(wrapper, 0, "weeks[0].days[0].exerciseInstances")
     });
 });

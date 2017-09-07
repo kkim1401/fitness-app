@@ -3,29 +3,22 @@ import {connect} from "react-redux";
 import {createStructuredSelector} from "reselect";
 import {Field} from "redux-form";
 import e from "../../exercises";
-import withAdd from "./AddHOC";
+import renderComponents from "./RenderHOC";
 
 const {getExercises} = e.selectors;
 
-export const ExerciseInstance = ({number, exercises, inputRef}) => (
+export const ExerciseInstance = ({index, exercises, node}) => (
     <div>
+        <Field name="order" component="input" label="Order" type="number"/>
+        <Field name="exercises" component="select" label="Exercise">
+            {exercises.map((exercise, index) => <option key={index}>{exercise.name}</option>)}
+        </Field>
         <label>
-            Order: <input type="number" name="order" readOnly value={number} ref={inputRef}/>
+            Number of sets: <input type="number" name="sets"/>
         </label>
-        <label>
-            Exercise: <select ref={inputRef} name="exercises">
-                {exercises.map((exercise, index) => <option key={index}>{exercise.name}</option>)}
-                </select>
-        </label>
-        <label>
-            Number of sets: <input type="number" name="sets" ref={inputRef}/>
-        </label>
-        <label>
-            Number of reps: <input type="number" name="reps" ref={inputRef}/>
-        </label>
-        <label>
-            Weight: <input type="number" name="weight" ref={inputRef}/>
-        </label>
+        <Field name="sets" component="input" label="Number of sets" type="number"/>
+        <Field name="reps" component="input" label="Number of reps" type="number"/>
+        <Field name="weight" component="input" label="Weight" type="number"/>
     </div>
 );
 
@@ -33,5 +26,5 @@ export const mapStateToProps = createStructuredSelector({
     exercises: getExercises
 });
 
-export default connect(mapStateToProps)(withAdd(ExerciseInstance));
+export default connect(mapStateToProps)(renderComponents(ExerciseInstance, "Add", "Delete Exercise"));
 

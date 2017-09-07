@@ -1,7 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 import {ExerciseInstance, mapStateToProps} from "../../components/ExerciseInstance";
-import {assertInputs} from "../../../../util/testHelper";
+import {assertFields} from "../../../../util/testHelper";
 import e from "../../../exercises";
 import {Field} from "redux-form";
 
@@ -10,8 +10,9 @@ const {MOCK_EXERCISE1, MOCK_EXERCISE2, NAME: exercisesNAME} = e.constants;
 
 describe("ExerciseInstance component", () => {
     const props = {
-        number: 2,
-        exercises: [MOCK_EXERCISE1, MOCK_EXERCISE2]
+        exercises: [MOCK_EXERCISE1, MOCK_EXERCISE2],
+        node: "weeks[0].days[0].exerciseInstances",
+        index: 0
     },
         wrapper = shallow(<ExerciseInstance {...props}/>);
 
@@ -19,33 +20,26 @@ describe("ExerciseInstance component", () => {
         expect(wrapper.exists()).toBe(true);
     });
 
-    it("has Field for order", () => {
-        /*const order = wrapper.find(Field).at(0),
-            props = order.props();
-
-        expect(props.name).toMatch(/.order$/);
-        expect(props.type).toBe("number");
-        expect(props.component).toBe("input");
-        */
+    it("should have a Field for rendering input for order", () => {
+        assertFields(wrapper, 0, "order", "input", "Order", "number");
     });
 
     it("has select tag and options for list of exercises to pick from", () => {
-        const selectWrapper = wrapper.find("select");
-
-        expect(selectWrapper.exists()).toBe(true);
-        expect(selectWrapper.parent().type()).toBe("label");
-        expect(selectWrapper.props().name).toBe("exercises");
-        expect(selectWrapper.find("option").at(0).text()).toBe(props.exercises[0].name);
-        expect(selectWrapper.find("option").at(1).text()).toBe(props.exercises[1].name);
+        assertFields(wrapper, 1, "exercises", "select", "Exercise");
+        expect(wrapper.find("option").at(0).text()).toBe(props.exercises[0].name);
+        expect(wrapper.find("option").at(1).text()).toBe(props.exercises[1].name);
     });
 
-    it("has input for number of sets", () => {
+    it("should have a Field for rendering input for number of sets", () => {
+        assertFields(wrapper, 2, "sets", "input", "Number of sets", "number");
     });
 
-    it("has input for number of reps", () => {
+    it("should have a Field for rendering input for number of reps", () => {
+        assertFields(wrapper, 3, "reps", "input", "Number of reps", "number");
     });
 
-    it("has input for weight to use", () => {
+    it("should have a Field for rendering input for weight to use", () => {
+        assertFields(wrapper, 4, "weight", "input", "Weight", "number");
     });
 });
 
