@@ -19,6 +19,6 @@ describe("renderWeeks components", () => {
     });
 
     it("should have a FieldArray for rendering Day components", () => {
-        assertFieldArrays(wrapper, 0, "weeks[0].days");
+        assertFieldArrays(wrapper, 0, "days");
     });
 });

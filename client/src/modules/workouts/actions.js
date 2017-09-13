@@ -1,4 +1,4 @@
-import {get, post, remove} from "../../util/apiCaller";
+import {call} from "../../util/apiCaller";
 import {v4} from "uuid";
 import * as u from "./actionTypes";
 
@@ -12,7 +12,7 @@ export const deleteWorkout = () => ({
 });
 
 export const fetchWorkout = id =>
-    dispatch => get(`workouts/${id}`)
+    dispatch => call("get", `workouts/${id}`)
         .then(({data}) => dispatch(addWorkout(data)));
 
 export const createComponent = () => ({

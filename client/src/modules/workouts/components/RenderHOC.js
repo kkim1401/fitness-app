@@ -6,7 +6,7 @@ const renderComponents = (InnerComponent, addText, deleteText) => props => {
     return (
         <ul>
             <li>
-                <button type="button" onClick={() => fields.push({})}>{addText}</button>
+                <button type="button" onClick={() => fields.push()}>{addText}</button>
             </li>
             <li>
                 {fields.map((node, index) => (

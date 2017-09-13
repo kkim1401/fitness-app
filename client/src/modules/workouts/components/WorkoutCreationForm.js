@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 //import "./WorkoutCreationForm.css";
 import renderWeeks from "./Week";
-import {reduxForm, Field, FieldArray} from "redux-form";
+import {reduxForm, Field, FieldArray, getFormValues} from "redux-form";
 import renderField from "./CustomFormElement";
 
 class WorkoutCreationForm extends Component {
@@ -10,8 +10,8 @@ class WorkoutCreationForm extends Component {
         this.submitForm = this.submitForm.bind(this);
     }
 
-    submitForm(e) {
-        e.preventDefault();
+    submitForm(values) {
+        console.log(values);
     }
 
     render() {

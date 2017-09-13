@@ -7,8 +7,7 @@ router.route("/users")
 
 router.route("/users/:id")
     .get(getUser)
+    .put(updateUser)
     .delete(deleteUser);
-
-router.route("/users/update/:id").post(updateUser);
 
 export default router;

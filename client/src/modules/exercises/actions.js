@@ -1,4 +1,4 @@
-import {get, post, remove} from "../../util/apiCaller";
+import {call} from "../../util/apiCaller";
 import * as e from "./actionTypes";
 
 export const addExercise = exercise => ({
@@ -17,18 +17,18 @@ export const deleteExercise = id => ({
 });
 
 export const fetchExercises = user =>
-    dispatch => get(`${user}/exercises`)
+    dispatch => call("get", `${user}/exercises`)
         .then(({data}) => dispatch(addExercises(data)));
 
 export const fetchExercise = id =>
-    dispatch => get(`exercises/${id}`)
+    dispatch => call("get", `exercises/${id}`)
         .then(({data}) => dispatch(addExercise(data)));
 
 export const addExerciseRequest = (exercise, user) =>
-    dispatch => post(`${user}/exercises`, exercise)
+    dispatch => call("post", `${user}/exercises`, exercise)
         .then(({data}) => dispatch(addExercise(data)));
 
 export const deleteExerciseRequest = id =>
-    dispatch => remove(`exercises/${id}`)
+    dispatch => call("delete", `exercises/${id}`)
         .then(({data}) => dispatch(deleteExercise(data._id)));
 

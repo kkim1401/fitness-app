@@ -134,7 +134,7 @@ describe("UserInfo component", () => {
         });
 
         it("calls dispatch with updateUserDetails", () => {
-            moxios.stubRequest("/api/users/update/123", {
+            moxios.stubRequest("/api/users/123", {
                 status: 200,
                 response: MOCK_USER1
             });
