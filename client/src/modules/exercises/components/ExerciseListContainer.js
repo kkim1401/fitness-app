@@ -25,7 +25,7 @@ export class ExerciseListContainer extends Component {
     render() {
         return (
             <div>
-                <ExerciseList exercises={this.props.exercises}/>
+                <ExerciseList exercises={this.props.exercises} userId={this.props.user}/>
                 <ExerciseCreateWidget addExercise={this.handleClick}/>
             </div>
         );
