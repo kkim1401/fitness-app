@@ -2,7 +2,7 @@ import User from "../models/user";
 import Workout from "../models/workout";
 
 export function getUser(req, res, next) {
-    User.findById(req.params["user-id"])
+    User.findById(req.params.userId)
         .populate("workouts")
         .populate("exercises")
         .exec((err, result) => {
@@ -54,7 +54,7 @@ export function updateUser(req, res, next) {
         req.sanitize(trait).escape();
     });
 
-    User.findById(req.params.id).exec((err, user) => {
+    User.findById(req.params.userId).exec((err, user) => {
         if (err) {
             err.status = 404;
             return next(err);
@@ -78,7 +78,7 @@ export function updateUser(req, res, next) {
 }
 
 export function deleteUser(req, res, next) {
-    User.findById(req.params["user-id"]).exec((err, user) => {
+    User.findById(req.params.userId).exec((err, user) => {
         if (err) {
             err.status = 404;
             return next(err);

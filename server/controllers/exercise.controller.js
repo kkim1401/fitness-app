@@ -2,7 +2,7 @@ import Exercise from "../models/exercise";
 import User from "../models/user";
 
 export function getExercises(req, res, next) {
-    User.findById(req.params["user-id"])
+    User.findById(req.params.userId)
         .populate("exercises")
         .exec((err, userInstance) => {
         if (err) {
@@ -14,9 +14,9 @@ export function getExercises(req, res, next) {
 }
 
 export function getExercise(req, res, next) {
-    const targetId = req.params["exercise-id"];
+    const targetId = req.params.exerciseId;
 
-    User.findById(req.params["user-id"])
+    User.findById(req.params.userId)
         .populate({path: "exercises", match: {_id: targetId}})
         .exec((err, userInstance) => {
         if (err) {
@@ -48,7 +48,7 @@ export function addExercise(req, res, next) {
         return next(errors);
     }
 
-    User.findById(req.params["user-id"]).exec((err, userInstance) => {
+    User.findById(req.params.userId).exec((err, userInstance) => {
         if (err) {
             err.status = 404;
             return next(err);
@@ -76,9 +76,9 @@ export function addExercise(req, res, next) {
 }
 
 export function deleteExercise(req, res, next) {
-    const targetId = req.params["exercise-id"];
+    const targetId = req.params.exerciseId;
 
-    User.findById(req.params["user-id"])
+    User.findById(req.params.userId)
         .exec((err, userInstance) => {
         if (err) {
             err.status = 404;

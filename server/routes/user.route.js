@@ -5,7 +5,7 @@ const router = Router();
 router.route("/users")
     .post(addUser);
 
-router.route("/users/:user-id")
+router.route("/users/:userId")
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser);

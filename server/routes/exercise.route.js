@@ -1,12 +1,12 @@
 import {Router} from "express";
 import {getExercises, getExercise, addExercise, deleteExercise} from "../controllers/exercise.controller";
-const router = new Router();
+const router = Router();
 
-router.route("/users/:user-id/exercises")
+router.route("/users/:userId/exercises")
     .get(getExercises)
     .post(addExercise);
 
-router.route("/users/:user-id/exercises/:exercise-id")
+router.route("/users/:userId/exercises/:exerciseId")
     .get(getExercise)
     .delete(deleteExercise);
 

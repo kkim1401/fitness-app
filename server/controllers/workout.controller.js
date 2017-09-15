@@ -13,7 +13,7 @@ export function getWorkouts(req, res, next) {
 }
 
 export function getWorkout(req, res, next) {
-    Workout.findById(req.params["workout-id"])
+    Workout.findById(req.params.workoutId)
         .populate("schedule.days.exerciseList.exercise")
         .exec((err, result) => {
         if (err) {
@@ -47,7 +47,7 @@ export function addWorkout(req, res, next) {
 }
 
 export function deleteWorkout(req, res, next) {
-    Workout.findById(req.params["workout-id"]).exec((err, workout) => {
+    Workout.findById(req.params.workoutId).exec((err, workout) => {
         if (err) {
             return next(err);
         }
