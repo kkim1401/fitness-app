@@ -2,11 +2,11 @@ import {Router} from "express";
 import {getExercises, getExercise, addExercise, deleteExercise} from "../controllers/exercise.controller";
 const router = new Router();
 
-router.route("/:user/exercises")
+router.route("/users/:user-id/exercises")
     .get(getExercises)
     .post(addExercise);
 
-router.route("/exercises/:id")
+router.route("/users/:user-id/exercises/:exercise-id")
     .get(getExercise)
     .delete(deleteExercise);
 

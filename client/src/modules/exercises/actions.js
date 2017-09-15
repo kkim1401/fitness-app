@@ -17,18 +17,18 @@ export const deleteExercise = id => ({
 });
 
 export const fetchExercises = user =>
-    dispatch => call("get", `${user}/exercises`)
+    dispatch => call("get", `users/${user}/exercises`)
         .then(({data}) => dispatch(addExercises(data)));
 
-export const fetchExercise = id =>
-    dispatch => call("get", `exercises/${id}`)
+export const fetchExercise = (user, id) =>
+    dispatch => call("get", `users/${user}/exercises/${id}`)
         .then(({data}) => dispatch(addExercise(data)));
 
-export const addExerciseRequest = (exercise, user) =>
-    dispatch => call("post", `${user}/exercises`, exercise)
+export const addExerciseRequest = (user, exercise) =>
+    dispatch => call("post", `users/${user}/exercises`, exercise)
         .then(({data}) => dispatch(addExercise(data)));
 
-export const deleteExerciseRequest = id =>
-    dispatch => call("delete", `exercises/${id}`)
-        .then(({data}) => dispatch(deleteExercise(data._id)));
+export const deleteExerciseRequest = (user, id) =>
+    dispatch => call("delete", `users/${user}/exercises/${id}`)
+        .then(() => dispatch(deleteExercise(id)));
 

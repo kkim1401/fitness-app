@@ -11,8 +11,8 @@ export const deleteWorkout = () => ({
     type: u.DELETE
 });
 
-export const fetchWorkout = id =>
-    dispatch => call("get", `workouts/${id}`)
+export const fetchWorkout = (user, id) =>
+    dispatch => call("get", `users/${user}/workouts/${id}`)
         .then(({data}) => dispatch(addWorkout(data)));
 
 export const createComponent = () => ({

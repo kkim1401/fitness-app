@@ -19,7 +19,7 @@ export class ExerciseListContainer extends Component {
     }
 
     handleClick(exercise) {
-        this.props.dispatch(addExerciseRequest(exercise, this.props.user));
+        this.props.dispatch(addExerciseRequest(this.props.user, exercise));
     }
 
     render() {

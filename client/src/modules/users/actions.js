@@ -15,7 +15,7 @@ export const fetchUser = id =>
         .then(({data}) => dispatch(addUser(data)));
 
 export const updateUserDetails = (id, user) =>
-    dispatch => call("put", `users/${id}`, user)
+    dispatch => call("patch", `users/${id}`, user)
         .then(({data}) => dispatch(addUser(data)));
 
 export const addUserRequest = user =>

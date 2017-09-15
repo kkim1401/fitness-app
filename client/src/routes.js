@@ -19,10 +19,9 @@ export const Routes = ({store}) => (
             <Switch>
                 <Route exact path="/" component={Home}/>
                 <Route path="/userInfo" component={UserInfo}/>
-                <Route path="/:user/userInfo" component={UserInfo}/>
                 <Route path="/plan" component={Plan}/>
                 <Route exact path="/:user/exercises" component={ExerciseListContainer}/>
-                <Route path="/exercises/:id" component={ExerciseDetails}/>
+                <Route path="/:user/exercises/:id" component={ExerciseDetails}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/form" component={WorkoutCreationForm}/>
             </Switch>
