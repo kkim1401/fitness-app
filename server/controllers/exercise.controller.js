@@ -25,16 +25,6 @@ export function getExercise(req, res, next) {
         }
         res.json(userInstance.exercises[0]);
     });
-
-    /*Exercise.findById(req.params["exercise-id"])
-        .exec((err, result) => {
-       if (err) {
-           err.status = 404;
-           return next(err);
-       }
-       res.json(result);
-    });
-    */
 }
 
 export function addExercise(req, res, next) {
@@ -85,7 +75,7 @@ export function deleteExercise(req, res, next) {
             return next(err);
         }
 
-        userInstance.exercises = userInstance.exercises.filter(exerciseId => exerciseId !== targetId);
+        userInstance.exercises = userInstance.exercises.filter(exerciseId => exerciseId != targetId);
         userInstance.save(err => {
             if (err) {
                 return next(err);
@@ -93,25 +83,4 @@ export function deleteExercise(req, res, next) {
             res.status(204).end();
         });
     });
-
-    /*Exercise.findById(id).exec((err, exercise) => {
-        if (err) {
-            err.status = 404;
-            return next(err);
-        }
-
-        exercise.remove(err => {
-            if (err) {
-                return next(err);
-            }
-
-            User.findOneAndUpdate({exercises: id}, {$pull: {exercises: targetId}})
-                .exec(err => {
-                if (err) {
-                    return next(err);
-                }});
-
-            res.status(204).end();
-        });
-    });*/
 }
