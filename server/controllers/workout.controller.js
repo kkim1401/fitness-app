@@ -27,10 +27,6 @@ export function getWorkout(req, res, next) {
 export function addWorkout(req, res, next) {
     req.checkBody("name", "Name of workout is required").notEmpty();
 
-    req.sanitize("name").escape();
-    req.sanitize("description").escape();
-    req.sanitize("schedule").escape();
-
     const errors = req.validationErrors();
     if (errors) {
         return next(errors);

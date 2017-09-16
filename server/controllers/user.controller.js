@@ -17,12 +17,6 @@ export function getUser(req, res, next) {
 export function addUser(req, res, next) {
     req.checkBody("name", "Name is required").notEmpty();
 
-    req.sanitize("gender").escape();
-    req.sanitize("age").escape();
-    req.sanitize("squat").escape();
-    req.sanitize("bench").escape();
-    req.sanitize("deadlift").escape();
-
     const errors = req.validationErrors();
     if (errors) {
         return next(errors);
@@ -49,11 +43,6 @@ export function addUser(req, res, next) {
 }
 
 export function updateUser(req, res, next) {
-    const arrayOfTraits = Object.keys(req.body);
-    arrayOfTraits.forEach(trait => {
-        req.sanitize(trait).escape();
-    });
-
     User.findById(req.params.userId).exec((err, user) => {
         if (err) {
             err.status = 404;

@@ -2,6 +2,7 @@ import Express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import expressValidator from "express-validator";
+import expressSanitized from "express-sanitize-escape";
 import serverConfig from "./config";
 import workout from "./routes/workout.route";
 import exercise from "./routes/exercise.route";
@@ -18,6 +19,7 @@ mongoose.connect(serverConfig.mongoURL, err => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
+app.use(expressSanitized.middleware());
 
 app.use("/api", [exercise, workout, user]);
 

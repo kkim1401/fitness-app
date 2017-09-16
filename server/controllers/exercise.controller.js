@@ -30,9 +30,6 @@ export function getExercise(req, res, next) {
 export function addExercise(req, res, next) {
     req.checkBody("name", "Name of exercise is required").notEmpty();
 
-    req.sanitize("name").escape();
-    req.sanitize("description").escape();
-
     const errors = req.validationErrors();
     if (errors) {
         return next(errors);
