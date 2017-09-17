@@ -11,7 +11,7 @@ const {MOCK_EXERCISE1, MOCK_EXERCISE2, NAME: exercisesNAME} = e.constants;
 describe("ExerciseInstance component", () => {
     const props = {
         exercises: [MOCK_EXERCISE1, MOCK_EXERCISE2],
-        node: "weeks[0].days[0].exerciseInstances",
+        node: "schedule.weeks[0].days[0].exerciseInstances[0]",
         index: 0
     },
         wrapper = shallow(<ExerciseInstance {...props}/>);
@@ -21,25 +21,25 @@ describe("ExerciseInstance component", () => {
     });
 
     it("should have a Field for rendering input for order", () => {
-        assertFields(wrapper, 0, "order", "input", "Order", "number");
+        assertFields(wrapper, 0, "schedule.weeks[0].days[0].exerciseInstances[0].order", "input", "Order", "number");
     });
 
     it("has select tag and options for list of exercises to pick from", () => {
-        assertFields(wrapper, 1, "exercises", "select", "Exercise");
+        assertFields(wrapper, 1, "schedule.weeks[0].days[0].exerciseInstances[0].exercises", "select", "Exercise");
         expect(wrapper.find("option").at(0).text()).toBe(props.exercises[0].name);
         expect(wrapper.find("option").at(1).text()).toBe(props.exercises[1].name);
     });
 
     it("should have a Field for rendering input for number of sets", () => {
-        assertFields(wrapper, 2, "sets", "input", "Number of sets", "number");
+        assertFields(wrapper, 2, "schedule.weeks[0].days[0].exerciseInstances[0].setNumber", "input", "Number of sets", "number");
     });
 
     it("should have a Field for rendering input for number of reps", () => {
-        assertFields(wrapper, 3, "reps", "input", "Number of reps", "number");
+        assertFields(wrapper, 3, "schedule.weeks[0].days[0].exerciseInstances[0].reps", "input", "Number of reps", "number");
     });
 
     it("should have a Field for rendering input for weight to use", () => {
-        assertFields(wrapper, 4, "weight", "input", "Weight", "number");
+        assertFields(wrapper, 4, "schedule.weeks[0].days[0].exerciseInstances[0].weight", "input", "Weight", "number");
     });
 });
 

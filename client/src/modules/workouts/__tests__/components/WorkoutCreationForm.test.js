@@ -36,6 +36,6 @@ describe("WorkoutCreationForm component", () => {
     });
 
     it("should have FieldArray component for rendering Week components", () => {
-        assertFieldArrays(wrapper, 0, "weeks");
+        assertFieldArrays(wrapper, 0, "schedule.weeks");
     });
 });

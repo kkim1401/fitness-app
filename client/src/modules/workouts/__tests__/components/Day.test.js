@@ -5,7 +5,7 @@ import {Day} from "../../components/Day";
 
 describe("renderDays components", () => {
     const props = {
-        node: "weeks[0].days[0]",
+        node: "schedule.weeks[0].days[0]",
         index: 0
     },
         wrapper = shallow(<Day {...props}/>);
@@ -15,10 +15,10 @@ describe("renderDays components", () => {
     });
 
     it("should have a Field for rendering a Day input", () => {
-        assertFields(wrapper, 0, "weeks[0].days[0]", "input", "Day #1", "number");
+        assertFields(wrapper, 0, "schedule.weeks[0].days[0].day", "input", "Day", "number");
     });
 
     it("should have a FieldArray for rendering ExerciseInstance components", () => {
-        assertFieldArrays(wrapper, 0, "weeks[0].days[0].exerciseInstances")
+        assertFieldArrays(wrapper, 0, "schedule.weeks[0].days[0].exerciseList")
     });
 });

@@ -5,7 +5,7 @@ import {Week} from "../../components/Week";
 
 describe("renderWeeks components", () => {
     const props = {
-        node: "weeks[0]",
+        node: "schedule.weeks[0]",
         index: 0
     },
         wrapper = shallow(<Week {...props}/>);
@@ -15,10 +15,10 @@ describe("renderWeeks components", () => {
     });
 
     it("should have a Field for Week input", () => {
-       assertFields(wrapper, 0, "weeks[0]", "input", "Week #1", "number");
+       assertFields(wrapper, 0, "schedule.weeks[0].week", "input", "Week", "number");
     });
 
     it("should have a FieldArray for rendering Day components", () => {
-        assertFieldArrays(wrapper, 0, "days");
+        assertFieldArrays(wrapper, 0, "schedule.weeks[0].days");
     });
 });
