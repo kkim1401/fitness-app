@@ -1,3 +1,3 @@
-import WorkoutCreationForm from "./WorkoutCreationForm";
+import WorkoutCreationFormContainer from "./WorkoutCreationFormContainer";
 
-export default {WorkoutCreationForm};
+export default {WorkoutCreationFormContainer};

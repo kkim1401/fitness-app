@@ -2,38 +2,42 @@ import Exercise from "../models/exercise";
 import User from "../models/user";
 
 export function getExercises(req, res, next) {
-    User.findById(req.params.user)
+    User.findById(req.params.userId)
         .populate("exercises")
         .exec((err, userInstance) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
-        res.send(userInstance.exercises);
-        });
+        res.json(userInstance.exercises);
+    });
 }
 
 export function getExercise(req, res, next) {
-    Exercise.findById(req.params.id).exec((err, result) => {
-       if (err) {
-           return next(err);
-       }
-       res.send(result);
+    const targetId = req.params.exerciseId;
+
+    User.findById(req.params.userId)
+        .populate({path: "exercises", match: {_id: targetId}})
+        .exec((err, userInstance) => {
+        if (err) {
+            err.status = 404;
+            return next(err);
+        }
+        res.json(userInstance.exercises[0]);
     });
 }
 
 export function addExercise(req, res, next) {
     req.checkBody("name", "Name of exercise is required").notEmpty();
 
-    req.sanitize("name").escape();
-    req.sanitize("description").escape();
-
     const errors = req.validationErrors();
     if (errors) {
-        return console.log(errors);
+        return next(errors);
     }
 
-    User.findById(req.params.user).exec((err, userInstance) => {
+    User.findById(req.params.userId).exec((err, userInstance) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
 
@@ -46,36 +50,34 @@ export function addExercise(req, res, next) {
             if (err) {
                 return next(err);
             }
+
             userInstance.exercises.push(exerciseInstance._id);
             userInstance.save(err => {
                 if (err) {
                     return next(err);
                 }
-                res.send(exercise);
-            })
+                res.status(201).json(exerciseInstance);
+            });
         });
     });
 }
 
 export function deleteExercise(req, res, next) {
-    const id = req.params.id;
-    Exercise.findById(id).exec((err, exercise) => {
+    const targetId = req.params.exerciseId;
+
+    User.findById(req.params.userId)
+        .exec((err, userInstance) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
 
-        exercise.remove((err, deleted) => {
+        userInstance.exercises = userInstance.exercises.filter(exerciseId => exerciseId != targetId);
+        userInstance.save(err => {
             if (err) {
                 return next(err);
             }
-
-            User.findOneAndUpdate({exercises: id}, {$pull: {exercises: id}})
-                .exec(err => {
-                if (err) {
-                    return next(err);
-                }});
-
-            res.send(deleted);
+            res.status(204).end();
         });
     });
 }

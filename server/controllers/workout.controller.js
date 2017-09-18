@@ -5,52 +5,54 @@ import User from "../models/user";
 export function getWorkouts(req, res, next) {
     Workout.find().sort({name: 1}).exec((err, result) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
-        res.send(result);
+        res.json(result);
     });
 }
 
 export function getWorkout(req, res, next) {
-    Workout.findById(req.params.id).populate("schedule.days.exerciseList.exercise").exec((err, result) => {
+    Workout.findById(req.params.workoutId)
+        .populate("schedule.days.exerciseList.exercise")
+        .exec((err, result) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
-        res.send(result);
+        res.json(result);
     });
 }
 
 export function addWorkout(req, res, next) {
     req.checkBody("name", "Name of workout is required").notEmpty();
 
-    req.sanitize("name").escape();
-    req.sanitize("description").escape();
-    req.sanitize("schedule").escape();
+    const errors = req.validationErrors();
+    if (errors) {
+        return next(errors);
+    }
 
     const workout = new Workout(req.body);
 
-    const errors = req.validationErrors();
-
-    if (errors) {
-        console.log(errors);
-    }
-    else {
-        workout.save(err => {
-            if (err) {
-                return next(err);
-            }
-            res.end();
-        })
-    }
-}
-
-export function deleteWorkout(req, res, next) {
-    Workout.findById(req.params.id).exec((err, workout) => {
+    workout.save((err, saved) => {
         if (err) {
             return next(err);
         }
-        workout.remove(() => {
-            res.end();
+        res.status(201).json(saved);
+    });
+}
+
+export function deleteWorkout(req, res, next) {
+    Workout.findById(req.params.workoutId).exec((err, workout) => {
+        if (err) {
+            return next(err);
+        }
+
+        workout.remove(err => {
+            if (err) {
+                return next(err);
+            }
+            res.status(204).end();
         });
     });
 }

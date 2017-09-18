@@ -2,7 +2,7 @@ import React from "react";
 import {shallow, mount} from "enzyme";
 import {createMockStore} from "../../../../util/testHelper";
 import moxios from "moxios";
-import {ExerciseListContainer as ExerciseListHOC, mapStateToProps} from "../../components/ExerciseListContainer";
+import {ExerciseListContainer, mapStateToProps} from "../../components/ExerciseListContainer";
 import {NAME as exercisesNAME, MOCK_EXERCISE1, MOCK_EXERCISE2, MOCK_EXERCISE3} from "../../constants";
 import * as types from "../../actionTypes";
 import createRouterContext from 'react-router-test-context';
@@ -14,12 +14,13 @@ describe("ExerciseListContainer", () => {
         user = 123;
 
     it("renders properly", () => {
-        const wrapper = shallow(<ExerciseListHOC exercises={exercises}/>),
+        const wrapper = shallow(<ExerciseListContainer exercises={exercises} user="123"/>),
             exerciseListWrapper = wrapper.find("ExerciseList"),
             exerciseCreateWidgetWrapper = wrapper.find("ExerciseCreateWidget");
 
         expect(exerciseListWrapper).toHaveLength(1);
         expect(exerciseListWrapper.props().exercises).toEqual(exercises);
+        expect(exerciseListWrapper.props().userId).toEqual("123");
         expect(exerciseCreateWidgetWrapper).toHaveLength(1);
         expect(typeof exerciseCreateWidgetWrapper.props().addExercise).toEqual("function");
     });
@@ -61,8 +62,8 @@ describe("ExerciseListContainer", () => {
             let action;
 
             const {store, context, childContextTypes} =
-                setUpAsyncWrapperWithRouter(`${user}/exercises`, [MOCK_EXERCISE1, MOCK_EXERCISE3]),
-                spy = jest.spyOn(ExerciseListHOC.prototype, "componentDidMount"),
+                setUpAsyncWrapperWithRouter(`users/${user}/exercises`, [MOCK_EXERCISE1, MOCK_EXERCISE3]),
+                spy = jest.spyOn(ExerciseListContainer.prototype, "componentDidMount"),
                 props = {
                     exercises,
                     user,
@@ -70,7 +71,7 @@ describe("ExerciseListContainer", () => {
                         action = arg;
                     }
                 },
-                wrapper = mount(<ExerciseListHOC {...props}/>, {context, childContextTypes});
+                wrapper = mount(<ExerciseListContainer {...props}/>, {context, childContextTypes});
 
             expect(spy).toHaveBeenCalled();
 
@@ -82,14 +83,14 @@ describe("ExerciseListContainer", () => {
         it("handleClick dispatches action with type ADD", () => {
             let action;
 
-            const {store, context, childContextTypes} = setUpAsyncWrapperWithRouter(`${user}/exercises`, MOCK_EXERCISE2),
+            const {store, context, childContextTypes} = setUpAsyncWrapperWithRouter(`users/${user}/exercises`, MOCK_EXERCISE2),
                 props = {
                 user,
                 dispatch(arg) {
                     action = arg
                 }
             },
-                wrapper = shallow(<ExerciseListHOC {...props}/>, {context, childContextTypes});
+                wrapper = shallow(<ExerciseListContainer {...props}/>, {context, childContextTypes});
 
             wrapper.instance().handleClick([MOCK_EXERCISE2]);
 

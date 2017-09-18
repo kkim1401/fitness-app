@@ -19,13 +19,13 @@ export class ExerciseListContainer extends Component {
     }
 
     handleClick(exercise) {
-        this.props.dispatch(addExerciseRequest(exercise, this.props.user));
+        this.props.dispatch(addExerciseRequest(this.props.user, exercise));
     }
 
     render() {
         return (
             <div>
-                <ExerciseList exercises={this.props.exercises}/>
+                <ExerciseList exercises={this.props.exercises} userId={this.props.user}/>
                 <ExerciseCreateWidget addExercise={this.handleClick}/>
             </div>
         );

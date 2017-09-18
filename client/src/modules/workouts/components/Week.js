@@ -1,17 +1,14 @@
-import React, {Component} from "react";
-import Days from "./Day";
-import withAdd from "./AddHOC";
+import React from "react";
+import renderDays from "./Day";
+import renderComponents from "./RenderHOC";
+import renderField from "./CustomFormElement";
+import {Field, FieldArray} from "redux-form";
 
-export const Week = ({number, inputRef}) => {
-    return (
-        <div>
-            <label>
-                Week: <input type="number" name="week" value={number} ref={inputRef} readOnly/>
-            </label>
-            <Days className="days" inputRef={inputRef}/>
-        </div>
-    )
-};
+export const Week = ({node, index}) => (
+    <div>
+        <Field name={`${node}.week`} elem="input" type="number" component={renderField} label="Week"/>
+        <FieldArray name={`${node}.days`} component={renderDays}/>
+    </div>
+);
 
-export default withAdd(Week);
-
+export default renderComponents(Week, "Add Week", "Delete Week");

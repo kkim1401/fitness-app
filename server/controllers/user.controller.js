@@ -2,25 +2,25 @@ import User from "../models/user";
 import Workout from "../models/workout";
 
 export function getUser(req, res, next) {
-    User.findById(req.params.id)
+    User.findById(req.params.userId)
         .populate("workouts")
         .populate("exercises")
         .exec((err, result) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
-        res.send(result);
+        res.json(result);
     });
 }
 
 export function addUser(req, res, next) {
     req.checkBody("name", "Name is required").notEmpty();
 
-    req.sanitize("gender").escape();
-    req.sanitize("age").escape();
-    req.sanitize("squat").escape();
-    req.sanitize("bench").escape();
-    req.sanitize("deadlift").escape();
+    const errors = req.validationErrors();
+    if (errors) {
+        return next(errors);
+    }
 
     const user = new User({
         name: req.body.name,
@@ -33,33 +33,19 @@ export function addUser(req, res, next) {
         }
     });
 
-    const errors = req.validationErrors();
-    if (errors) {
-        return next(errors);
-    }
-
     user.save((err, saved) => {
         if (err) {
             return next(err);
         }
-        res.send(saved);
+        res.status(201).json(saved);
     });
 
 }
 
 export function updateUser(req, res, next) {
-    const arrayOfTraits = Object.keys(req.body);
-    arrayOfTraits.forEach(trait => {
-        req.sanitize(trait).escape();
-    });
-
-    const errors = req.validationErrors();
-    if (errors) {
-        return console.log(errors);
-    }
-
-    User.findById(req.params.id).exec((err, user) => {
+    User.findById(req.params.userId).exec((err, user) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
 
@@ -75,18 +61,23 @@ export function updateUser(req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.send(saved);
+            res.json(saved);
         });
     });
 }
 
 export function deleteUser(req, res, next) {
-    User.findById(req.params.id).exec((err, user) => {
+    User.findById(req.params.userId).exec((err, user) => {
         if (err) {
+            err.status = 404;
             return next(err);
         }
-        user.remove(() => {
-            res.end();
+
+        user.remove(err => {
+            if (err) {
+                return next(err);
+            }
+            res.status(204).end();
         });
     });
 }

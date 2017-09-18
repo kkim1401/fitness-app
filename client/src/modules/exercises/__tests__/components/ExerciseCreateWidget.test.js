@@ -14,8 +14,8 @@ describe("ExerciseCreateWidget component", () => {
     });
 
     it("passes input values to addExercise if they are available", () => {
-        const addExercise = jest.fn(),
-            wrapper = mount(<ExerciseCreateWidget addExercise={addExercise}/>);
+        const addExercise = jest.fn();
+        const wrapper = mount(<ExerciseCreateWidget addExercise={addExercise}/>);
 
         wrapper.find("input").get(0).value = "test1";
         wrapper.find("input").get(1).value = "test2";
@@ -24,8 +24,8 @@ describe("ExerciseCreateWidget component", () => {
     });
 
     it("denies access to addExercise if input values are blank", () => {
-        const addExercise = jest.fn(),
-            wrapper = mount(<ExerciseCreateWidget addExercise={addExercise}/>);
+        const addExercise = jest.fn();
+        const wrapper = mount(<ExerciseCreateWidget addExercise={addExercise}/>);
 
         wrapper.find("button").simulate("click");
         expect(wrapper.prop("addExercise").mock.calls.length).toBe(0);

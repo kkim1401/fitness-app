@@ -1,9 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-const Exercise = ({exercise}) => (
+const Exercise = ({exercise, userId}) => (
     <li>
-        <Link to={`/exercises/${exercise._id}`}>{exercise.name}</Link>
+        <Link to={`/${userId}/exercises/${exercise._id}`}>{exercise.name}</Link>
     </li>
 );
 

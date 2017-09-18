@@ -5,12 +5,14 @@ import {NAME as exercisesNAME, MOCK_EXERCISE1, MOCK_EXERCISE2} from "../../const
 
 describe("ExerciseList component", () => {
     it ("renders correctly", () => {
-        const wrapper = shallow(<ExerciseList exercises={[MOCK_EXERCISE1, MOCK_EXERCISE2]}/>),
+        const wrapper = shallow(<ExerciseList exercises={[MOCK_EXERCISE1, MOCK_EXERCISE2]} userId="123"/>),
             exerciseWrapper = wrapper.find("Exercise");
 
         expect(wrapper.find("ul")).toHaveLength(1);
         expect(exerciseWrapper).toHaveLength(2);
         expect(exerciseWrapper.at(0).props().exercise).toEqual(MOCK_EXERCISE1);
+        expect(exerciseWrapper.at(0).props().userId).toEqual("123");
         expect(exerciseWrapper.at(1).props().exercise).toEqual(MOCK_EXERCISE2);
+        expect(exerciseWrapper.at(1).props().userId).toEqual("123");
     });
 });

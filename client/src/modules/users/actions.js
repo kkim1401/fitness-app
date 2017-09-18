@@ -1,4 +1,4 @@
-import {get, post, remove} from "../../util/apiCaller";
+import {call} from "../../util/apiCaller";
 import * as u from "./actionTypes";
 
 export const addUser = user => ({
@@ -11,18 +11,18 @@ export const deleteUser = () => ({
 });
 
 export const fetchUser = id =>
-    dispatch => get(`users/${id}`)
+    dispatch => call("get", `users/${id}`)
         .then(({data}) => dispatch(addUser(data)));
 
 export const updateUserDetails = (id, user) =>
-    dispatch => post(`users/update/${id}`, user)
+    dispatch => call("patch", `users/${id}`, user)
         .then(({data}) => dispatch(addUser(data)));
 
 export const addUserRequest = user =>
-    dispatch => post(`users`, user)
+    dispatch => call("post", "users", user)
         .then(({data}) => dispatch(addUser(data)));
 
 export const deleteUserRequest = id =>
-    dispatch => remove(`users/${id}`)
+    dispatch => call("delete", `users/${id}`)
         .then(() => dispatch(deleteUser()));
 

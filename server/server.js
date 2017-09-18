@@ -2,6 +2,7 @@ import Express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import expressValidator from "express-validator";
+import expressSanitized from "express-sanitize-escape";
 import serverConfig from "./config";
 import workout from "./routes/workout.route";
 import exercise from "./routes/exercise.route";
@@ -18,29 +19,27 @@ mongoose.connect(serverConfig.mongoURL, err => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(expressValidator());
+app.use(expressSanitized.middleware());
 
 app.use("/api", [exercise, workout, user]);
 
 app.use((req, res, next) => {
-    const err = new Error("Not found");
+    const err = new Error("Page not found");
     err.status = 404;
     next(err);
-
 });
 
 app.use((err, req, res, next) => {
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.send(err.status + " error");
+    console.log(err);
+    next(err);
 });
 
-app.listen(serverConfig.port, err => {
-    if (err) {
-        return console.error(err);
-    }
+app.use((err, req, res, next) => {
+    //If err is an array, it is the result of validating req body with express-validator.
+    res.sendStatus(Array.isArray(err) ? 400 : err.status || 500);
+});
+
+app.listen(serverConfig.port, () => {
     console.log(`Running on port ${serverConfig.port}!`);
 });
 
