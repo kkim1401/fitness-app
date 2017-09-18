@@ -1,30 +1,29 @@
 import React from "react";
 import {mount, shallow} from "enzyme";
+import {Provider} from "react-redux";
 import {Field} from "redux-form";
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
 import moxios from "moxios";
 
-export const shallowWithStore = (node, store) => {
-    const context = {
-        store
-    };
-    return shallow(node, {context});
-};
-
-export const mountWithStore = (node, store) => {
-    const context = {
-        store
-    };
-    return mount(node, context);
-};
-
 export const createMockStore = (initialState = {}) => {
-    const middlewares = [thunk],
-        mockStore = configureMockStore(middlewares);
+    const middlewares = [thunk], mockStore = configureMockStore(middlewares);
 
     return mockStore(initialState);
 };
+
+export const shallowWithStore = (node, store, props = {}) => {
+    const context = {
+        store
+    };
+    return shallow(React.createElement(node, props), {context});
+};
+
+export const mountWithStore = (node, store, props = {}) => mount(
+    <Provider store={store}>
+        {React.createElement(node, props)}
+    </Provider>
+);
 
 export function assertActions(endpoint, response = null, action, actionParam, expected) {
     moxios.stubRequest(`/api/${endpoint}`, {
@@ -38,19 +37,10 @@ export function assertActions(endpoint, response = null, action, actionParam, ex
     });
 }
 
-export function assertInputs(wrapper, index, title, type, name) {
-    const input = wrapper.find("input").at(index),
-        props = input.props();
-
-    expect(props.type).toBe(type);
-    expect(props.name).toBe(name);
-    expect(input.parent().type()).toBe("label");
-    expect(input.parent().childAt(0).text()).toBe(title);
-}
-
 export function assertFields(wrapper, index, name, elem, label, type = false, diveComponent = false) {
-    const nameField = diveComponent ? wrapper.find(diveComponent).at(index).dive() : wrapper.find(Field).at(index),
-        props = nameField.props();
+    const nameField = diveComponent ?
+        wrapper.find(diveComponent).at(index).dive() : wrapper.find(Field).at(index);
+    const props = nameField.props();
 
     expect(props.name).toBe(name);
     expect(typeof props.component).toBe("function");
@@ -60,8 +50,8 @@ export function assertFields(wrapper, index, name, elem, label, type = false, di
 }
 
 export function assertFieldArrays(wrapper, index, name) {
-    const FieldArray = wrapper.find("FieldArray").at(index),
-        props = FieldArray.props();
+    const FieldArray = wrapper.find("FieldArray").at(index);
+    const props = FieldArray.props();
 
     expect(FieldArray.exists()).toBe(true);
     expect(props.name).toBe(name);

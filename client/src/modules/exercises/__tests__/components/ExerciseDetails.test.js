@@ -35,13 +35,15 @@ describe("ExerciseDetails container", () => {
             response: MOCK_EXERCISE1
         });
 
-        const store = createMockStore(),
-            ExerciseDetailsContainer = connect(undefined, mapDispatchToProps)(ExerciseDetails),
-            pushMock = jest.fn(),
-            //match and history props are for router
-            component = shallowWithStore(
-            <ExerciseDetailsContainer match={{params:{id: MOCK_EXERCISE1._id, user: 111}}}
-                                      history={{push(args) {pushMock(args)}}}/>, store);
+        const store = createMockStore();
+        const ExerciseDetailsContainer = connect(undefined, mapDispatchToProps)(ExerciseDetails);
+        const pushMock = jest.fn();
+        const props = {
+            match: {params:{id: MOCK_EXERCISE1._id, user: 111}},
+            history: {push(args) {pushMock(args)}}
+        };
+        //match and history props are for router
+        const component = shallowWithStore(ExerciseDetailsContainer, store, props);
 
         expect.assertions(2);
         await component.props().deleteExercise();

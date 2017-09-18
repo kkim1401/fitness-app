@@ -1,13 +1,11 @@
 import React from "react";
-import {mount} from "enzyme";
-import {Provider} from "react-redux";
-import {assertFields, assertFieldArrays, createMockStore} from "../../../../util/testHelper";
+import {assertFields, assertFieldArrays, createMockStore, mountWithStore} from "../../../../util/testHelper";
 import WorkoutCreationForm from "../../components/WorkoutCreationForm";
 import e from "../../../exercises";
 
 describe("WorkoutCreationForm component", () => {
-    const store = createMockStore({[e.constants.NAME]: [e.constants.MOCK_EXERCISE1]}),
-        wrapper = mount(<Provider store={store}><WorkoutCreationForm/></Provider>);
+    const store = createMockStore({[e.constants.NAME]: [e.constants.MOCK_EXERCISE1]});
+    const wrapper = mountWithStore(WorkoutCreationForm, store);
 
     it("should render successfully", () => {
         expect(wrapper.exists()).toBe(true);
