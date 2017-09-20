@@ -1,21 +1,36 @@
 import {call} from "../../util/apiCaller";
-import {v4} from "uuid";
 import * as u from "./actionTypes";
 
-export const addWorkout = workout => ({
-    type: u.ADD,
-    workout
-});
+export const fetchWorkout = (user, id) => (dispatch, getState) => {
+    dispatch({type: u.FETCH_WORKOUT_REQUEST});
 
-export const deleteWorkout = () => ({
-    type: u.DELETE
-});
+    return call("get", `workouts/${id}`).then(
+            ({data}) =>
+                dispatch({
+                    type: u.FETCH_WORKOUT_SUCCESS,
+                    workout: data
+                }),
+            error =>
+                dispatch({
+                    type: u.FETCH_WORKOUT_FAILURE,
+                    error
+            })
+    );
+};
 
-export const fetchWorkout = (user, id) =>
-    dispatch => call("get", `users/${user}/workouts/${id}`)
-        .then(({data}) => dispatch(addWorkout(data)));
+export const postWorkout = (user, id, workout) => dispatch => {
+    dispatch({type: u.POST_WORKOUT_REQUEST});
 
-export const createComponent = () => ({
-    type: u.CREATE_COMPONENT,
-    id: v4()
-});
+    return call("post", `users/${user}/workouts`, workout).then(
+        ({data}) =>
+            dispatch({
+                type: u.POST_WORKOUT_SUCCESS,
+                workout: data
+            }),
+        error =>
+            dispatch({
+                type: u.POST_WORKOUT_FAILURE,
+                error
+        })
+    );
+};

@@ -33,7 +33,7 @@ export function assertActions(endpoint, response = null, action, actionParam, ex
 
     const store = createMockStore();
     return store.dispatch(action(...actionParam)).then(() => {
-        expect(store.getActions()).toEqual([expected]);
+        expect(store.getActions()).toEqual(expected);
     });
 }
 

@@ -7,19 +7,21 @@ const workoutSchema = new Schema({
         required: true
     },
     description: String,
-    schedule: [{
-        week: Number,
-        days: [{
-            day: Number,
-            exerciseList: [{
-                exercise: {type: Schema.ObjectId, ref: "Exercise"},
-                order: Number,
-                setNumber: Number,
-                reps: Number,
-                weight: Number
+    schedule: {
+        weeks: {
+            week: Number,
+            days: [{
+                day: Number,
+                exerciseList: [{
+                    exercise: {type: Schema.ObjectId, ref: "Exercise"},
+                    order: Number,
+                    setNumber: Number,
+                    reps: Number,
+                    weight: Number
+                }]
             }]
-        }]
-    }]
+        }
+    }
 });
 
 export default mongoose.model("Workout", workoutSchema);

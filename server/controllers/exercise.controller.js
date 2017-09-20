@@ -2,11 +2,10 @@ import Exercise from "../models/exercise";
 import User from "../models/user";
 
 export function getExercises(req, res, next) {
-    User.findById(req.params.userId)
+    req.doc
         .populate("exercises")
         .exec((err, userInstance) => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
         res.json(userInstance.exercises);

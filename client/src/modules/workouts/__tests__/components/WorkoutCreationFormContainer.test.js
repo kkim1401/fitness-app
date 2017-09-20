@@ -1,5 +1,4 @@
 import React from "react";
-import {shallow} from "enzyme";
 import {shallowWithStore, createMockStore} from "../../../../util/testHelper";
 import {WorkoutCreationFormContainer} from "../../components/WorkoutCreationFormContainer";
 

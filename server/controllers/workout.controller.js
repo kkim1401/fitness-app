@@ -1,26 +1,27 @@
 import Workout from "../models/workout";
-import Exercise from "../models/exercise";
-import User from "../models/user";
+import mongoose from "mongoose";
+
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 export function getWorkouts(req, res, next) {
-    Workout.find().sort({name: 1}).exec((err, result) => {
+    req.doc
+        .deepPopulate("workouts.schedule.weeks.days.exerciseList.exercise")
+        .exec((err, user) => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
-        res.json(result);
+        res.json(user.workouts);
     });
 }
 
 export function getWorkout(req, res, next) {
-    Workout.findById(req.params.workoutId)
-        .populate("schedule.days.exerciseList.exercise")
-        .exec((err, result) => {
+    req.doc
+        .deepPopulate("schedule.weeks.days.exerciseList.exercise")
+        .exec((err, workout) => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
-        res.json(result);
+        res.json(workout);
     });
 }
 
@@ -34,26 +35,30 @@ export function addWorkout(req, res, next) {
 
     const workout = new Workout(req.body);
 
-    workout.save((err, saved) => {
+    workout.save((err, workout) => {
         if (err) {
             return next(err);
         }
-        res.status(201).json(saved);
+
+        const user = req.doc;
+
+        user.workouts.push(workout._id);
+
+        user.save(err => {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json(workout);
+        });
     });
 }
 
 export function deleteWorkout(req, res, next) {
-    Workout.findById(req.params.workoutId).exec((err, workout) => {
+    req.doc.remove(err => {
         if (err) {
             return next(err);
         }
-
-        workout.remove(err => {
-            if (err) {
-                return next(err);
-            }
-            res.status(204).end();
-        });
+        res.status(204).end();
     });
 }
 
@@ -62,5 +67,4 @@ export function deleteWorkout(req, res, next) {
     req.checkBody("")
 
     req.sanitize("week").escape();
-    Workout.findById(req.params.id).schedule;
 }*/

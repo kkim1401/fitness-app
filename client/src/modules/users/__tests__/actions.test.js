@@ -34,7 +34,7 @@ describe("users async actions", () => {
             MOCK_USER1,
             actions.fetchUser,
             [id],
-            {type: types.ADD, user: MOCK_USER1}
+            [{type: types.ADD, user: MOCK_USER1}]
         );
     });
 
@@ -44,7 +44,7 @@ describe("users async actions", () => {
             MOCK_USER2,
             actions.updateUserDetails,
             [id, MOCK_USER2],
-            {type: types.ADD, user: MOCK_USER2}
+            [{type: types.ADD, user: MOCK_USER2}]
         );
     });
 
@@ -54,7 +54,7 @@ describe("users async actions", () => {
             MOCK_USER1,
             actions.addUserRequest,
             [MOCK_USER1],
-            {type: types.ADD, user: MOCK_USER1}
+            [{type: types.ADD, user: MOCK_USER1}]
         );
     });
 
@@ -64,7 +64,7 @@ describe("users async actions", () => {
             undefined,
             actions.deleteUserRequest,
             [],
-            {type: types.DELETE}
+            [{type: types.DELETE}]
         );
     });
 });

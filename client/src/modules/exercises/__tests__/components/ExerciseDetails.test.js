@@ -30,7 +30,7 @@ describe("ExerciseDetails container", () => {
 
     it("dispatch in deleteExercise from mapDispatchToProps works", async () => {
         moxios.install();
-        moxios.stubRequest(`/api/users/111/exercises/${MOCK_EXERCISE1._id}`, {
+        moxios.stubRequest(`/api/exercises/${MOCK_EXERCISE1._id}`, {
             status: 200,
             response: MOCK_EXERCISE1
         });
