@@ -8,14 +8,16 @@ import User from "../models/user";
 const router = Router();
 expressSanitized.sanitizeParams(router, "id");
 
-//lookUp searches for params.id of the passed-in Model;
+router.use("/users/:id/workouts", lookUp(User));
+router.use("/workouts/:id", lookUp(Workout));
+
 router.route("/users/:id/workouts")
-    .get(lookUp(User), getWorkouts)
-    .post(lookUp(User), addWorkout);
+    .get(getWorkouts)
+    .post(addWorkout);
 
 router.route("/workouts/:id")
-    .get(lookUp(Workout), getWorkout)
-    .delete(lookUp(Workout), deleteWorkout);
+    .get(getWorkout)
+    .delete(deleteWorkout);
 
 export default router;
 

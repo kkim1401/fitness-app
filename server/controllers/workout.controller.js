@@ -1,7 +1,4 @@
 import Workout from "../models/workout";
-import mongoose from "mongoose";
-
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
 
 export function getWorkouts(req, res, next) {
     req.doc
@@ -40,6 +37,7 @@ export function addWorkout(req, res, next) {
             return next(err);
         }
 
+        //Need to update specified user with workout
         const user = req.doc;
 
         user.workouts.push(workout._id);
@@ -61,10 +59,3 @@ export function deleteWorkout(req, res, next) {
         res.status(204).end();
     });
 }
-
-/*export function updateSchedule(req, res, next) {
-    req.checkBody("week", "Number of weeks is required").notEmpty();
-    req.checkBody("")
-
-    req.sanitize("week").escape();
-}*/

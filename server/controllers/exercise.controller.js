@@ -1,29 +1,18 @@
 import Exercise from "../models/exercise";
-import User from "../models/user";
 
 export function getExercises(req, res, next) {
     req.doc
         .populate("exercises")
-        .exec((err, userInstance) => {
+        .exec((err, user) => {
         if (err) {
             return next(err);
         }
-        res.json(userInstance.exercises);
+        res.json(user.exercises);
     });
 }
 
 export function getExercise(req, res, next) {
-    const targetId = req.params.exerciseId;
-
-    User.findById(req.params.userId)
-        .populate({path: "exercises", match: {_id: targetId}})
-        .exec((err, userInstance) => {
-        if (err) {
-            err.status = 404;
-            return next(err);
-        }
-        res.json(userInstance.exercises[0]);
-    });
+    res.json(req.doc);
 }
 
 export function addExercise(req, res, next) {
@@ -34,49 +23,34 @@ export function addExercise(req, res, next) {
         return next(errors);
     }
 
-    User.findById(req.params.userId).exec((err, userInstance) => {
+    const user = req.doc;
+
+    const exercise = new Exercise({
+        name: req.body.name,
+        description: req.body.description,
+    });
+
+    exercise.save((err, exerciseInstance) => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
 
-        const exercise = new Exercise({
-            name: req.body.name,
-            description: req.body.description,
-        });
+        user.exercises.push(exerciseInstance._id);
 
-        exercise.save((err, exerciseInstance) => {
+        user.save(err => {
             if (err) {
                 return next(err);
             }
-
-            userInstance.exercises.push(exerciseInstance._id);
-            userInstance.save(err => {
-                if (err) {
-                    return next(err);
-                }
-                res.status(201).json(exerciseInstance);
-            });
+            res.status(201).json(exerciseInstance);
         });
     });
 }
 
 export function deleteExercise(req, res, next) {
-    const targetId = req.params.exerciseId;
-
-    User.findById(req.params.userId)
-        .exec((err, userInstance) => {
+    req.doc.remove(err => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
-
-        userInstance.exercises = userInstance.exercises.filter(exerciseId => exerciseId != targetId);
-        userInstance.save(err => {
-            if (err) {
-                return next(err);
-            }
-            res.status(204).end();
-        });
+        res.status(204).end();
     });
 }

@@ -6,5 +6,16 @@ const exerciseSchema = new Schema({
     description: {type: String}
 });
 
+//Middleware to remove dependencies. I really should have used a relational database.
+exerciseSchema.pre("remove", (next) => {
+    const exercise = this;
+    exercise.model("Workout").update(
+        {"schedule.weeks.days.exerciseList.exercise": exercise._id},
+        {$pull: {"schedule.weeks.days.exerciseList.exercise": exercise._id}},
+        {multi: true},
+        next
+    );
+});
+
 export default mongoose.model("Exercise", exerciseSchema);
 

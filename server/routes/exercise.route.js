@@ -8,8 +8,11 @@ import {getExercises, getExercise, addExercise, deleteExercise} from "../control
 const router = Router();
 expressSanitized.sanitizeParams(router, "id");
 
+router.use("/users/:id/exercises", lookUp(User));
+router.use("/exercises/:id", lookUp(Exercise));
+
 router.route("/users/:id/exercises")
-    .get(lookUp(User), getExercises)
+    .get(getExercises)
     .post(addExercise);
 
 router.route("/exercises/:id")
