@@ -6,7 +6,7 @@ import Workout from "../models/workout";
 import User from "../models/user";
 
 const router = Router();
-expressSanitized.sanitizeParams(router, "id");
+expressSanitized.sanitizeParams(router, ["id"]);
 
 router.use("/users/:id/workouts", lookUp(User));
 router.use("/workouts/:id", lookUp(Workout));

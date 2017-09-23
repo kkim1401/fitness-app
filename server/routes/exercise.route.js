@@ -6,7 +6,7 @@ import User from "../models/user";
 import {getExercises, getExercise, addExercise, deleteExercise} from "../controllers/exercise.controller";
 
 const router = Router();
-expressSanitized.sanitizeParams(router, "id");
+expressSanitized.sanitizeParams(router, ["id"]);
 
 router.use("/users/:id/exercises", lookUp(User));
 router.use("/exercises/:id", lookUp(Exercise));
