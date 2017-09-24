@@ -7,7 +7,6 @@ import lookUp from "../middlewares/lookUp";
 const router = Router();
 expressSanitized.sanitizeParams(router, ["id"]);
 
-//Middleware to remove dependencies.
 router.use("/users/:id", lookUp(User));
 
 router.route("/users")

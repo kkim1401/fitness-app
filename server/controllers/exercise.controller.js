@@ -1,17 +1,14 @@
 import Exercise from "../models/exercise";
+import User from "../models/user";
 
-export function getExercises(req, res, next) {
-    req.doc
-        .populate("exercises")
-        .exec((err, user) => {
-        if (err) {
-            return next(err);
-        }
+export function getExercises(req, res) {
+    User.populate(req.doc, {path: "exercises"},
+        (err, user) => {
         res.json(user.exercises);
     });
 }
 
-export function getExercise(req, res, next) {
+export function getExercise(req, res) {
     res.json(req.doc);
 }
 

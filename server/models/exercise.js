@@ -7,11 +7,19 @@ const exerciseSchema = new Schema({
 });
 
 //Middleware to remove dependencies. I really should have used a relational database.
-exerciseSchema.pre("remove", (next) => {
+exerciseSchema.pre("remove", function(next) {
     const exercise = this;
+
     exercise.model("Workout").update(
         {"schedule.weeks.days.exerciseList.exercise": exercise._id},
         {$pull: {"schedule.weeks.days.exerciseList.exercise": exercise._id}},
+        {multi: true},
+        next
+    );
+
+    exercise.model("User").update(
+        {exercises: exercise._id},
+        {$pull: {exercises: exercise._id}},
         {multi: true},
         next
     );

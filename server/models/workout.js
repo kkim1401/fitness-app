@@ -30,7 +30,7 @@ const workoutSchema = new Schema({
 workoutSchema.plugin(deepPopulate(mongoose));
 
 //Middleware to remove dependencies
-workoutSchema.pre("remove", (next) => {
+workoutSchema.pre("remove", function(next) {
     const workout = this;
     //Searches for all users with workout to be removed and deletes that workout from their Workout array.
     workout.model("User").update(
