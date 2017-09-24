@@ -1,5 +1,4 @@
 import User from "../models/user";
-import merge from "merge";
 
 export function getUser(req, res) {
     User.populate(req.doc, [{path: "workouts"}, {path: "exercises"}],
@@ -24,16 +23,23 @@ export function addUser(req, res, next) {
         }
         res.status(201).json(user);
     });
-
 }
 
 export function updateUser(req, res, next) {
-    const originalUser = req.doc;
-    const userFromReqBody = req.body;
+    const user = req.doc;
+    const updatedTraits = req.body;
+    const arrayOfTraits = Object.keys(updatedTraits);
 
-    const newUser = merge.recursive(true, originalUser, userFromReqBody);
+    arrayOfTraits.forEach(trait => {
+        if (trait === "squat" || trait === "bench" || trait === "deadlift") {
+            user.maxes[trait] = updatedTraits[trait];
+        }
+        else {
+            user[trait] = updatedTraits[trait];
+        }
+    });
 
-    newUser.save((err, user) => {
+    user.save((err, user) => {
         if (err) {
             return next(err);
         }
