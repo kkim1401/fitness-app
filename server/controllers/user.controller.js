@@ -1,14 +1,9 @@
 import User from "../models/user";
 import merge from "merge";
 
-export function getUser(req, res, next) {
-    req.doc
-        .populate("workouts")
-        .populate("exercises")
-        .exec((err, user) => {
-        if (err) {
-            return next(err);
-        }
+export function getUser(req, res) {
+    User.populate(req.doc, [{path: "workouts"}, {path: "exercises"}],
+        (err, user) => {
         res.json(user);
     });
 }
@@ -23,11 +18,11 @@ export function addUser(req, res, next) {
 
     const user = new User(req.body);
 
-    user.save((err, saved) => {
+    user.save((err, user) => {
         if (err) {
             return next(err);
         }
-        res.status(201).json(saved);
+        res.status(201).json(user);
     });
 
 }
@@ -38,11 +33,11 @@ export function updateUser(req, res, next) {
 
     const newUser = merge.recursive(true, originalUser, userFromReqBody);
 
-    newUser.save((err, userInstance) => {
+    newUser.save((err, user) => {
         if (err) {
             return next(err);
         }
-        res.json(userInstance);
+        res.json(user);
     });
 }
 
