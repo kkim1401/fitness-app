@@ -10,7 +10,7 @@ const workoutSchema = new Schema({
     },
     description: String,
     schedule: {
-        weeks: {
+        weeks: [{
             week: Number,
             days: [{
                 day: Number,
@@ -22,7 +22,7 @@ const workoutSchema = new Schema({
                     weight: Number
                 }]
             }]
-        }
+        }]
     }
 });
 

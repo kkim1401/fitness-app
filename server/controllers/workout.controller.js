@@ -1,25 +1,20 @@
 import Workout from "../models/workout";
+import User from "../models/user";
 
-export function getWorkouts(req, res, next) {
+export function getWorkouts(req, res) {
     req.doc
-        .deepPopulate("workouts.schedule.weeks.days.exerciseList.exercise")
-        .exec((err, user) => {
-        if (err) {
-            return next(err);
-        }
-        res.json(user.workouts);
-    });
+        .deepPopulate("workouts.schedule.weeks.days.exerciseList.exercise",
+            (err, user) => {
+            res.json(user.workouts);
+        });
 }
 
-export function getWorkout(req, res, next) {
+export function getWorkout(req, res) {
     req.doc
-        .deepPopulate("schedule.weeks.days.exerciseList.exercise")
-        .exec((err, workout) => {
-        if (err) {
-            return next(err);
-        }
-        res.json(workout);
-    });
+        .deepPopulate("schedule.weeks.days.exerciseList.exercise",
+            (err, workout) => {
+            res.json(workout);
+        });
 }
 
 export function addWorkout(req, res, next) {
