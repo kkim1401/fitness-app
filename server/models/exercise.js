@@ -10,10 +10,8 @@ const exerciseSchema = new Schema({
 exerciseSchema.pre("remove", function(next) {
     const exercise = this;
 
-    exercise.model("Workout").update(
-        {"schedule.weeks.days.exerciseList.exercise": exercise._id},
-        {$pull: {"schedule.weeks.days.exerciseList.exercise": exercise._id}},
-        {multi: true},
+    exercise.model("ExerciseInstance").remove(
+        {exercise: exercise._id},
         next
     );
 

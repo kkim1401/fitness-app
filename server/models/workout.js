@@ -10,18 +10,9 @@ const workoutSchema = new Schema({
     },
     description: String,
     schedule: {
-        weeks: [{
-            week: Number,
-            days: [{
-                day: Number,
-                exerciseList: [{
-                    exercise: {type: Schema.ObjectId, ref: "Exercise"},
-                    order: Number,
-                    setNumber: Number,
-                    reps: Number,
-                    weight: Number
-                }]
-            }]
+        days: [{
+            day: Number,
+            exerciseList: [{type: Schema.ObjectId, ref: "ExerciseInstance"}]
         }]
     }
 });

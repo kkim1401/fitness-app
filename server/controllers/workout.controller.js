@@ -3,7 +3,7 @@ import User from "../models/user";
 
 export function getWorkouts(req, res) {
     req.doc
-        .deepPopulate("workouts.schedule.weeks.days.exerciseList.exercise",
+        .deepPopulate("workouts.schedule.days.exerciseList.exercise",
             (err, user) => {
             res.json(user.workouts);
         });
@@ -11,7 +11,7 @@ export function getWorkouts(req, res) {
 
 export function getWorkout(req, res) {
     req.doc
-        .deepPopulate("schedule.weeks.days.exerciseList.exercise",
+        .deepPopulate("schedule.days.exerciseList.exercise",
             (err, workout) => {
             res.json(workout);
         });

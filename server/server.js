@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import expressValidator from "express-validator";
 import expressSanitized from "express-sanitize-escape";
 import serverConfig from "./config";
+import ExerciseInstance from "./models/exerciseInstance";
 import workout from "./routes/workout.route";
 import exercise from "./routes/exercise.route";
 import user from "./routes/user.route";
