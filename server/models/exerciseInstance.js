@@ -13,4 +13,3 @@ const exerciseInstanceSchema = new Schema({
 export default mongoose.model("ExerciseInstance", exerciseInstanceSchema);
 
 
-

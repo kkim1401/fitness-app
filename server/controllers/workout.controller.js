@@ -1,4 +1,5 @@
 import Workout from "../models/workout";
+import ExerciseInstance from "../models/exerciseInstance";
 import User from "../models/user";
 
 export function getWorkouts(req, res) {
@@ -23,6 +24,17 @@ export function addWorkout(req, res, next) {
     const errors = req.validationErrors();
     if (errors) {
         return next(errors);
+    }
+
+    const workoutFromReq = req.body;
+
+    async function makeNewSchedule() {
+        const newSchedule = workoutFromReq.schedule.days.reduce((schedule, day) => {
+            const newList = day.exerciseList.reduce((exerciseList, exerciseListElem) => {
+                const exerciseInstance = new ExerciseInstance(exerciseListElem);
+                const exercise = await exerciseInstance.save();
+            }, []);
+        }, {days: []});
     }
 
     const workout = new Workout(req.body);
