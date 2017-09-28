@@ -28,34 +28,55 @@ export function addWorkout(req, res, next) {
 
     const workoutFromReq = req.body;
 
-    async function makeNewSchedule() {
-        const newSchedule = workoutFromReq.schedule.days.reduce((schedule, day) => {
-            const newList = day.exerciseList.reduce((exerciseList, exerciseListElem) => {
-                const exerciseInstance = new ExerciseInstance(exerciseListElem);
-                const exercise = await exerciseInstance.save();
-            }, []);
-        }, {days: []});
-    }
+    const newDays = workoutFromReq.schedule.days.map(async ({exerciseList, day}) => {
 
-    const workout = new Workout(req.body);
+        //Maps out an array of exerciseInstances as promises for a particular day.
+        const listById = exerciseList.map(exerciseListElem => {
+            const exerciseInstance = new ExerciseInstance(exerciseListElem);
+            return exerciseInstance.save((err, ex) => {
+                if (err) {
+                    return err;
+                }
+                else {
+                    return ex._id;
+                }
+            });
+        });
 
-    workout.save((err, workout) => {
-        if (err) {
-            return next(err);
-        }
+        //Once all the promises have been resolved,
+        return Promise.all(listById).then(newList => {
+            return {day, exerciseList: newList}
+        });
+    });
 
-        //Need to update specified user with workout
-        const user = req.doc;
+    Promise.all(newDays).then(days => {
+        console.log(days);
+        const workout = new Workout({
+            name: workoutFromReq.name,
+            description: workoutFromReq.description,
+            schedule: {days}
+        });
 
-        user.workouts.push(workout._id);
-
-        user.save(err => {
+        workout.save((err, workout) => {
             if (err) {
                 return next(err);
             }
-            res.status(201).json(workout);
+
+            //Need to update specified user with workout
+            const user = req.doc;
+
+            user.workouts.push(workout._id);
+
+            user.save(err => {
+                if (err) {
+                    return next(err);
+                }
+                res.status(201).json(workout);
+            });
         });
     });
+
+
 }
 
 export function deleteWorkout(req, res, next) {
