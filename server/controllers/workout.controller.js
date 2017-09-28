@@ -28,11 +28,16 @@ export function addWorkout(req, res, next) {
 
     const workoutFromReq = req.body;
 
-    const newDays = workoutFromReq.schedule.days.map(async ({exerciseList, day}) => {
+    /* Need to save all exerciseInstances in workout to database and
+     replace days' arrays of exerciseInstances with arrays of exerciseInstances' _id,
+     before saving the workout. */
+    const newDays = workoutFromReq.schedule.days.map(({exerciseList, day}) => {
 
-        //Maps out an array of exerciseInstances as promises for a particular day.
-        const listById = exerciseList.map(exerciseListElem => {
+        //Maps out an array of exerciseInstance promises for a particular day.
+        const exerciseListById = exerciseList.map(exerciseListElem => {
             const exerciseInstance = new ExerciseInstance(exerciseListElem);
+
+            //Each exerciseInstance promise resolve to return its _id.
             return exerciseInstance.save((err, ex) => {
                 if (err) {
                     return err;
@@ -43,14 +48,18 @@ export function addWorkout(req, res, next) {
             });
         });
 
-        //Once all the promises have been resolved,
-        return Promise.all(listById).then(newList => {
+        /* If/when all the promises for a day's exerciseInstances have been resolved,
+        top-level map function returns a promise that resolve to a day object with an exerciseList
+        of exerciseInstance _ids. Repeats for rest of the days in the days array. */
+        return Promise.all(exerciseListById).then(newList => {
             return {day, exerciseList: newList}
-        });
+        }).catch(err => err);
     });
 
+    /* Waits for all promises in newDays array to be resolved.
+    Then, saves workout and updates/saves user with workout _id.
+    Handles all returned errors by logging them. */
     Promise.all(newDays).then(days => {
-        console.log(days);
         const workout = new Workout({
             name: workoutFromReq.name,
             description: workoutFromReq.description,
@@ -62,7 +71,7 @@ export function addWorkout(req, res, next) {
                 return next(err);
             }
 
-            //Need to update specified user with workout
+            //Need to update specified user with workout.
             const user = req.doc;
 
             user.workouts.push(workout._id);
@@ -74,9 +83,7 @@ export function addWorkout(req, res, next) {
                 res.status(201).json(workout);
             });
         });
-    });
-
-
+    }).catch(err => console.log(err));
 }
 
 export function deleteWorkout(req, res, next) {
