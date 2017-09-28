@@ -1,27 +1,21 @@
 import Workout from "../models/workout";
-import Exercise from "../models/exercise";
+import ExerciseInstance from "../models/exerciseInstance";
 import User from "../models/user";
 
-export function getWorkouts(req, res, next) {
-    Workout.find().sort({name: 1}).exec((err, result) => {
-        if (err) {
-            err.status = 404;
-            return next(err);
-        }
-        res.json(result);
-    });
+export function getWorkouts(req, res) {
+    req.doc
+        .deepPopulate("workouts.schedule.days.exerciseList.exercise",
+            (err, user) => {
+            res.json(user.workouts);
+        });
 }
 
-export function getWorkout(req, res, next) {
-    Workout.findById(req.params.workoutId)
-        .populate("schedule.days.exerciseList.exercise")
-        .exec((err, result) => {
-        if (err) {
-            err.status = 404;
-            return next(err);
-        }
-        res.json(result);
-    });
+export function getWorkout(req, res) {
+    req.doc
+        .deepPopulate("schedule.days.exerciseList.exercise",
+            (err, workout) => {
+            res.json(workout);
+        });
 }
 
 export function addWorkout(req, res, next) {
@@ -32,35 +26,71 @@ export function addWorkout(req, res, next) {
         return next(errors);
     }
 
-    const workout = new Workout(req.body);
+    const workoutFromReq = req.body;
 
-    workout.save((err, saved) => {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json(saved);
+    /* Need to save all exerciseInstances in workout to database and
+     replace days' arrays of exerciseInstances with arrays of exerciseInstances' _id,
+     before saving the workout. */
+    const newDays = workoutFromReq.schedule.days.map(({exerciseList, day}) => {
+
+        //Maps out an array of exerciseInstance promises for a particular day.
+        const exerciseListById = exerciseList.map(exerciseListElem => {
+            const exerciseInstance = new ExerciseInstance(exerciseListElem);
+
+            //Each exerciseInstance promise resolve to return its _id.
+            return exerciseInstance.save((err, ex) => {
+                if (err) {
+                    return err;
+                }
+                else {
+                    return ex._id;
+                }
+            });
+        });
+
+        /* If/when all the promises for a day's exerciseInstances have been resolved,
+        top-level map function returns a promise that resolve to a day object with an exerciseList
+        of exerciseInstance _ids. Repeats for rest of the days in the days array. */
+        return Promise.all(exerciseListById).then(newList => {
+            return {day, exerciseList: newList}
+        }).catch(err => err);
     });
-}
 
-export function deleteWorkout(req, res, next) {
-    Workout.findById(req.params.workoutId).exec((err, workout) => {
-        if (err) {
-            return next(err);
-        }
+    /* Waits for all promises in newDays array to be resolved.
+    Then, saves workout and updates/saves user with workout _id.
+    Handles all returned errors by logging them. */
+    Promise.all(newDays).then(days => {
+        const workout = new Workout({
+            name: workoutFromReq.name,
+            description: workoutFromReq.description,
+            schedule: {days}
+        });
 
-        workout.remove(err => {
+        workout.save((err, workout) => {
             if (err) {
                 return next(err);
             }
-            res.status(204).end();
+
+            //Need to update specified user with workout.
+            const user = req.doc;
+
+            user.workouts.push(workout._id);
+
+            user.save(err => {
+                if (err) {
+                    return next(err);
+                }
+                res.status(201).json(workout);
+            });
         });
-    });
+    }).catch(err => console.log(err));
 }
 
-/*export function updateSchedule(req, res, next) {
-    req.checkBody("week", "Number of weeks is required").notEmpty();
-    req.checkBody("")
-
-    req.sanitize("week").escape();
-    Workout.findById(req.params.id).schedule;
-}*/
+export function deleteWorkout(req, res, next) {
+    req.doc.remove(err => {
+        if (err) {
+            return next(err);
+        }
+        res.status(204).end();
+    });
+}

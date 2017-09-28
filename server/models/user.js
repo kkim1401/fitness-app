@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import deepPopulate from "mongoose-deep-populate";
+
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -25,6 +27,9 @@ const userSchema = new Schema({
     workouts: [{type: Schema.ObjectId, ref: "Workout"}],
     exercises: [{type: Schema.ObjectId, ref: "Exercise"}]
 });
+
+//Access to deepPopulate
+userSchema.plugin(deepPopulate(mongoose));
 
 export default mongoose.model("User", userSchema);
 

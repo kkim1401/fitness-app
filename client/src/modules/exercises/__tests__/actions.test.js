@@ -35,11 +35,11 @@ describe("exercises async actions", () => {
 
     it("should fetch list of exercises and dispatch action with type ADD_LIST", () => {
         assertActions(
-            `${user}/exercises`,
+            `users/${user}/exercises`,
             [MOCK_EXERCISE1, MOCK_EXERCISE3],
             actions.fetchExercises,
             [user],
-            {type: types.ADD_LIST, exercises: [MOCK_EXERCISE1, MOCK_EXERCISE3]}
+            [{type: types.ADD_LIST, exercises: [MOCK_EXERCISE1, MOCK_EXERCISE3]}]
         );
     });
 
@@ -49,17 +49,17 @@ describe("exercises async actions", () => {
             MOCK_EXERCISE1,
             actions.fetchExercise,
             [MOCK_EXERCISE1._id],
-            {type: types.ADD, exercise: MOCK_EXERCISE1}
+            [{type: types.ADD, exercise: MOCK_EXERCISE1}]
         );
     });
 
     it("should post an exercise and dispatch action with type ADD", () => {
         assertActions(
-            `${user}/exercises`,
+            `users/${user}/exercises`,
             MOCK_EXERCISE1,
             actions.addExerciseRequest,
             [MOCK_EXERCISE1, user],
-            {type: types.ADD, exercise: MOCK_EXERCISE1}
+            [{type: types.ADD, exercise: MOCK_EXERCISE1}]
         );
     });
 
@@ -69,7 +69,7 @@ describe("exercises async actions", () => {
             MOCK_EXERCISE1,
             actions.deleteExerciseRequest,
             [MOCK_EXERCISE1._id],
-            {type: types.DELETE, id: MOCK_EXERCISE1._id}
+            [{type: types.DELETE, id: MOCK_EXERCISE1._id}]
         );
     });
 });

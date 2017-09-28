@@ -1,16 +1,9 @@
 import User from "../models/user";
-import Workout from "../models/workout";
 
-export function getUser(req, res, next) {
-    User.findById(req.params.userId)
-        .populate("workouts")
-        .populate("exercises")
-        .exec((err, result) => {
-        if (err) {
-            err.status = 404;
-            return next(err);
-        }
-        res.json(result);
+export function getUser(req, res) {
+    User.populate(req.doc, [{path: "workouts"}, {path: "exercises"}],
+        (err, user) => {
+        res.json(user);
     });
 }
 
@@ -22,62 +15,43 @@ export function addUser(req, res, next) {
         return next(errors);
     }
 
-    const user = new User({
-        name: req.body.name,
-        gender: req.body.gender,
-        age: req.body.age,
-        maxes: {
-            squat: req.body.squat,
-            bench: req.body.bench,
-            deadlift: req.body.deadlift
-        }
-    });
+    const user = new User(req.body);
 
-    user.save((err, saved) => {
+    user.save((err, user) => {
         if (err) {
             return next(err);
         }
-        res.status(201).json(saved);
+        res.status(201).json(user);
     });
-
 }
 
 export function updateUser(req, res, next) {
-    User.findById(req.params.userId).exec((err, user) => {
+    const user = req.doc;
+    const updatedTraits = req.body;
+    const arrayOfTraits = Object.keys(updatedTraits);
+
+    arrayOfTraits.forEach(trait => {
+        if (trait === "squat" || trait === "bench" || trait === "deadlift") {
+            user.maxes[trait] = updatedTraits[trait];
+        }
+        else {
+            user[trait] = updatedTraits[trait];
+        }
+    });
+
+    user.save((err, user) => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
-
-        arrayOfTraits.forEach(trait => {
-            if (trait === "squat" || trait === "bench" || trait === "deadlift") {
-                user.maxes[trait] = req.body[trait];
-            }
-            else {
-                user[trait] = req.body[trait];
-            }});
-
-        user.save((err, saved) => {
-            if (err) {
-                return next(err);
-            }
-            res.json(saved);
-        });
+        res.json(user);
     });
 }
 
 export function deleteUser(req, res, next) {
-    User.findById(req.params.userId).exec((err, user) => {
+    req.doc.remove(err => {
         if (err) {
-            err.status = 404;
             return next(err);
         }
-
-        user.remove(err => {
-            if (err) {
-                return next(err);
-            }
-            res.status(204).end();
-        });
+        res.status(204).end();
     });
 }

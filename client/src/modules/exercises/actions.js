@@ -20,15 +20,14 @@ export const fetchExercises = user =>
     dispatch => call("get", `users/${user}/exercises`)
         .then(({data}) => dispatch(addExercises(data)));
 
-export const fetchExercise = (user, id) =>
-    dispatch => call("get", `users/${user}/exercises/${id}`)
+export const fetchExercise = id =>
+    dispatch => call("get", `exercises/${id}`)
         .then(({data}) => dispatch(addExercise(data)));
 
 export const addExerciseRequest = (user, exercise) =>
     dispatch => call("post", `users/${user}/exercises`, exercise)
         .then(({data}) => dispatch(addExercise(data)));
 
-export const deleteExerciseRequest = (user, id) =>
-    dispatch => call("delete", `users/${user}/exercises/${id}`)
+export const deleteExerciseRequest = id =>
+    dispatch => call("delete", `exercises/${id}`)
         .then(() => dispatch(deleteExercise(id)));
-

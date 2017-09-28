@@ -10,6 +10,7 @@
     "express-validator": "^3.2.0",
     "mongoose": "^4.10.5",
     "node-uuid": "^1.4.8",
+    "normalizr": "^3.2.3",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-display-name": "^0.2.3",

@@ -19,9 +19,11 @@ export class UserInfo extends Component {
             name: this.name.value,
             gender: this.gender.value,
             age: this.age.value,
-            squat: this.squat.value,
-            bench: this.bench.value,
-            deadlift: this.deadlift.value
+            maxes: {
+                squat: this.squat.value,
+                bench: this.bench.value,
+                deadlift: this.deadlift.value
+            }
         };
         if (!name) {
             dispatch(addUserRequest(user))
