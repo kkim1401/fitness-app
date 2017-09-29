@@ -31,5 +31,25 @@ const userSchema = new Schema({
 //Access to deepPopulate
 userSchema.plugin(deepPopulate(mongoose));
 
+//Middleware to remove dependencies
+userSchema.pre("remove", function(next) {
+    const user = this;
+
+    //Removes all workouts from Workout collection that are associated with this user.
+    user.model("Workout").remove(
+        {_id: {$in: user.workouts}}
+    );
+
+    //Removes all exercises from Exercise collection that are associated with this user.
+    user.model("Exercise").remove(
+        {_id: {$in: user.exercises}}
+    );
+
+    user.model("ExerciseInstance").remove(
+
+    )
+
+});
+
 export default mongoose.model("User", userSchema);
 

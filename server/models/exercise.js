@@ -10,11 +10,12 @@ const exerciseSchema = new Schema({
 exerciseSchema.pre("remove", function(next) {
     const exercise = this;
 
+    //Removes all ExerciseInstance documents that are associated with this exercise.
     exercise.model("ExerciseInstance").remove(
-        {exercise: exercise._id},
-        next
+        {exercise: exercise._id}
     );
 
+    //Removes all instances of this exercise from the current user.
     exercise.model("User").update(
         {exercises: exercise._id},
         {$pull: {exercises: exercise._id}},
