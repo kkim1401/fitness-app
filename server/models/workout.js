@@ -20,7 +20,7 @@ const workoutSchema = new Schema({
 //Access to deepPopulate
 workoutSchema.plugin(deepPopulate(mongoose));
 
-//Middleware to remove dependencies
+//Middleware to remove dependencies. I really should have used a relational database.
 workoutSchema.pre("remove", function(next) {
     const workout = this;
 
@@ -28,19 +28,19 @@ workoutSchema.pre("remove", function(next) {
     workout.model("User").update(
         {workouts: workout._id},
         {$pull: {workouts: workout._id}},
-        {multi: true},
-        next
+        {multi: true}
     );
 
+    //Gets full exerciseList of exerciseInstance ids from workout to be removed.
     const fullExerciseList = workout.schedule.days.reduce((fullList, day) => {
-        
-
+        return [...fullList, ...day.exerciseList];
     }, []);
 
+    //Removes all exerciseInstances used in workout to be removed.
     workout.model("ExerciseInstance").remove(
-        {exercise: {$in: fullExerciseList}}
+        {exercise: {$in: fullExerciseList}},
+        next
     );
-
 });
 
 export default mongoose.model("Workout", workoutSchema);
