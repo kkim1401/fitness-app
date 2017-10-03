@@ -9,12 +9,10 @@ const workoutSchema = new Schema({
         required: true
     },
     description: String,
-    schedule: {
-        days: [{
-            day: Number,
-            exerciseList: [{type: Schema.ObjectId, ref: "ExerciseInstance"}]
-        }]
-    }
+    schedule: [{
+        day: Number,
+        exerciseList: [{type: Schema.ObjectId, ref: "ExerciseInstance"}]
+    }]
 });
 
 //Access to deepPopulate
@@ -32,7 +30,7 @@ workoutSchema.pre("remove", function(next) {
     );
 
     //Gets full exerciseList of exerciseInstance ids from workout to be removed.
-    const fullExerciseList = workout.schedule.days.reduce((fullList, day) => {
+    const fullExerciseList = workout.schedule.reduce((fullList, day) => {
         return [...fullList, ...day.exerciseList];
     }, []);
 

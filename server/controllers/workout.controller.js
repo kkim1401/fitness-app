@@ -4,7 +4,7 @@ import User from "../models/user";
 
 export function getWorkouts(req, res) {
     req.doc
-        .deepPopulate("workouts.schedule.days.exerciseList.exercise",
+        .deepPopulate("workouts.schedule.exerciseList.exercise",
             (err, user) => {
             res.json(user.workouts);
         });
@@ -12,7 +12,7 @@ export function getWorkouts(req, res) {
 
 export function getWorkout(req, res) {
     req.doc
-        .deepPopulate("schedule.days.exerciseList.exercise",
+        .deepPopulate("schedule.exerciseList.exercise",
             (err, workout) => {
             res.json(workout);
         });
@@ -31,7 +31,7 @@ export function addWorkout(req, res, next) {
     /* Need to save all exerciseInstances in workout to database and
      replace days' arrays of exerciseInstances with arrays of exerciseInstances' _id,
      before saving the workout. */
-    const newDays = workoutFromReq.schedule.days.map(({exerciseList, day}) => {
+    const newDays = workoutFromReq.schedule.map(({exerciseList, day}) => {
 
         //Maps out an array of exerciseInstance promises for a particular day.
         const exerciseListById = exerciseList.map(exerciseListElem => {
