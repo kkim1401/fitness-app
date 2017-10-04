@@ -1,13 +1,8 @@
 import request from "supertest";
-import mongoose from "mongoose";
-import {Mockgoose} from "mockgoose";
 import app from "../app";
-import User from "../models/user";
-import testData from "../testData";
+import setUpTestDb from "../setUpTestDb";
 
-const mockgoose = new Mockgoose(mongoose);
 let user;
-jest.setTimeout(12000); //Timeout needs to be increased for API requests.
 
 function assertUsers(createdUser, expectedUser) {
     expect(createdUser.name).toBe(expectedUser.name);
@@ -15,18 +10,30 @@ function assertUsers(createdUser, expectedUser) {
     expect(createdUser.maxes.squat).toBe(expectedUser.maxes.squat);
     expect(createdUser.maxes.bench).toBe(expectedUser.maxes.bench);
     expect(createdUser.maxes.deadlift).toBe(expectedUser.maxes.deadlift);
+
+    //For get requests
+    if (expectedUser.workouts) {
+        const createdWorkoutsById = createdUser.workouts.map(workout => workout._id);
+        //Need to convert ObjectIds into strings.
+        const expectedWorkoutsById = expectedUser.workouts.map(id => id.toString());
+
+        expect(createdWorkoutsById).toEqual(expectedWorkoutsById);
+    }
+
+    if (expectedUser.exercises) {
+        const createdExercisesById = createdUser.exercises.map(exercise => exercise._id);
+        const expectedWorkoutsById = expectedUser.exercises.map(id => id.toString());
+
+        expect(createdExercisesById).toEqual(expectedWorkoutsById);
+    }
 }
 
 beforeAll(() => {
-    return mockgoose.prepareStorage().then(() => {
-        mongoose.connection.on("connected", () => {
-            console.log("test db connection is open");
-        });
-        return mongoose.connect("mongodb://localhost/test");
-    }).then(testData).then(({testUser}) => {
-        user = testUser
-    });
+    return setUpTestDb()
+        .then(({testUser}) => {user = testUser})
+        .catch(() => console.log("Test db failed to initialize!"));
 });
+
 
 describe("POST /user", () => {
     const newUser = {
@@ -37,7 +44,7 @@ describe("POST /user", () => {
             squat: 365,
             bench: 255,
             deadlift: 505
-        },
+        }
     };
 
     it("returns created resource as json on success", done => {
@@ -71,7 +78,7 @@ describe("POST /user", () => {
 });
 
 describe("GET /user", () => {
-   it("returns resource from database on success", done => {
+   it("returns populated resource from database on success", done => {
        request(app)
            .get(`/api/users/${user._id}`)
            .expect(200)
@@ -83,4 +90,8 @@ describe("GET /user", () => {
            done();
            });
    });
+});
+
+describe("PATCH /user", () => {
+
 });

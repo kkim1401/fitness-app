@@ -1,9 +1,26 @@
+import mongoose from "mongoose";
+import {Mockgoose} from "mockgoose";
 import User from "./models/user";
 import Workout from "./models/workout";
 import Exercise from "./models/exercise";
 import ExerciseInstance from "./models/exerciseInstance";
 
-export default async function() {
+const mockgoose = new Mockgoose(mongoose);
+
+export default function setUpTestDb() {
+    jest.setTimeout(12000); //Timeout needs to be increased for API requests, according to Supertest API docs.
+
+    return mockgoose.prepareStorage()
+        .then(() => {
+            mongoose.connection.on("connected", () => {
+                console.log("test db connection is open");
+            });
+            return mongoose.connect("mongodb://localhost/test");
+        })
+        .then(initializeTestResources)
+}
+
+async function initializeTestResources() {
     const arrOfExercises = await Exercise.create([
         {name: "squat", description: "leg exercise"},
         {name: "bench", description: "chest exercise"}
@@ -56,6 +73,8 @@ export default async function() {
 
     return {
         testUser: user,
-        testWorkout: workout
+        testWorkout: workout,
+        testExercises: arrOfExercises,
+        testExerciseInstances: arrOfExerciseInstances
     }
 }
