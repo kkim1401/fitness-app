@@ -93,5 +93,8 @@ describe("GET /user", () => {
 });
 
 describe("PATCH /user", () => {
-
+    it("returns updated resource from database on success", done => {
+        request(app)
+            .patch(`/api/users/${user._id}`)
+    });
 });

@@ -28,16 +28,17 @@ export function addUser(req, res, next) {
 export function updateUser(req, res, next) {
     const user = req.doc;
     const updatedTraits = req.body;
-    const arrayOfTraits = Object.keys(updatedTraits);
 
-    arrayOfTraits.forEach(trait => {
-        if (trait === "squat" || trait === "bench" || trait === "deadlift") {
-            user.maxes[trait] = updatedTraits[trait];
+    for (const trait in updatedTraits) {
+        if (updatedTraits.hasOwnProperty(trait)) {
+            if (trait === "squat" || "bench" || "deadlift") {
+                user.maxes[trait] = updatedTraits[trait]
+            }
+            else {
+                user[trait] = updatedTraits[trait];
+            }
         }
-        else {
-            user[trait] = updatedTraits[trait];
-        }
-    });
+    }
 
     user.save((err, user) => {
         if (err) {
