@@ -26,7 +26,7 @@ async function initializeTestResources() {
         {name: "bench", description: "chest exercise"}
     ]);
 
-    const arrOfExerciseInstances = await ExerciseInstance.create([
+    await ExerciseInstance.create([
         {
             exercise: arrOfExercises[0]._id,
             order: 1,
@@ -43,7 +43,10 @@ async function initializeTestResources() {
         }
     ]);
 
-    const workout = await Workout.create({
+    //Lean returns javascript object instead of mongoose document. Makes merging a lot easier.
+    const arrOfExerciseInstances = await ExerciseInstance.find({}).lean();
+
+    await Workout.create({
         name: "Test workout",
         description: "Test description",
         schedule: [
@@ -58,7 +61,9 @@ async function initializeTestResources() {
         ]
     });
 
-    const user = await User.create({
+    const workout = await Workout.findOne({}).lean();
+
+    await User.create({
         name: "Nick",
         gender: "male",
         age: 25,
@@ -70,6 +75,8 @@ async function initializeTestResources() {
         workouts: [workout._id],
         exercises: [arrOfExercises[0]._id, arrOfExercises[1]._id]
     });
+
+    const user = await User.findOne({}).lean();
 
     return {
         testUser: user,

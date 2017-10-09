@@ -31,8 +31,8 @@ export function updateUser(req, res, next) {
 
     for (const trait in updatedTraits) {
         if (updatedTraits.hasOwnProperty(trait)) {
-            if (trait === "squat" || "bench" || "deadlift") {
-                user.maxes[trait] = updatedTraits[trait]
+            if (trait === "squat" || trait === "bench" || trait === "deadlift") {
+                user.maxes[trait] = updatedTraits[trait];
             }
             else {
                 user[trait] = updatedTraits[trait];
