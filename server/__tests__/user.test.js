@@ -38,7 +38,7 @@ beforeAll(() => {
 });
 
 
-describe("POST /user", () => {
+describe("POST /users", () => {
     const newUser = {
         name: "Kevin",
         gender: "male",
@@ -80,7 +80,7 @@ describe("POST /user", () => {
     });
 });
 
-describe("GET /user", () => {
+describe("GET /users/userID", () => {
    it("returns populated resource from database on success", done => {
        request(app)
            .get(`/api/users/${user._id}`)
@@ -95,7 +95,7 @@ describe("GET /user", () => {
    });
 });
 
-describe("PATCH /user", () => {
+describe("PATCH /users/userID", () => {
     it("returns updated resource from database on success", done => {
         const traits = {
             squat: 600,
@@ -118,7 +118,7 @@ describe("PATCH /user", () => {
     });
 });
 
-describe("DELETE /user", () => {
+describe("DELETE /users/userID", () => {
     it("returns 204 status when resource is successfully deleted", done => {
         request(app)
             .delete(`/api/users/${user._id}`)
