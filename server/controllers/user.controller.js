@@ -1,7 +1,7 @@
 import User from "../models/user";
 
 export function getUser(req, res) {
-    User.populate(req.doc, [{path: "workouts"}, {path: "exercises"}],
+    req.doc.populate([{path: "workouts"}, {path: "exercises"}],
         (err, user) => {
         res.json(user);
     });

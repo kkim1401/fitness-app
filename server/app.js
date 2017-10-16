@@ -1,9 +1,7 @@
 import Express from "express";
-import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import expressValidator from "express-validator";
 import expressSanitized from "express-sanitize-escape";
-import serverConfig from "./config";
 import ExerciseInstance from "./models/exerciseInstance"; //Need to import ExerciseInstance so that the model can be added to mongoose.
 import workout from "./routes/workout.route";
 import exercise from "./routes/exercise.route";

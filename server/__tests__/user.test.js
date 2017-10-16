@@ -19,7 +19,6 @@ function assertUsers(createdUser, expectedUser) {
         const createdWorkoutsById = createdUser.workouts.map(workout => workout._id || workout);
         //Need to convert ObjectIds into strings.
         const expectedWorkoutsById = expectedUser.workouts.map(id => id.toString());
-
         expect(createdWorkoutsById).toEqual(expectedWorkoutsById);
     }
 
@@ -56,11 +55,11 @@ describe("POST /users", () => {
             .send(newUser)
             .expect(201)
             .end((err, res) => {
-            if (err) {
-                return done(err);
-            }
-            assertUsers(res.body, newUser);
-            done();
+                if (err) {
+                    return done(err);
+                }
+                assertUsers(res.body, newUser);
+                done();
             });
     });
 
@@ -72,27 +71,27 @@ describe("POST /users", () => {
             .send(newUser)
             .expect(400)
             .end(err => {
-            if (err) {
-                return done(err);
-            }
-            done();
+                if (err) {
+                    return done(err);
+                }
+                done();
             });
     });
 });
 
 describe("GET /users/userID", () => {
-   it("returns populated resource from database on success", done => {
-       request(app)
-           .get(`/api/users/${user._id}`)
-           .expect(200)
-           .end((err, res) => {
-           if (err) {
-               return done(err);
-           }
-           assertUsers(res.body, user);
-           done();
-           });
-   });
+    it("returns populated resource from database on success", done => {
+        request(app)
+            .get(`/api/users/${user._id}`)
+            .expect(200)
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                assertUsers(res.body, user);
+                done();
+            });
+    });
 });
 
 describe("PATCH /users/userID", () => {
@@ -109,11 +108,11 @@ describe("PATCH /users/userID", () => {
             .send(traits)
             .expect(200)
             .end((err, res) => {
-            if (err) {
-                return done(err);
-            }
-            assertUsers(res.body, updatedUser);
-            done();
+                if (err) {
+                    return done(err);
+                }
+                assertUsers(res.body, updatedUser);
+                done();
             });
     });
 });

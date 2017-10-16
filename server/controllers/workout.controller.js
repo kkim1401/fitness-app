@@ -42,15 +42,13 @@ export function addWorkout(req, res, next) {
                 if (err) {
                     return err;
                 }
-                else {
-                    return ex._id;
-                }
+                return ex._id;
             });
         });
 
         /* If/when all the promises for a day's exerciseInstances have been resolved,
         top-level map function returns a promise that resolve to a day object with an exerciseList
-        of exerciseInstance _ids. Repeats for rest of the days in the days array. */
+        of exerciseInstance _ids, through each iteration. */
         return Promise.all(exerciseListById).then(newList => {
             return {day, exerciseList: newList}
         }).catch(err => err);
@@ -63,7 +61,7 @@ export function addWorkout(req, res, next) {
         const workout = new Workout({
             name: workoutFromReq.name,
             description: workoutFromReq.description,
-            schedule: {days}
+            schedule: days
         });
 
         workout.save((err, workout) => {
