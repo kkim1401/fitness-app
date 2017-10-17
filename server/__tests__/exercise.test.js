@@ -1,5 +1,6 @@
 import app from "../app";
 import setUpTestDb from "../util/setUpTestDb";
+import {assertObjects} from "../util/testHelper";
 import request from "supertest";
 
 let user, exercises;
@@ -22,9 +23,38 @@ describe("GET /users/userID/exercises", () => {
             if (err) {
                 return done(err);
             }
+            expect(res.body).toEqual(exercises);
             done();
         });
     });
+});
+
+describe("POST /users/userID/exercises", () => {
+    const newExercise = {name: "deadlift", description: "leg, back exercise"};
+
+    it("should return created resource on success", done => {
+        request(app)
+            .post(`/api/users/${user._id}/exercises`)
+            .send(newExercise)
+            .expect(201)
+            .end((err, res) => {
+            if (err) {
+                return done(err);
+            }
+            assertObjects(res.body, newExercise);
+            done();
+            });
+    });
+
+    it("should return 400 error if name is not provided", done => {
+        delete newExercise.name;
+
+        request(app)
+            .post(`/api/users/${user._id}/exercises`)
+            .send(newExercise)
+            .expect(400, done)
+    });
+
 });
 
 describe("GET /exercises/exerciseID", () => {
@@ -39,5 +69,13 @@ describe("GET /exercises/exerciseID", () => {
             expect(res.body).toEqual(exercises[0]);
             done();
             });
+    });
+});
+
+describe("DELETE /exercises/exerciseID", () => {
+    it("should return 204 status when resource is successfully deleted", done => {
+        request(app)
+            .delete(`/api/exercises/${exercises[1]._id}`)
+            .expect(204, done)
     });
 });

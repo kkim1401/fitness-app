@@ -45,13 +45,7 @@ describe("POST /users", () => {
         request(app)
             .post("/api/users")
             .send(newUser)
-            .expect(400)
-            .end(err => {
-                if (err) {
-                    return done(err);
-                }
-                done();
-            });
+            .expect(400, done)
     });
 });
 
