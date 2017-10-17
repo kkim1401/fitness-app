@@ -102,7 +102,7 @@ async function initializeTestResources() {
 
     try {
         workout = convertObjectIdToString(await Workout.findOne({}).lean())[0];
-        workout.schedule.forEach(day => day.exerciseList.forEach((ex, index, arr) => arr[index] = ex.toString()));
+        workout.schedule.forEach(((day, index, arr) => arr[index] = day._id.toString()));
     }
     catch (e) {
         console.log(e);

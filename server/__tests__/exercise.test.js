@@ -54,7 +54,6 @@ describe("POST /users/userID/exercises", () => {
             .send(newExercise)
             .expect(400, done)
     });
-
 });
 
 describe("GET /exercises/exerciseID", () => {
