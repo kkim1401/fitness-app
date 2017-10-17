@@ -1,30 +1,10 @@
 import request from "supertest";
 import app from "../app";
-import setUpTestDb from "../setUpTestDb";
+import setUpTestDb from "../util/setUpTestDb";
+import {assertObjects} from "../util/testHelper";
 import merge from "merge";
 
 let user;
-
-function assertUsers(createdUser, expectedUser) {
-    for (const trait in expectedUser) {
-        if (expectedUser.hasOwnProperty(trait)) {
-            switch (true) {
-                case Array.isArray(expectedUser[trait]):
-                    /* Map function returns id for each workout/exercise if it doesn't already return id.
-                    Used for populate method in GET. */
-                    const arrayById = createdUser[trait].map(elem => elem._id || elem);
-                    expect(arrayById).toEqual(expectedUser[trait]);
-                    break;
-                case typeof expectedUser[trait] === "object":
-                    assertUsers(createdUser[trait], expectedUser[trait]);
-                    break;
-                default:
-                    expect(createdUser[trait]).toBe(expectedUser[trait]);
-                    break;
-            }
-        }
-    }
-}
 
 beforeAll(() => {
     return setUpTestDb()
@@ -54,7 +34,7 @@ describe("POST /users", () => {
                 if (err) {
                     return done(err);
                 }
-                assertUsers(res.body, newUser);
+                assertObjects(res.body, newUser);
                 done();
             });
     });
@@ -84,7 +64,7 @@ describe("GET /users/userID", () => {
                 if (err) {
                     return done(err);
                 }
-                assertUsers(res.body, user);
+                assertObjects(res.body, user);
                 done();
             });
     });
@@ -107,7 +87,7 @@ describe("PATCH /users/userID", () => {
                 if (err) {
                     return done(err);
                 }
-                assertUsers(res.body, updatedUser);
+                assertObjects(res.body, updatedUser);
                 done();
             });
     });

@@ -1,5 +1,5 @@
 import app from "../app";
-import setUpTestDb from "../setUpTestDb";
+import setUpTestDb from "../util/setUpTestDb";
 import request from "supertest";
 
 let user, exercises;
