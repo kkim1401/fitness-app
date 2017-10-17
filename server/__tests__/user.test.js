@@ -6,27 +6,23 @@ import merge from "merge";
 let user;
 
 function assertUsers(createdUser, expectedUser) {
-    expect(createdUser.name).toBe(expectedUser.name);
-    expect(createdUser.gender).toBe(expectedUser.gender);
-    expect(createdUser.age).toBe(expectedUser.age);
-    expect(createdUser.maxes.squat).toBe(expectedUser.maxes.squat);
-    expect(createdUser.maxes.bench).toBe(expectedUser.maxes.bench);
-    expect(createdUser.maxes.deadlift).toBe(expectedUser.maxes.deadlift);
-
-    //For patch and get requests
-    if (expectedUser.workouts) {
-        //Map function returns id for each workout if it doesn't already return id.
-        const createdWorkoutsById = createdUser.workouts.map(workout => workout._id || workout);
-        //Need to convert ObjectIds into strings.
-        const expectedWorkoutsById = expectedUser.workouts.map(id => id.toString());
-        expect(createdWorkoutsById).toEqual(expectedWorkoutsById);
-    }
-
-    if (expectedUser.exercises) {
-        const createdExercisesById = createdUser.exercises.map(exercise => exercise._id || exercise);
-        const expectedWorkoutsById = expectedUser.exercises.map(id => id.toString());
-
-        expect(createdExercisesById).toEqual(expectedWorkoutsById);
+    for (const trait in expectedUser) {
+        if (expectedUser.hasOwnProperty(trait)) {
+            switch (true) {
+                case Array.isArray(expectedUser[trait]):
+                    /* Map function returns id for each workout/exercise if it doesn't already return id.
+                    Used for populate method in GET. */
+                    const arrayById = createdUser[trait].map(elem => elem._id || elem);
+                    expect(arrayById).toEqual(expectedUser[trait]);
+                    break;
+                case typeof expectedUser[trait] === "object":
+                    assertUsers(createdUser[trait], expectedUser[trait]);
+                    break;
+                default:
+                    expect(createdUser[trait]).toBe(expectedUser[trait]);
+                    break;
+            }
+        }
     }
 }
 
