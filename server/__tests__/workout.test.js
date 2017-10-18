@@ -2,6 +2,7 @@ import app from "../app";
 import setUpTestDb from "../util/setUpTestDb";
 import {assertObjects} from "../util/testHelper";
 import request from "supertest";
+import mongoose from "mongoose";
 
 let workout, user, exercises;
 
@@ -31,47 +32,60 @@ describe("GET /users/userID/workouts", () => {
 });
 
 describe("POST /users/userID/workouts", () => {
-    it("should return created resource on success", done => {
-        const newWorkout = {
-            name: "New Workout",
-            description: "New Description",
-            schedule: [
-                {
-                    day: 1,
-                    exerciseList: [{
-                        exercise: exercises[0]._id,
-                        order: 1,
-                        setNumber: 3,
-                        reps: 5,
-                        weight: 315
-                    }, {
-                        exercise: exercises[1]._id,
-                        order: 2,
-                        setNumber: 3,
-                        reps: 5,
-                        weight: 185
-                    }
-                    ]
-                },
-                {
-                    day: 2,
-                    exerciseList: [{
-                        exercise: exercises[0]._id,
-                        order: 1,
-                        setNumber: 3,
-                        reps: 5,
-                        weight: 195
-                    }]
-                }
-            ]
-        };
+    //Doesn't really matter what exercise is put into the list.
+    const id = mongoose.Types.ObjectId;
 
+    const newWorkout = {
+        name: "New Workout",
+        description: "New Description",
+        schedule: [
+            {
+                day: 1,
+                exerciseList: [{
+                    exercise: new id,
+                    order: 1,
+                    setNumber: 3,
+                    reps: 5,
+                    weight: 315
+                }, {
+                    exercise: new id,
+                    order: 2,
+                    setNumber: 3,
+                    reps: 5,
+                    weight: 185
+                }
+                ]
+            },
+            {
+                day: 2,
+                exerciseList: [{
+                    exercise: new id,
+                    order: 1,
+                    setNumber: 3,
+                    reps: 5,
+                    weight: 195
+                }]
+            }
+        ]
+    };
+
+    it("should return created resource on success", done => {
         request(app)
             .post(`/api/users/${user._id}/workouts`)
             .send(newWorkout)
             .expect(201)
             .expect("Location", /^\/api\/workouts\//, done)
     });
+
+    it("should return 400 error if name is not provided", done => {
+        delete newWorkout.name;
+
+        request(app)
+            .post(`/api/users/${user._id}/workouts`)
+            .send(newWorkout)
+            .expect(400, done)
+    });
+
 });
 
 describe("GET /workouts/workoutID", () => {
