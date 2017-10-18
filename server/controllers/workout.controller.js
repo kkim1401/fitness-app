@@ -78,7 +78,8 @@ export function addWorkout(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.status(201).json(workout);
+                res.location(`/api/workouts/${workout._id}`);
+                res.status(201).end();
             });
         });
     }).catch(err => console.log(err));

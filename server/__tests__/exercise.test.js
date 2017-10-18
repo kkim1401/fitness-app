@@ -37,6 +37,7 @@ describe("POST /users/userID/exercises", () => {
             .post(`/api/users/${user._id}/exercises`)
             .send(newExercise)
             .expect(201)
+            .expect("Location", /^\/api\/exercises\//)
             .end((err, res) => {
             if (err) {
                 return done(err);

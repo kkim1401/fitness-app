@@ -21,6 +21,7 @@ export function addUser(req, res, next) {
         if (err) {
             return next(err);
         }
+        res.location(`/api/users/${user._id}`);
         res.status(201).json(user);
     });
 }
@@ -44,6 +45,7 @@ export function updateUser(req, res, next) {
         if (err) {
             return next(err);
         }
+        res.location(`/api/users/${user._id}`);
         res.json(user);
     });
 }

@@ -38,6 +38,7 @@ export function addExercise(req, res, next) {
             if (err) {
                 return next(err);
             }
+            res.location(`/api/exercises/${exerciseInstance._id}`);
             res.status(201).json(exerciseInstance);
         });
     });

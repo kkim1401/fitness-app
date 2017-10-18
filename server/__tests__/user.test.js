@@ -30,6 +30,7 @@ describe("POST /users", () => {
             .post("/api/users")
             .send(newUser)
             .expect(201)
+            .expect("Location", /^\/api\/users\//)
             .end((err, res) => {
                 if (err) {
                     return done(err);
@@ -77,6 +78,7 @@ describe("PATCH /users/userID", () => {
             .patch(`/api/users/${user._id}`)
             .send(traits)
             .expect(200)
+            .expect("Location", /^\/api\/users\//)
             .end((err, res) => {
                 if (err) {
                     return done(err);
