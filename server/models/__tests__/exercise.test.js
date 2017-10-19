@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import setUpTestDb, {setUpModels} from "../../util/setUpTestDb";
 import User from "../user";
-import Workout from "../workout";
 import Exercise from "../exercise";
 import ExerciseInstance from "../exerciseInstance";
 
