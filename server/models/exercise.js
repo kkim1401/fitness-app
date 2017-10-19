@@ -12,7 +12,8 @@ exerciseSchema.pre("remove", function(next) {
 
     //Removes all exerciseInstances that are associated with this exercise.
     exercise.model("ExerciseInstance").remove(
-        {exercise: exercise._id}
+        {exercise: exercise._id},
+        next
     );
 
     //Removes all instances of this exercise from the current user.
