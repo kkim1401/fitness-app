@@ -1,5 +1,5 @@
 import app from "../app";
-import setUpTestDb from "../util/setUpTestDb";
+import setUpTestDb, {initializeTestResources} from "../util/setUpTestDb";
 import {assertObjects} from "../util/testHelper";
 import request from "supertest";
 import mongoose from "mongoose";
@@ -8,6 +8,7 @@ let workout, user, exercises;
 
 beforeAll(() => {
     return setUpTestDb()
+        .then(initializeTestResources)
         .then(({testWorkout, testUser, testExercises}) => {
             exercises = testExercises;
             workout = testWorkout;

@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app";
-import setUpTestDb from "../util/setUpTestDb";
+import setUpTestDb, {initializeTestResources} from "../util/setUpTestDb";
 import {assertObjects} from "../util/testHelper";
 import merge from "merge";
 
@@ -8,6 +8,7 @@ let user;
 
 beforeAll(() => {
     return setUpTestDb()
+        .then(initializeTestResources)
         .then(({testUser}) => {user = testUser})
         .catch(() => console.log("Test db failed to initialize!"));
 });

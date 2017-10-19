@@ -8,7 +8,7 @@ import ExerciseInstance from "../models/exerciseInstance";
 const mockgoose = new Mockgoose(mongoose);
 
 export default function setUpTestDb() {
-    jest.setTimeout(12000); //Timeout needs to be increased for API requests, according to Supertest API docs.
+    jest.setTimeout(12000); //Timeout needs to be increased for API requests, according to mockgoose API docs.
 
     return mockgoose.prepareStorage()
         .then(() => {
@@ -17,10 +17,9 @@ export default function setUpTestDb() {
             });
             return mongoose.connect("mongodb://localhost/test");
         })
-        .then(initializeTestResources)
 }
 
-async function initializeTestResources() {
+export async function initializeTestResources() {
     //Need to convert ObjectIds to string since created resource will always have its _id as string.
     function convertObjectIdToString(...args) {
         return args.map(obj => {
