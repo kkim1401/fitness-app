@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import {Mockgoose} from "mockgoose";
 import setUpTestDb, {setUpModels} from "../../util/setUpTestDb";
 import User from "../user";
 import Exercise from "../exercise";
 import ExerciseInstance from "../exerciseInstance";
 
 let testValues;
+const mockgoose = new Mockgoose(mongoose);
 
 beforeEach(() => {
     return setUpTestDb()
@@ -13,7 +15,9 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-    mongoose.disconnect();
+    return mockgoose.helper.reset().then(() => {
+        mongoose.disconnect();
+    });
 });
 
 describe("Exercise Middleware", () => {

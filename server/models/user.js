@@ -39,12 +39,14 @@ userSchema.pre("remove", function(next) {
 
     //Removes all workouts that are associated with this user.
     user.model("Workout").remove(
-        {_id: {$in: userWorkouts}}
+        {_id: {$in: userWorkouts}},
+        next
     );
 
     //Removes all exercises that are associated with this user.
     user.model("Exercise").remove(
-        {_id: {$in: userExercises}}
+        {_id: {$in: userExercises}},
+        next
     );
 
     //Removes all exerciseInstances that are associated with this user.
