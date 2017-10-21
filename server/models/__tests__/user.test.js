@@ -27,30 +27,17 @@ function assertArrays(created, expected) {
 }
 
 describe("User Middleware", () => {
-    it("should return appropriate exercises, exerciseInstances, and workout based on a user id", async () => {
-        const {exercises, exerciseInstances, workout, user} = testValues;
-
-        const dbUser = await User.findById(user._id);
-        const dbExerciseInstances = await ExerciseInstance.find({exercise: {$in: dbUser.exercises}});
-
-        assertArrays(dbUser.workouts, [workout]);
-        assertArrays(dbUser.exercises, exercises);
-        assertArrays(dbExerciseInstances, exerciseInstances);
-    });
-
-    it("should remove all associated workouts, exercises, and exerciseInstances after its removal", async () => {
+   it("should remove all associated workouts, exercises, and exerciseInstances after its removal", async () => {
         const {user} = testValues;
 
-        const dbUser = await User.findById(user._id);
-        await dbUser.remove();
+        await user.remove();
 
-        const dbExercises = await Exercise.find({});
-        const dbExerciseInstances = await ExerciseInstance.find({});
-        const dbWorkouts = await Workout.find({});
+        const dbExercises = await Exercise.find({_id: {$in: user.exercises}});
+        const dbExerciseInstances = await ExerciseInstance.find({exercise: {$in: user.exercises}});
+        const dbWorkouts = await Workout.find({_id: {$in: user.workouts}});
 
         expect(dbExercises).toEqual([]);
         expect(dbExerciseInstances).toEqual([]);
         expect(dbWorkouts).toEqual([]);
-
     });
 });

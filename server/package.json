@@ -7,7 +7,7 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js --exec babel-node",
     "client": "node start-client.js",
-    "test": "jest --watch --runInBand"
+    "test": "jest --watch --runInBand --env=node"
   },
   "author": "",
   "license": "ISC",

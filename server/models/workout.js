@@ -26,7 +26,8 @@ workoutSchema.pre("remove", function(next) {
     workout.model("User").update(
         {workouts: workout._id},
         {$pull: {workouts: workout._id}},
-        {multi: true}
+        {multi: true},
+        next
     );
 
     //Gets full exerciseList of exerciseInstance ids from workout to be removed.
@@ -36,7 +37,7 @@ workoutSchema.pre("remove", function(next) {
 
     //Removes all exerciseInstances used in workout to be removed.
     workout.model("ExerciseInstance").remove(
-        {exercise: {$in: fullExerciseList}},
+        {_id: {$in: fullExerciseList}},
         next
     );
 });

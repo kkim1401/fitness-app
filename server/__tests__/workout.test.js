@@ -103,3 +103,11 @@ describe("GET /workouts/workoutID", () => {
             });
     });
 });
+
+describe("DELETE /workouts/workoutID", () => {
+    it("should return 204 status when resource is successfully deleted", done => {
+        request(app)
+            .delete(`/api/workouts/${workout._id}`)
+            .expect(204, done);
+    })
+});
