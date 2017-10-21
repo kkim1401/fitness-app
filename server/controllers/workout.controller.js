@@ -4,7 +4,7 @@ import User from "../models/user";
 
 export function getWorkouts(req, res) {
     req.doc
-        .deepPopulate("workouts.schedule.days.exerciseList.exercise",
+        .deepPopulate("workouts.schedule.exerciseList.exercise",
             (err, user) => {
             res.json(user.workouts);
         });
@@ -12,7 +12,7 @@ export function getWorkouts(req, res) {
 
 export function getWorkout(req, res) {
     req.doc
-        .deepPopulate("schedule.days.exerciseList.exercise",
+        .deepPopulate("schedule.exerciseList.exercise",
             (err, workout) => {
             res.json(workout);
         });
@@ -31,7 +31,7 @@ export function addWorkout(req, res, next) {
     /* Need to save all exerciseInstances in workout to database and
      replace days' arrays of exerciseInstances with arrays of exerciseInstances' _id,
      before saving the workout. */
-    const newDays = workoutFromReq.schedule.days.map(({exerciseList, day}) => {
+    const newDays = workoutFromReq.schedule.map(({exerciseList, day}) => {
 
         //Maps out an array of exerciseInstance promises for a particular day.
         const exerciseListById = exerciseList.map(exerciseListElem => {
@@ -42,15 +42,13 @@ export function addWorkout(req, res, next) {
                 if (err) {
                     return err;
                 }
-                else {
-                    return ex._id;
-                }
+                return ex._id;
             });
         });
 
         /* If/when all the promises for a day's exerciseInstances have been resolved,
         top-level map function returns a promise that resolve to a day object with an exerciseList
-        of exerciseInstance _ids. Repeats for rest of the days in the days array. */
+        of exerciseInstance _ids, through each iteration. */
         return Promise.all(exerciseListById).then(newList => {
             return {day, exerciseList: newList}
         }).catch(err => err);
@@ -63,7 +61,7 @@ export function addWorkout(req, res, next) {
         const workout = new Workout({
             name: workoutFromReq.name,
             description: workoutFromReq.description,
-            schedule: {days}
+            schedule: days
         });
 
         workout.save((err, workout) => {
@@ -80,7 +78,8 @@ export function addWorkout(req, res, next) {
                 if (err) {
                     return next(err);
                 }
-                res.status(201).json(workout);
+                res.location(`/api/workouts/${workout._id}`);
+                res.status(201).end();
             });
         });
     }).catch(err => console.log(err));

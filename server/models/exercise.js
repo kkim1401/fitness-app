@@ -6,15 +6,17 @@ const exerciseSchema = new Schema({
     description: {type: String}
 });
 
-//Middleware to remove dependencies. I really should have used a relational database.
+//Middleware to remove dependencies.
 exerciseSchema.pre("remove", function(next) {
     const exercise = this;
 
+    //Removes all exerciseInstances that are associated with this exercise.
     exercise.model("ExerciseInstance").remove(
         {exercise: exercise._id},
         next
     );
 
+    //Removes all instances of this exercise from the current user.
     exercise.model("User").update(
         {exercises: exercise._id},
         {$pull: {exercises: exercise._id}},

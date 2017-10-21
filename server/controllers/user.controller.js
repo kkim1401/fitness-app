@@ -1,7 +1,7 @@
 import User from "../models/user";
 
 export function getUser(req, res) {
-    User.populate(req.doc, [{path: "workouts"}, {path: "exercises"}],
+    req.doc.populate([{path: "workouts"}, {path: "exercises"}],
         (err, user) => {
         res.json(user);
     });
@@ -21,6 +21,7 @@ export function addUser(req, res, next) {
         if (err) {
             return next(err);
         }
+        res.location(`/api/users/${user._id}`);
         res.status(201).json(user);
     });
 }
@@ -28,21 +29,23 @@ export function addUser(req, res, next) {
 export function updateUser(req, res, next) {
     const user = req.doc;
     const updatedTraits = req.body;
-    const arrayOfTraits = Object.keys(updatedTraits);
 
-    arrayOfTraits.forEach(trait => {
-        if (trait === "squat" || trait === "bench" || trait === "deadlift") {
-            user.maxes[trait] = updatedTraits[trait];
+    for (const trait in updatedTraits) {
+        if (updatedTraits.hasOwnProperty(trait)) {
+            if (trait === "squat" || trait === "bench" || trait === "deadlift") {
+                user.maxes[trait] = updatedTraits[trait];
+            }
+            else {
+                user[trait] = updatedTraits[trait];
+            }
         }
-        else {
-            user[trait] = updatedTraits[trait];
-        }
-    });
+    }
 
     user.save((err, user) => {
         if (err) {
             return next(err);
         }
+        res.location(`/api/users/${user._id}`);
         res.json(user);
     });
 }
