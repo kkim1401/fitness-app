@@ -24,7 +24,6 @@ describe("exercises actions", () => {
 describe("exercises async actions", () => {
     const user = 456;
 
-    //assertActions uses moxios.
     beforeEach(() => {
         moxios.install();
     });
