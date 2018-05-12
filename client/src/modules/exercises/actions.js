@@ -1,33 +1,43 @@
-import {call} from "../../util/apiCaller";
-import * as e from "./actionTypes";
+import { NAME } from './constants';
+import * as schemas from './schemas';
+import { CALL_API } from '../../middleware/api';
 
-export const addExercise = exercise => ({
-    type: e.ADD,
-    exercise
+export const ADD_EXERCISE_REQUEST = `${NAME}/ADD_EXERCISE_REQUEST`;
+export const ADD_EXERCISE_SUCCESS = `${NAME}/ADD_EXERCISE_SUCCESS`;
+export const ADD_EXERCISE_FAILURE = `${NAME}/ADD_EXERCISE_FAILURE`;
+
+export const ADD_EXERCISES_REQUEST = `${NAME}/ADD_EXERCISES_REQUEST`;
+export const ADD_EXERCISES_SUCCESS = `${NAME}/ADD_EXERCISES_SUCCESS`;
+export const ADD_EXERCISES_FAILURE = `${NAME}/ADD_EXERCISES_FAILURE`;
+
+export const DELETE_EXERCISE_REQUEST = `${NAME}/DELETE_EXERCISE_REQUEST`;
+export const DELETE_EXERCISE_SUCCESS = `${NAME}/DELETE_EXERCISE_SUCCESS`;
+export const DELETE_EXERCISE_FAILURE = `${NAME}/DELETE_EXERCISE_FAILURE`;
+
+export const fetchExercises = user => ({
+  [CALL_API]: {
+    endpoint: `users/${user}/exercises`,
+    request: 'get',
+    schema: schemas.exercises,
+    types: [ADD_EXERCISES_REQUEST, ADD_EXERCISES_SUCCESS, ADD_EXERCISES_FAILURE],
+  },
 });
 
-export const addExercises = exercises => ({
-    type: e.ADD_LIST,
-    exercises
+export const addExercise = (user, exercise) => ({
+  [CALL_API]: {
+    data: exercise,
+    endpoint: `users/${user}/exercises`,
+    request: 'post',
+    schema: schemas.exercise,
+    types: [ADD_EXERCISE_REQUEST, ADD_EXERCISE_SUCCESS, ADD_EXERCISE_FAILURE],
+  },
 });
 
 export const deleteExercise = id => ({
-    type: e.DELETE,
-    id
+  [CALL_API]: {
+    endpoint: `exercises/${id}`,
+    request: 'delete',
+    types: [DELETE_EXERCISE_REQUEST, DELETE_EXERCISE_SUCCESS, DELETE_EXERCISE_FAILURE],
+  },
+  id,
 });
-
-export const fetchExercises = user =>
-    dispatch => call("get", `users/${user}/exercises`)
-        .then(({data}) => dispatch(addExercises(data)));
-
-export const fetchExercise = id =>
-    dispatch => call("get", `exercises/${id}`)
-        .then(({data}) => dispatch(addExercise(data)));
-
-export const addExerciseRequest = (user, exercise) =>
-    dispatch => call("post", `users/${user}/exercises`, exercise)
-        .then(({data}) => dispatch(addExercise(data)));
-
-export const deleteExerciseRequest = id =>
-    dispatch => call("delete", `exercises/${id}`)
-        .then(() => dispatch(deleteExercise(id)));
