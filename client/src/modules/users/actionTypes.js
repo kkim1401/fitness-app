@@ -1,3 +1,2 @@
-export const
-    ADD = "users/ADD",
-    DELETE = "users/DELETE";
+export const ADD = 'users/ADD';
+export const DELETE = 'users/DELETE';

@@ -1,16 +1,41 @@
-import * as e from "./actionTypes";
+import _ from 'lodash';
+import { combineReducers } from 'redux';
+import { ADD_EXERCISE_SUCCESS, ADD_EXERCISES_SUCCESS, DELETE_EXERCISE_SUCCESS }
+  from './actions';
 
-const exercises = (state = [], action) => {
-    switch (action.type) {
-        case e.ADD:
-            return [...state, action.exercise];
-        case e.ADD_LIST:
-            return action.exercises;
-        case e.DELETE:
-            return state.filter(exercise => exercise._id !== action.id);
-        default:
-            return state;
-    }
+const exercisesById = (state = {}, action) => {
+  switch (action.type) {
+    case ADD_EXERCISE_SUCCESS:
+      return {
+        ...state,
+        ...action.payload.entities.exercises,
+      };
+    case ADD_EXERCISES_SUCCESS:
+      return _.get(action, 'payload.entities.exercises', {});
+    case DELETE_EXERCISE_SUCCESS:
+      return _.omit(state, action.payload);
+    default:
+      return state;
+  }
 };
 
-export default exercises;
+const exercisesAllId = (state = [], action) => {
+  switch (action.type) {
+    case ADD_EXERCISE_SUCCESS:
+      return [
+        ...state,
+        action.payload.result,
+      ];
+    case ADD_EXERCISES_SUCCESS:
+      return action.payload.result;
+    case DELETE_EXERCISE_SUCCESS:
+      return state.filter(id => id !== action.payload);
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  exercisesById,
+  exercisesAllId,
+});

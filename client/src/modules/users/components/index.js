@@ -1,6 +1,6 @@
-import Profile from "./Profile";
-import UserInfo from "./UserInfo";
-import withTemplate from "./PageTemplate"
+import Profile from './Profile';
+import UserInfo from './UserInfo';
+import withTemplate from './PageTemplate';
 
-export default {Profile, UserInfo, withTemplate};
+export default { Profile, UserInfo, withTemplate };
 

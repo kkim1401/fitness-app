@@ -1,4 +1,4 @@
-import ExerciseListContainer from "./ExerciseListContainer";
-import ExerciseDetails from "./ExerciseDetails";
+import ExerciseListContainer from './ExerciseListContainer';
+import ExerciseDetails from './ExerciseDetails';
 
-export default {ExerciseDetails, ExerciseListContainer};
+export default { ExerciseDetails, ExerciseListContainer };

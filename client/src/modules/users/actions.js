@@ -1,28 +1,27 @@
-import {call} from "../../util/apiCaller";
-import * as u from "./actionTypes";
+import { call } from '../../middleware/api/api-caller';
+import * as u from './actionTypes';
 
 export const addUser = user => ({
-    type: u.ADD,
-    user
+  type: u.ADD,
+  user,
 });
 
 export const deleteUser = () => ({
-    type: u.DELETE
+  type: u.DELETE,
 });
 
 export const fetchUser = id =>
-    dispatch => call("get", `users/${id}`)
-        .then(({data}) => dispatch(addUser(data)));
+  dispatch => call('get', `users/${id}`)
+    .then(({ data }) => dispatch(addUser(data)));
 
 export const updateUserDetails = (id, user) =>
-    dispatch => call("patch", `users/${id}`, user)
-        .then(({data}) => dispatch(addUser(data)));
+  dispatch => call('patch', `users/${id}`, user)
+    .then(({ data }) => dispatch(addUser(data)));
 
 export const addUserRequest = user =>
-    dispatch => call("post", "users", user)
-        .then(({data}) => dispatch(addUser(data)));
+  dispatch => call('post', 'users', user)
+    .then(({ data }) => dispatch(addUser(data)));
 
 export const deleteUserRequest = id =>
-    dispatch => call("delete", `users/${id}`)
-        .then(() => dispatch(deleteUser()));
-
+  dispatch => call('delete', `users/${id}`)
+    .then(() => dispatch(deleteUser()));
